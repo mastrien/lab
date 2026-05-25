@@ -1,0 +1,212 @@
+/* Design Tokens & Theme Configuration */
+:root {
+    --transition-speed: 0.3s;
+    --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Light Theme Variables */
+:root.light {
+    --bg-gradient-from: #f8fafc;
+    --bg-gradient-to: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #475569;
+    --card-bg: rgba(255, 255, 255, 0.65);
+    --card-border: rgba(15, 23, 42, 0.08);
+    --card-shadow: 0 10px 30px -10px rgba(15, 23, 42, 0.05);
+    --card-hover-shadow: 0 20px 40px -5px rgba(15, 23, 42, 0.1);
+    --nav-bg: rgba(255, 255, 255, 0.7);
+    --btn-primary: #4f46e5;
+    --btn-primary-hover: #4338ca;
+    
+    /* Tag Colors */
+    --tag-bg-geral: rgba(79, 70, 229, 0.1);
+    --tag-text-geral: #4f46e5;
+    
+    --tag-bg-nicho: rgba(13, 148, 136, 0.1);
+    --tag-text-nicho: #0d9488;
+    
+    --tag-bg-ingles: rgba(219, 39, 119, 0.1);
+    --tag-text-ingles: #db2777;
+
+    --favorite-glow: rgba(234, 179, 8, 0.35);
+    --badge-fav-bg: #eab308;
+    --badge-fav-text: #ffffff;
+}
+
+/* Dark Theme Variables (Default) */
+:root.dark {
+    --bg-gradient-from: #0f172a;
+    --bg-gradient-to: #020617;
+    --text-primary: #f8fafc;
+    --text-secondary: #94a3b8;
+    --card-bg: rgba(30, 41, 59, 0.45);
+    --card-border: rgba(255, 255, 255, 0.06);
+    --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    --card-hover-shadow: 0 20px 40px -5px rgba(99, 102, 241, 0.15);
+    --nav-bg: rgba(15, 23, 42, 0.6);
+    --btn-primary: #6366f1;
+    --btn-primary-hover: #4f46e5;
+
+    /* Tag Colors */
+    --tag-bg-geral: rgba(99, 102, 241, 0.15);
+    --tag-text-geral: #818cf8;
+    
+    --tag-bg-nicho: rgba(20, 184, 166, 0.15);
+    --tag-text-nicho: #2dd4bf;
+    
+    --tag-bg-ingles: rgba(244, 63, 94, 0.15);
+    --tag-text-ingles: #fb7185;
+
+    --favorite-glow: rgba(234, 179, 8, 0.45);
+    --badge-fav-bg: #eab308;
+    --badge-fav-text: #0f172a;
+}
+
+/* Global Transitions */
+body {
+    background: linear-gradient(135deg, var(--bg-gradient-from), var(--bg-gradient-to));
+    color: var(--text-primary);
+    transition: background var(--transition-speed) var(--transition-timing),
+                color var(--transition-speed) var(--transition-timing);
+    min-height: screen;
+}
+
+/* Glassmorphism Styles */
+.glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    transition: all var(--transition-speed) var(--transition-timing);
+}
+
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+                box-shadow 0.3s var(--transition-timing),
+                border-color 0.3s var(--transition-timing),
+                background-color var(--transition-speed) var(--transition-timing);
+}
+
+.glass-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--card-hover-shadow);
+    border-color: rgba(99, 102, 241, 0.3);
+}
+
+/* Specific Styles for Favorite Games */
+.glass-card.is-favorite {
+    border-color: rgba(234, 179, 8, 0.4);
+}
+.glass-card.is-favorite:hover {
+    box-shadow: 0 20px 45px -5px var(--favorite-glow);
+    border-color: rgba(234, 179, 8, 0.6);
+}
+
+/* Custom Tag Styles */
+.tag-badge {
+    padding: 0.25rem 0.65rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+    display: inline-flex;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.tag-badge.tag-geral {
+    background-color: var(--tag-bg-geral);
+    color: var(--tag-text-geral);
+}
+
+.tag-badge.tag-ingles {
+    background-color: var(--tag-bg-ingles);
+    color: var(--tag-text-ingles);
+}
+
+.tag-badge.tag-nicho {
+    background-color: var(--tag-bg-nicho);
+    color: var(--tag-text-nicho);
+}
+
+/* Smooth Button Styles */
+.btn-primary-custom {
+    background-color: var(--btn-primary);
+    color: #ffffff;
+    transition: all 0.2s var(--transition-timing);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--btn-primary-hover);
+    transform: scale(1.02);
+}
+
+/* Sorteador Highlight Animation */
+@keyframes pulseGlow {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(99, 102, 241, 0.4);
+        border-color: rgba(99, 102, 241, 0.4);
+        transform: translateY(-8px) scale(1.02);
+    }
+    50% {
+        box-shadow: 0 0 35px rgba(99, 102, 241, 0.8), 0 0 60px rgba(139, 92, 246, 0.5);
+        border-color: rgba(139, 92, 246, 0.8);
+        transform: translateY(-12px) scale(1.04);
+    }
+}
+
+.highlighted-card {
+    animation: pulseGlow 1.8s infinite ease-in-out;
+    z-index: 10;
+}
+
+/* Custom Scrollbar for Premium Feel */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.3);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.5);
+}
+
+/* Animated transitions for Grid Items */
+.grid-item-enter {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+}
+
+.grid-item-active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Drawer transitions */
+.collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.collapsible-content.expanded {
+    max-height: 2000px;
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.4s ease;
+}

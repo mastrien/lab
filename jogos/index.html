@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Optimization -->
+    <title>Hub de Jogos de Navegador | Labs Hub 🧪</title>
+    <meta name="description" content="Um portal interativo e premium reunindo os melhores jogos diários de navegador, desafios de lógica, palavras, geografia e muito mais. Personalize sua lista!">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Hub de Jogos de Navegador | Labs Hub">
+    <meta property="og:description" content="Reúna e jogue seus mini-games favoritos direto no navegador com filtros de tema, favoritos e ocultação de indesejados.">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        lightBg: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-slate-800 dark:text-slate-100 selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+
+    <!-- Container Principal -->
+    <div class="container mx-auto px-4 py-8 max-w-6xl relative">
+        
+        <!-- Toggle Tema (Posicionado no Topo Direito de forma limpa) -->
+        <div class="absolute top-6 right-4 z-20">
+            <button id="theme-toggle" class="p-3 rounded-2xl bg-slate-200/50 hover:bg-slate-200 dark:bg-slate-800/40 dark:hover:bg-slate-800 transition-all duration-200 border border-slate-300/30 dark:border-slate-700/30 shadow-sm" aria-label="Alternar Tema">
+                <!-- Ícone inserido via JS dinamicamente -->
+            </button>
+        </div>
+
+        <!-- Seção Hero -->
+        <section class="text-center mb-16 pt-8 relative">
+            <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/20 mb-4">
+                <span class="flex h-2.5 w-2.5 relative">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-indigo-500"></span>
+                </span>
+                <span id="active-count" class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider">
+                    Carregando jogos...
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 pb-2 bg-clip-text text-transparent bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 dark:from-indigo-400 dark:via-purple-400 dark:to-pink-400 tracking-tight">
+                Hub de Joguinhos
+            </h1>
+            
+            <p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto mb-8 font-light">
+                Sua central definitiva de mini-games diários, quebra-cabeças e testes de lógica para o navegador. Customize o mural ocultando jogos ou marcando seus favoritos!
+            </p>
+
+            <!-- Botão de Sorteio Premium -->
+            <div class="flex justify-center">
+                <button id="random-btn" class="flex items-center space-x-2.5 px-6 py-3.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white rounded-2xl font-bold shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/40 hover:-translate-y-0.5 transition-all duration-200" title="Sorteia um jogo não arquivado e destaca ele no mural">
+                    <svg class="w-5 h-5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                    </svg>
+                    <span>Tô Sem Ideia! Sortear Jogo 🎲</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Barra de Busca e Filtros -->
+        <section class="glass-panel p-4 md:p-6 rounded-3xl mb-12 flex flex-col md:flex-row gap-4 items-center justify-between">
+            <!-- Barra de Busca -->
+            <div class="relative w-full md:w-80">
+                <span class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                    </svg>
+                </span>
+                <input id="search-input" type="text" placeholder="Buscar por nome, tag ou descrição..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 focus:border-indigo-500 focus:outline-none text-slate-700 dark:text-white text-sm shadow-inner transition-colors duration-200" aria-label="Buscar jogo">
+            </div>
+
+            <!-- Filtros Rápidos (Pills) -->
+            <div class="flex flex-wrap gap-2 w-full md:w-auto justify-start md:justify-end">
+                <button id="filter-btn-todos" class="px-4 py-2 text-sm font-semibold rounded-full bg-indigo-500 text-white shadow-lg transition-all duration-200 border border-indigo-400/20">
+                    Todos
+                </button>
+                <button id="filter-btn-favoritos" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all duration-200 border border-transparent">
+                    Favoritos ⭐
+                </button>
+                <button id="filter-btn-geral" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all duration-200 border border-transparent">
+                    Geral 🌍
+                </button>
+                <button id="filter-btn-nicho" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all duration-200 border border-transparent">
+                    Nicho 🎯
+                </button>
+                <button id="filter-btn-ingles" class="px-4 py-2 text-sm font-semibold rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all duration-200 border border-transparent">
+                    Inglês 🇺🇸
+                </button>
+            </div>
+        </section>
+
+        <!-- Grid Principal de Jogos -->
+        <main class="relative mb-16">
+            <!-- Mensagem de Lista Vazia -->
+            <div id="no-games-message" class="hidden text-center py-20 bg-slate-100/50 dark:bg-slate-800/20 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+                <div class="inline-flex p-4 bg-slate-200/50 dark:bg-slate-800/60 rounded-full mb-4">
+                    <svg class="w-10 h-10 text-slate-400 dark:text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-xl font-bold mb-2 text-slate-700 dark:text-slate-300">Nenhum jogo encontrado</h3>
+                <p class="text-slate-500 dark:text-slate-400 max-w-sm mx-auto text-sm leading-relaxed">
+                    Não encontramos resultados correspondentes à sua busca ou filtro atual. Tente alterar as palavras-chave ou restaure algum jogo arquivado!
+                </p>
+            </div>
+
+            <!-- Grid de Cartões -->
+            <div id="games-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Cartões inseridos dinamicamente via JS -->
+            </div>
+        </main>
+
+        <!-- Seção de Arquivados (Gaveta Colapsável) -->
+        <section id="archived-section" class="hidden border border-slate-200 dark:border-slate-800/80 rounded-3xl overflow-hidden bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300 mb-16">
+            <!-- Header Clickable -->
+            <div id="archived-header-click" class="flex justify-between items-center px-6 py-5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/30 transition-colors select-none">
+                <div class="flex items-center space-x-3">
+                    <div class="p-2 bg-slate-200 dark:bg-slate-800 rounded-xl text-slate-500 dark:text-slate-400">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </div>
+                    <div>
+                        <span class="font-extrabold text-base text-slate-700 dark:text-slate-300">Jogos Ocultos / Arquivados</span>
+                        <span id="archived-count" class="text-xs text-slate-500 font-bold ml-1.5">(0)</span>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <!-- Restaurar Todos -->
+                    <button id="restore-all-btn" onclick="event.stopPropagation();" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-500 dark:text-indigo-400 transition-colors z-10">
+                        Restaurar Todos
+                    </button>
+                    <!-- Seta Indicadora -->
+                    <svg id="archived-arrow" class="w-5 h-5 text-slate-400 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Lista de Arquivados (Conteúdo Gaveta) -->
+            <div id="archived-drawer" class="collapsible-content">
+                <div id="archived-list" class="grid grid-cols-1 md:grid-cols-2 gap-4 px-6 pb-6 pt-2 border-t border-slate-200/50 dark:border-slate-800/30">
+                    <!-- Preenchido dinamicamente via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Rodapé Padronizado -->
+        <footer class="mt-20 pt-8 border-t border-slate-200 dark:border-slate-800/80">
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <!-- Upper Line: Back Button -->
+                <a href="../" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-slate-200/50 hover:bg-slate-200 dark:bg-slate-800/40 dark:hover:bg-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-all duration-200 border border-slate-300/30 dark:border-slate-700/30">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    <span>Voltar ao Menu do Laboratório</span>
+                </a>
+                <!-- Lower Line: Copyright -->
+                <p class="text-xs text-slate-500 dark:text-slate-600 font-medium">
+                    &copy; 2026 mastrien. Built in Termux.
+                </p>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>

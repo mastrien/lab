@@ -447,9 +447,18 @@ const App = () => {
 
             <FormulaModal isOpen={showFormulas} onClose={() => setShowFormulas(false)} />
             
-            <div className="mt-8 text-center text-slate-400 text-xs">
-                Desenvolvido para treino rápido de matemática.
-            </div>
+            {/* Rodapé Padronizado */}
+            <footer className="mt-12 pt-8 border-t border-slate-200/80 text-center">
+                <div className="flex flex-col items-center justify-center space-y-4">
+                    <a href="../" className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-50 text-sm font-semibold text-slate-600 hover:text-indigo-600 transition-all duration-200 border border-slate-200 shadow-sm">
+                        <i className="ph ph-arrow-left text-sm font-bold"></i>
+                        <span>Voltar ao Menu do Laboratório</span>
+                    </a>
+                    <p className="text-xs text-slate-400 font-medium">
+                        &copy; 2026 mastrien. Built in Termux.
+                    </p>
+                </div>
+            </footer>
         </div>
     );
 };

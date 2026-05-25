@@ -35,6 +35,17 @@ Digital credit card machine for Monopoly-style board games, replacing physical m
     - **Data Persistence:** Automatically saves game state to `localStorage`.
     - **Responsive Design:** Optimized for mobile devices to be used at the table.
     - **Dark Mode:** Support for both light and dark themes.
+### 4. Hub de Jogos de Navegador
+A premium, interactive web portal that gathers the best daily mini-games, logic puzzles, and trivia games of the web.
+
+- **Purpose:** Serve as a clean, centralized playground for daily games with tools to search, filter, and customize the experience.
+- **Key Features:**
+    - **Curated Database:** Pre-configured list of 20 highly addictive games (Wordle, GeoGuessr, Conexo, dialed.gg suite, and more).
+    - **Advanced Tag Filters:** Instantly search by title/description or filter by tags (Geral vs. specific Niches like Frieren, League of Legends, and English games).
+    - **Favoriting & Hiding:** Mark your favorite games or archive/hide games you don't play. Housed in a collapsible drawer at the bottom of the page.
+    - **Random Selector:** Clicking the "Tô Sem Ideia" button dynamically picks, scrolls to, and flashes a random game for you.
+    - **Data Persistence:** Keeps all favorited, hidden, and theme states saved locally via `localStorage`.
+    - **Theme Toggle:** Fully responsive layout with smooth transitions between light and dark modes.
 
 ---
 
