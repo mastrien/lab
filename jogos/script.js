@@ -2,28 +2,12 @@
 
 const GAMES_DATA = [
     {
-        id: "redactle",
-        name: "Redactle",
-        url: "https://redactle.net/",
-        description: "Descubra o tema de um artigo da Wikipédia que teve quase todas as suas palavras ocultadas/censuradas. Um jogo incrível de dedução linguística e conhecimento.",
-        tags: ["geral", "inglês"],
-        color: "from-sky-500 to-blue-600"
-    },
-    {
-        id: "wikispeedruns",
-        name: "WikiSpeedruns",
-        url: "https://wikispeedruns.com/",
-        description: "A clássica corrida da Wikipédia! Navegue de um artigo inicial até um artigo de destino usando apenas os hiperlinks internos no menor tempo ou cliques possível.",
-        tags: ["geral", "inglês"],
-        color: "from-slate-500 to-zinc-700"
-    },
-    {
-        id: "murdoku",
-        name: "Murdoku",
-        url: "https://www.murdoku.com/play/",
-        description: "Uma fusão inovadora de mistério policial e Sudoku. Resolva o tabuleiro de lógica para descobrir o assassino, a arma do crime e o local do assassinato.",
-        tags: ["geral", "inglês"],
-        color: "from-red-600 to-rose-700"
+        id: "bonedle",
+        name: "Bonedle",
+        url: "https://bonedle.rito.lol/",
+        description: "Adivinhe o campeão de League of Legends observando apenas as animações 3D da sua estrutura óssea de animação (skeletal rig), com texturas e cores removidas.",
+        tags: ["league-of-legends", "games", "inglês"],
+        color: "from-amber-600 to-yellow-700"
     },
     {
         id: "conexo",
@@ -42,92 +26,12 @@ const GAMES_DATA = [
         color: "from-indigo-500 to-purple-600"
     },
     {
-        id: "letroso",
-        name: "Letroso",
-        url: "https://letroso.com/pt/",
-        description: "Adivinhe a palavra secreta do dia com palpites e tentativas ilimitadas. O jogo aceita palavras de 3 a 10 letras e oferece pistas visuais inteligentes para ajudar na dedução.",
-        tags: ["geral"],
-        color: "from-amber-500 to-orange-600"
-    },
-    {
-        id: "expresso",
-        name: "Expresso",
-        url: "https://expresso.ac/pt/",
-        description: "Outro excelente jogo de conexões de palavras em português. Encontre as associações ocultas e agrupe as palavras em categorias astutas antes do tempo acabar.",
-        tags: ["geral"],
-        color: "from-violet-500 to-fuchsia-600"
-    },
-    {
-        id: "loldle",
-        name: "LoLdle",
-        url: "https://loldle.net/",
-        description: "Adivinhe os campeões do League of Legends através de cinco pistas diárias diferentes: atributos, frases marcantes, ícones de habilidades, arte conceitual e splash arts.",
-        tags: ["league-of-legends", "games", "inglês"],
-        color: "from-blue-600 to-cyan-700"
-    },
-    {
-        id: "bonedle",
-        name: "Bonedle",
-        url: "https://bonedle.rito.lol/",
-        description: "Adivinhe o campeão de League of Legends observando apenas as animações 3D da sua estrutura óssea de animação (skeletal rig), com texturas e cores removidas.",
-        tags: ["league-of-legends", "games", "inglês"],
-        color: "from-amber-600 to-yellow-700"
-    },
-    {
-        id: "frierendle",
-        name: "Frierendle",
-        url: "https://rainankaneka.github.io/frierendle/",
-        description: "Um jogo de adivinhação temático dedicado ao aclamado anime e mangá 'Sousou no Frieren'. Acerte qual personagem das crônicas da elfa Frieren é o escolhido do dia.",
-        tags: ["anime", "frieren", "inglês"],
-        color: "from-indigo-400 to-sky-500"
-    },
-    {
-        id: "enemapi",
-        name: "ENEM API Explorer",
-        url: "../enemapi/",
-        description: "Treine e prepare-se para o ENEM! Um portal completo para buscar e responder questões reais de provas passadas de forma interativa com estatísticas detalhadas.",
-        tags: ["educação", "brasil"],
-        color: "from-blue-500 to-indigo-600"
-    },
-    {
-        id: "wisdomdungeon",
-        name: "Wisdom Dungeon",
-        url: "https://wisdomdungeon.vercel.app/",
-        description: "Um jogo para treinar com questões de ENEM e matemática de forma gamificada.",
-        tags: ["geral", "educativo"],
-        color: "from-purple-800 to-slate-900"
-    },
-    {
-        id: "termo",
-        name: "Termo",
-        url: "https://term.ooo/",
-        description: "O jogo diário de palavras em português mais famoso do Brasil. Adivinhe a palavra de 5 letras em até 6 tentativas com dicas de cores baseadas no Wordle.",
-        tags: ["geral"],
-        color: "from-emerald-600 to-green-700"
-    },
-    {
-        id: "wordle",
-        name: "Wordle",
-        url: "https://www.nytimes.com/games/wordle/index.html",
-        description: "O fenômeno mundial da NYT que iniciou a febre dos desafios diários de 5 letras. Teste seu vocabulário e ortografia no idioma inglês.",
+        id: "dailyorbs",
+        name: "Daily Orbs",
+        url: "https://dailyorbs.com/",
+        description: "Um conjunto de quatro desafios diários de trívia com formatos variados. Identifique celebridades, combine artistas com suas músicas e conquiste as esferas do dia testando seus conhecimentos gerais.",
         tags: ["geral", "inglês"],
-        color: "from-green-600 to-emerald-700"
-    },
-    {
-        id: "paranordle",
-        name: "Paranordle",
-        url: "https://paranordle.com.br/jogar",
-        description: "Adivinhe o personagem do universo de 'Ordem Paranormal' (o famoso RPG de mesa do Cellbit) através de pistas diárias como temporadas, afiliação e lore.",
-        tags: ["ordem-paranormal"],
-        color: "from-red-500 to-amber-600"
-    },
-    {
-        id: "geoguessr",
-        name: "GeoGuessr",
-        url: "https://www.geoguessr.com/pt",
-        description: "Um jogo de exploração geográfica fascinante. Caia em qualquer ponto do planeta através do Google Street View e tente adivinhar onde você está no mapa do mundo.",
-        tags: ["geral"],
-        color: "from-teal-500 to-emerald-600"
+        color: "from-blue-400 to-indigo-500"
     },
     {
         id: "dialedcolor",
@@ -136,6 +40,14 @@ const GAMES_DATA = [
         description: "Teste a sua percepção visual e precisão cromática adivinhando a cor RGB/HEX exata a partir de uma amostra visual.",
         tags: ["geral", "inglês"],
         color: "from-rose-500 to-indigo-500"
+    },
+    {
+        id: "dialedshape",
+        name: "Dialed Shape",
+        url: "https://dialed.gg/shape",
+        description: "Um intrigante desafio geométrico e espacial. Adivinhe e complete formatos, simetrias ou propriedades de figuras geométricas complexas.",
+        tags: ["geral", "inglês"],
+        color: "from-blue-500 to-emerald-500"
     },
     {
         id: "dialedsound",
@@ -154,12 +66,156 @@ const GAMES_DATA = [
         color: "from-violet-600 to-pink-500"
     },
     {
-        id: "dialedshape",
-        name: "Dialed Shape",
-        url: "https://dialed.gg/shape",
-        description: "Um intrigante desafio geométrico e espacial. Adivinhe e complete formatos, simetrias ou propriedades de figuras geométricas complexas.",
+        id: "enemapi",
+        name: "ENEM API Explorer",
+        url: "../enemapi/",
+        description: "Treine e prepare-se para o ENEM! Um portal completo para buscar e responder questões reais de provas passadas de forma interativa com estatísticas detalhadas.",
+        tags: ["educação", "brasil"],
+        color: "from-blue-500 to-indigo-600"
+    },
+    {
+        id: "expresso",
+        name: "Expresso",
+        url: "https://expresso.ac/pt/",
+        description: "Outro excelente jogo de conexões de palavras em português. Encontre as associações ocultas e agrupe as palavras em categorias astutas antes do tempo acabar.",
+        tags: ["geral"],
+        color: "from-violet-500 to-fuchsia-600"
+    },
+    {
+        id: "facade",
+        name: "Façade",
+        url: "https://www.playablstudios.com/facade",
+        description: "Um experimento revolucionário de inteligência artificial e drama interativo. Participe de uma noite tensa na casa de um casal de amigos e use linguagem natural para influenciar o desenrolar dessa história psicológica.",
+        tags: ["nicho", "inglês"],
+        color: "from-slate-700 to-gray-900"
+    },
+    {
+        id: "frierendle",
+        name: "Frierendle",
+        url: "https://rainankaneka.github.io/frierendle/",
+        description: "Um jogo de adivinhação temático dedicado ao aclamado anime e mangá 'Sousou no Frieren'. Acerte qual personagem das crônicas da elfa Frieren é o escolhido do dia.",
+        tags: ["anime", "frieren", "inglês"],
+        color: "from-indigo-400 to-sky-500"
+    },
+    {
+        id: "geoguessr",
+        name: "GeoGuessr",
+        url: "https://www.geoguessr.com/pt",
+        description: "Um jogo de exploração geográfica fascinante. Caia em qualquer ponto do planeta através do Google Street View e tente adivinhar onde você está no mapa do mundo.",
+        tags: ["geral"],
+        color: "from-teal-500 to-emerald-600"
+    },
+    {
+        id: "high-notes",
+        name: "High Notes",
+        url: "https://vole.wtf/high-notes/",
+        description: "Um desafio vocal divertido! Teste o alcance da sua voz tentando atingir as notas mais altas de cantores famosos. Use seu microfone para ver se você consegue chegar ao nível de lendas da música.",
         tags: ["geral", "inglês"],
-        color: "from-blue-500 to-emerald-500"
+        color: "from-pink-500 to-rose-600"
+    },
+    {
+        id: "letroso",
+        name: "Letroso",
+        url: "https://letroso.com/pt/",
+        description: "Adivinhe a palavra secreta do dia com palpites e tentativas ilimitadas. O jogo aceita palavras de 3 a 10 letras e oferece pistas visuais inteligentes para ajudar na dedução.",
+        tags: ["geral"],
+        color: "from-amber-500 to-orange-600"
+    },
+    {
+        id: "loldle",
+        name: "LoLdle",
+        url: "https://loldle.net/",
+        description: "Adivinhe os campeões do League of Legends através de cinco pistas diárias diferentes: atributos, frases marcantes, ícones de habilidades, arte conceitual e splash arts.",
+        tags: ["league-of-legends", "games", "inglês"],
+        color: "from-blue-600 to-cyan-700"
+    },
+    {
+        id: "longcat",
+        name: "Longcat",
+        url: "https://play.fancade.com/longcat",
+        description: "Um quebra-cabeça viciante onde você controla um gato que se estica. O objetivo é preencher todos os espaços vazios do tabuleiro sem cruzar o próprio corpo. Simples de entender, mas desafiador de dominar.",
+        tags: ["geral"],
+        color: "from-emerald-400 to-teal-500"
+    },
+    {
+        id: "murdoku",
+        name: "Murdoku",
+        url: "https://www.murdoku.com/play/",
+        description: "Uma fusão inovadora de mistério policial e Sudoku. Resolva o tabuleiro de lógica para descobrir o assassino, a arma do crime e o local do assassinato.",
+        tags: ["geral", "inglês"],
+        color: "from-red-600 to-rose-700"
+    },
+    {
+        id: "onepiecedle",
+        name: "OnePieceDle",
+        url: "https://onepiecedle.net",
+        description: "O desafio definitivo para fãs de One Piece! Adivinhe o personagem do dia através de atributos, identifique Akuma no Mi, reconheça risadas icônicas ou descubra quem é o pirata pelo cartaz de procurado.",
+        tags: ["anime", "one-piece", "inglês"],
+        color: "from-yellow-600 to-red-700"
+    },
+    {
+        id: "paranordle",
+        name: "Paranordle",
+        url: "https://paranordle.com.br/jogar",
+        description: "Adivinhe o personagem do universo de 'Ordem Paranormal' (o famoso RPG de mesa do Cellbit) através de pistas diárias como temporadas, afiliação e lore.",
+        tags: ["ordem-paranormal"],
+        color: "from-red-500 to-amber-600"
+    },
+    {
+        id: "pokedle",
+        name: "PokéDle",
+        url: "https://pokedle.net",
+        description: "Tente adivinhar o Pokémon do dia neste jogo inspirado no Wordle. Use dicas de tipo, geração, altura e peso para filtrar as possibilidades e provar que você é um mestre Pokémon.",
+        tags: ["anime", "pokemon", "inglês"],
+        color: "from-red-500 to-blue-500"
+    },
+    {
+        id: "redactle",
+        name: "Redactle",
+        url: "https://redactle.net/",
+        description: "Descubra o tema de um artigo da Wikipédia que teve quase todas as suas palavras ocultadas/censuradas. Um jogo incrível de dedução linguística e conhecimento.",
+        tags: ["geral", "inglês"],
+        color: "from-sky-500 to-blue-600"
+    },
+    {
+        id: "termo",
+        name: "Termo",
+        url: "https://term.ooo/",
+        description: "O jogo diário de palavras em português mais famoso do Brasil. Adivinhe a palavra de 5 letras em até 6 tentativas com dicas de cores baseadas no Wordle.",
+        tags: ["geral"],
+        color: "from-emerald-600 to-green-700"
+    },
+    {
+        id: "toontone",
+        name: "ToonTone",
+        url: "https://toontone.app/pt/",
+        description: "Teste sua memória cromática e intuição visual! Tente recriar as cores exatas de personagens icônicos de desenhos animados usando controles de matiz, saturação e brilho.",
+        tags: ["geral"],
+        color: "from-yellow-400 to-orange-500"
+    },
+    {
+        id: "wikispeedruns",
+        name: "WikiSpeedruns",
+        url: "https://wikispeedruns.com/",
+        description: "A clássica corrida da Wikipédia! Navegue de um artigo inicial até um artigo de destino usando apenas os hiperlinks internos no menor tempo ou cliques possível.",
+        tags: ["geral", "inglês"],
+        color: "from-slate-500 to-zinc-700"
+    },
+    {
+        id: "wisdomdungeon",
+        name: "Wisdom Dungeon",
+        url: "https://wisdomdungeon.vercel.app/",
+        description: "Um jogo para treinar com questões de ENEM e matemática de forma gamificada.",
+        tags: ["geral", "educativo"],
+        color: "from-purple-800 to-slate-900"
+    },
+    {
+        id: "wordle",
+        name: "Wordle",
+        url: "https://www.nytimes.com/games/wordle/index.html",
+        description: "O fenômeno mundial da NYT que iniciou a febre dos desafios diários de 5 letras. Teste seu vocabulário e ortografia no idioma inglês.",
+        tags: ["geral", "inglês"],
+        color: "from-green-600 to-emerald-700"
     }
 ];
 
