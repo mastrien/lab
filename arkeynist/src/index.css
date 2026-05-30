@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-text-main: var(--text-main);
+  --color-text-muted: var(--text-muted);
+  --color-text-correct: var(--text-correct);
+  --color-text-error: var(--text-error);
+  --color-accent-color: var(--accent-color);
+  
+  --font-sans: var(--font-family-sans);
+  --font-mono: var(--font-family-mono);
+}
+
+:root {
+  /* Default Theme: Dark Slate / Violet */
+  --bg-primary: #0f111a;
+  --bg-secondary: #161a24;
+  --text-main: #e2e8f0;
+  --text-muted: #4e5569;
+  --text-correct: #a78bfa; /* Violet active letters */
+  --text-error: #fb7185;   /* Coral error */
+  --accent-color: #38bdf8; /* Soft blue focus */
+
+  --font-family-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-family-mono: "JetBrains Mono", "Fira Code", ui-monospace, monospace;
+}
+
+[data-theme="light-suave"] {
+  --bg-primary: #f4f1ea;
+  --bg-secondary: #e9e5da;
+  --text-main: #2d3748;
+  --text-muted: #8a92a6;
+  --text-correct: #059669; /* Soft green */
+  --text-error: #dc2626;   /* Deep red */
+  --accent-color: #2563eb; /* Royal blue */
+}
+
+[data-theme="cinza-tecnico"] {
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #252526;
+  --text-main: #d4d4d4;
+  --text-muted: #606060;
+  --text-correct: #4ec9b0; /* Mint green */
+  --text-error: #f44747;   /* VS Code red */
+  --accent-color: #007acc; /* VS Code blue */
+}
+
+[data-theme="dark-focado"] {
+  --bg-primary: #0b0e14;
+  --bg-secondary: #151b26;
+  --text-main: #e2e8f0;
+  --text-muted: #4e5569;
+  --text-correct: #34d399; /* Emerald */
+  --text-error: #fb7185;   /* Coral */
+  --accent-color: #a78bfa; /* Violet */
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-main);
+  font-family: var(--font-family-sans);
+  margin: 0;
+  padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  min-height: 100vh;
+}
+
+/* Custom transitions and scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--bg-secondary);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Smooth Caret cursor pulse */
+@keyframes caret-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.caret-pulse-anim {
+  animation: caret-pulse 1s infinite;
+}

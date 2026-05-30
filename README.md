@@ -47,12 +47,20 @@ A premium, interactive web portal that gathers the best daily mini-games, logic 
     - **Data Persistence:** Keeps all favorited, hidden, and theme states saved locally via `localStorage`.
     - **Theme Toggle:** Fully responsive layout with smooth transitions between light and dark modes.
 
+### 5. Arkeynist - Typing Reader
+A premium, interactive reading experience that transforms any long text into a speed-typing game, boosting focus and WPM.
+
+- **Purpose:** Transform the passive act of reading into an active, physically engaging experience with real-time feedback.
+- **Key Features:**
+    - **Local File Import:** Upload TXT files to train on your own texts, books, or articles.
+    - **Advanced Typing Engine:** Real-time calculation of WPM (Words Per Minute), CPM, and Accuracy with sliding window stats.
+    - **Multiple Display Modes:** Choose between Paginated mode or Autoscroll (a butter-smooth infinite scrolling line).
+    - **Deep Customization:** Configure font size, family, punctuation/accent sensitivity, and performance tweaks.
+    - **Local Persistence:** Everything is saved locally via IndexedDB (Dexie.js), ensuring complete privacy.
+
 ---
 
 ## ⏳ Pending Ideas
-- **Type-to-Read (Working Title):** A web application where you can upload a PDF or TXT file and type its content like a speed-typing game.
-    - **Goal:** Transform the passive (and sometimes boring) act of reading into an active, physically engaging experience.
-    - **Feasibility:** Needs investigation into PDF parsing in the browser and real-time typing validation.
 
 ---
 

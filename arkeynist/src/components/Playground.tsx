@@ -1,0 +1,470 @@
+import { useEffect, useRef, useState } from 'react';
+import { Pause, ChevronLeft, RotateCcw, AlertTriangle } from 'lucide-react';
+import { db } from '../services/db';
+import type { Book } from '../services/db';
+import { useTypingEngine } from '../hooks/useTypingEngine';
+import type { UserSettings } from './SettingsPanel';
+
+interface PlaygroundProps {
+  book: Book;
+  initialIndex: number;
+  initialTime: number;
+  settings: UserSettings;
+  onBackToLibrary: () => void;
+  onSessionFinish: (stats: {
+    wpm: number;
+    cpm: number;
+    accuracy: number;
+    elapsedTime: number;
+    totalErrors: number;
+    correctCharactersArray: (boolean | null)[];
+  }) => void;
+}
+
+export default function Playground({
+  book,
+  initialIndex,
+  initialTime,
+  settings,
+  onBackToLibrary,
+  onSessionFinish,
+}: PlaygroundProps) {
+  const [isFocused, setIsFocused] = useState(true);
+  
+  // Instanciar o motor de digitação
+  const engine = useTypingEngine(book.rawText, {
+    caseSensitive: settings.caseSensitive,
+    punctuationSensitive: settings.punctuationSensitive,
+    accentSensitive: settings.accentSensitive ?? true,
+  });
+
+  const {
+    currentCharIndex,
+    correctCharactersArray,
+    isTyping,
+    isFinished,
+    wpm,
+    cpm,
+    accuracy,
+    wpmLast10s,
+    accuracyLast10s,
+    wpmLast100Words,
+    accuracyLast100Words,
+    elapsedTime,
+    totalErrors,
+    resetEngine,
+    handleKeyDown,
+    pauseSession,
+  } = engine;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const saveIntervalRef = useRef<number | null>(null);
+  const cursorRef = useRef<HTMLSpanElement>(null);
+  const autoscrollContainerRef = useRef<HTMLDivElement>(null);
+  const autoscrollInnerRef = useRef<HTMLDivElement>(null);
+  const prevStartIndex = useRef<number>(-1);
+  const targetXRef = useRef(0);
+  const currentXRef = useRef(0);
+  const rafRef = useRef<number>(0);
+
+  // Reset do chunk tracker quando mudar de modo
+  useEffect(() => {
+    prevStartIndex.current = -1;
+  }, [settings.displayMode]);
+
+  // LERP Loop para Autoscroll extremamente fluido (60+ FPS) sem CSS Transition conflicts
+  useEffect(() => {
+    if (settings.displayMode !== 'autoscroll') return;
+
+    const lerp = () => {
+      if (Math.abs(targetXRef.current - currentXRef.current) > 0.1) {
+        currentXRef.current += (targetXRef.current - currentXRef.current) * 0.15; // 0.15 suavidade
+        if (autoscrollInnerRef.current) {
+          autoscrollInnerRef.current.style.transform = `translate3d(${currentXRef.current}px, 0, 0)`;
+        }
+      }
+      rafRef.current = requestAnimationFrame(lerp);
+    };
+    rafRef.current = requestAnimationFrame(lerp);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [settings.displayMode]);
+
+  // Scroll cursor view tracking
+  useEffect(() => {
+    if (cursorRef.current) {
+      if (settings.displayMode === 'paginated') {
+        cursorRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } else {
+        if (autoscrollContainerRef.current) {
+          const containerWidth = autoscrollContainerRef.current.clientWidth;
+          const cursorOffset = cursorRef.current.offsetLeft;
+          const cursorWidth = cursorRef.current.offsetWidth;
+          
+          // Target X translation to center the cursor
+          const targetX = (containerWidth / 2) - cursorOffset - (cursorWidth / 2);
+          
+          const chunkSize = settings.chunkSize || 200;
+          const currentBlock = Math.floor(currentCharIndex / chunkSize);
+          const startBlock = Math.max(0, currentBlock - 1);
+          const startIndex = startBlock * chunkSize;
+
+          if (prevStartIndex.current !== -1 && prevStartIndex.current !== startIndex) {
+            // Boundary crossed, compensar instantaneamente no currentX para não pular!
+            const diff = targetX - targetXRef.current;
+            currentXRef.current += diff;
+            targetXRef.current = targetX;
+            if (autoscrollInnerRef.current) {
+              autoscrollInnerRef.current.style.transform = `translate3d(${currentXRef.current}px, 0, 0)`;
+            }
+          } else {
+            if (prevStartIndex.current === -1) {
+              // Primeira renderização, pular direto para a posição sem animar
+              currentXRef.current = targetX;
+              targetXRef.current = targetX;
+              if (autoscrollInnerRef.current) {
+                autoscrollInnerRef.current.style.transform = `translate3d(${currentXRef.current}px, 0, 0)`;
+              }
+            } else {
+              targetXRef.current = targetX;
+            }
+          }
+          prevStartIndex.current = startIndex;
+        }
+      }
+    }
+  }, [currentCharIndex, settings.displayMode, settings.chunkSize]);
+
+  // Inicializar o motor com o progresso salvo
+  useEffect(() => {
+    resetEngine(book.rawText, initialIndex, initialTime);
+  }, [book, initialIndex, initialTime, resetEngine]);
+
+  // Capturar eventos globais de digitação quando focado
+  useEffect(() => {
+    const handleGlobalKeyDown = (e: KeyboardEvent) => {
+      if (isFocused && !isFinished) {
+        handleKeyDown(e);
+      }
+    };
+
+    window.addEventListener('keydown', handleGlobalKeyDown);
+    return () => window.removeEventListener('keydown', handleGlobalKeyDown);
+  }, [isFocused, isFinished, handleKeyDown]);
+
+  // Focar o container ao montar
+  useEffect(() => {
+    if (containerRef.current) {
+      containerRef.current.focus();
+    }
+  }, []);
+
+  // Salvamento automático do progresso no IndexedDB a cada 5 segundos se estiver digitando
+  useEffect(() => {
+    if (isTyping && !isFinished) {
+      saveIntervalRef.current = window.setInterval(async () => {
+        try {
+          await db.sessionStates.put({
+            bookId: book.id!,
+            currentCharIndex,
+            elapsedTime,
+            lastActive: Date.now(),
+          });
+        } catch (err) {
+          console.error('Erro no autosave:', err);
+        }
+      }, 5000);
+    }
+
+    return () => {
+      if (saveIntervalRef.current) {
+        window.clearInterval(saveIntervalRef.current);
+      }
+    };
+  }, [isTyping, isFinished, currentCharIndex, elapsedTime, book.id]);
+
+  // Ação de Pausar e Voltar (Salva o progresso final)
+  const handlePauseAndExit = async () => {
+    pauseSession();
+    try {
+      await db.sessionStates.put({
+        bookId: book.id!,
+        currentCharIndex,
+        elapsedTime,
+        lastActive: Date.now(),
+      });
+      onBackToLibrary();
+    } catch (err) {
+      console.error('Erro ao salvar progresso de saída:', err);
+      onBackToLibrary();
+    }
+  };
+
+  // Reiniciar a sessão a partir do início ou da posição inicial do treino
+  const handleRestart = () => {
+    if (window.confirm('Deseja reiniciar a leitura deste texto a partir do início?')) {
+      resetEngine(book.rawText, 0, 0);
+    }
+  };
+
+  // Se terminar o texto, salvar estatísticas no banco e disparar evento de conclusão
+  const handleFinish = async () => {
+    pauseSession();
+    try {
+      // Salvar progresso completo
+      await db.sessionStates.put({
+        bookId: book.id!,
+        currentCharIndex,
+        elapsedTime,
+        lastActive: Date.now(),
+      });
+
+      // Gravar histórico de log de treino
+      await db.logs.add({
+        bookId: book.id!,
+        timestamp: Date.now(),
+        wpm,
+        cpm,
+        accuracy,
+        duration: Math.round(elapsedTime / 1000),
+      });
+
+      onSessionFinish({
+        wpm,
+        cpm,
+        accuracy,
+        elapsedTime,
+        totalErrors,
+        correctCharactersArray,
+      });
+    } catch (err) {
+      console.error('Erro ao salvar estatísticas de fim de treino:', err);
+      onSessionFinish({
+        wpm,
+        cpm,
+        accuracy,
+        elapsedTime,
+        totalErrors,
+        correctCharactersArray,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isFinished) {
+      handleFinish();
+    }
+  }, [isFinished]);
+
+  // Classes dinâmicas de estilo de fonte e tamanho
+  const fontClass = settings.fontFamily === 'mono' ? 'font-mono' : 'font-sans';
+  const sizeClass = settings.fontSize;
+
+  // --- RENDERIZADORES DE VISUALIZAÇÃO ---
+
+  // 1. Renderização em Modo Autoscroll (Linha Única)
+  const renderAutoscroll = () => {
+    const blockSize = settings.chunkSize || 200;
+    const currentBlock = Math.floor(currentCharIndex / blockSize);
+    const startBlock = Math.max(0, currentBlock - 1);
+    const endBlock = currentBlock + 1;
+    
+    const startIndex = startBlock * blockSize;
+    const endIndex = Math.min(book.rawText.length, (endBlock + 1) * blockSize);
+
+    const viewSlice = book.rawText.slice(startIndex, endIndex);
+
+    return (
+      <div 
+        ref={autoscrollContainerRef}
+        className={`w-full text-left whitespace-nowrap py-12 px-4 select-none ${fontClass} ${sizeClass} tracking-wide leading-relaxed overflow-hidden relative border border-text-muted/10 rounded-xl bg-bg-primary/40`}
+      >
+        <div 
+          ref={autoscrollInnerRef}
+          className="relative inline-block will-change-transform"
+        >
+          {startBlock > 0 && <span className="text-text-muted/40 mr-2">...</span>}
+        {viewSlice.split('').map((char, localIndex) => {
+          const index = startIndex + localIndex;
+          const isCorrect = correctCharactersArray[index];
+          
+          let charColor = 'text-text-muted/65';
+          if (isCorrect === true) charColor = 'text-text-correct font-semibold';
+          if (isCorrect === false) charColor = 'text-text-error font-semibold bg-text-error/10 border-b border-text-error';
+
+          const isCursor = index === currentCharIndex;
+          
+          return (
+            <span key={index} className={`relative inline ${charColor}`} ref={isCursor ? cursorRef : null}>
+              {isCursor && (
+                <span className="absolute left-0 top-0 bottom-0 w-[2px] bg-accent-color caret-pulse-anim z-10" style={{ height: '1.25em', top: '10%' }}></span>
+              )}
+              {char === '\n' ? '↵ ' : char}
+            </span>
+          );
+        })}
+        {endIndex < book.rawText.length && <span className="text-text-muted/40 ml-2">...</span>}
+        </div>
+      </div>
+    );
+  };
+
+  // 2. Renderização em Modo Página Completa (Parágrafos)
+  const renderPaginated = () => {
+    // Implementar chunking em blocos de caracteres para performance
+    const blockSize = settings.chunkSize || 200;
+    const currentBlock = Math.floor(currentCharIndex / blockSize);
+    const startBlock = Math.max(0, currentBlock - 1);
+    const endBlock = currentBlock + 1;
+    
+    const startIndex = startBlock * blockSize;
+    const endIndex = Math.min(book.rawText.length, (endBlock + 1) * blockSize);
+
+    const viewSlice = book.rawText.slice(startIndex, endIndex);
+
+    return (
+      <div className={`w-full max-h-[420px] overflow-y-auto pr-2 py-6 select-none ${fontClass} ${sizeClass} leading-relaxed tracking-wide text-justify border border-text-muted/10 rounded-xl bg-bg-primary/30 px-6 scroll-smooth`}>
+        {startBlock > 0 && <div className="text-text-muted/40 text-center py-4">...</div>}
+        {viewSlice.split('').map((char, localIndex) => {
+          const index = startIndex + localIndex;
+          const isCorrect = correctCharactersArray[index];
+          let charColor = 'text-text-muted/65'; // pendente
+          if (isCorrect === true) charColor = 'text-text-correct';
+          if (isCorrect === false) charColor = 'text-text-error font-semibold bg-text-error/10 border-b border-text-error';
+          
+          // Se for quebra de linha
+          const isNewline = char === '\n';
+          const isCursor = index === currentCharIndex;
+
+          return (
+            <span key={index} className={`relative inline ${charColor}`} ref={isCursor ? cursorRef : null}>
+              {isCursor && (
+                <span className="absolute -left-[1px] top-[15%] w-[2px] h-[75%] bg-accent-color caret-pulse-anim z-10"></span>
+              )}
+              {isNewline ? (
+                <span className="text-text-muted/20 mr-1">↵<br /></span>
+              ) : (
+                char
+              )}
+            </span>
+          );
+        })}
+        {endIndex < book.rawText.length && <div className="text-text-muted/40 text-center py-4">...</div>}
+      </div>
+    );
+  };
+
+  return (
+    <div className="flex flex-col gap-6 max-w-4xl mx-auto">
+      {/* Menu Superior de Ações */}
+      <div className="flex items-center justify-between border-b border-text-muted/10 pb-4">
+        <button 
+          onClick={handlePauseAndExit}
+          className="flex items-center gap-2 text-sm text-text-muted hover:text-text-main transition duration-150 cursor-pointer font-sans"
+        >
+          <ChevronLeft className="w-4 h-4" />
+          <span>Voltar para Biblioteca</span>
+        </button>
+
+        <div className="flex items-center gap-3">
+          <button
+            onClick={handleRestart}
+            title="Reiniciar Progresso"
+            className="p-2 text-text-muted hover:text-text-main hover:bg-bg-secondary rounded-lg transition duration-150 cursor-pointer"
+          >
+            <RotateCcw className="w-4 h-4" />
+          </button>
+          
+          <button 
+            onClick={handlePauseAndExit}
+            className="flex items-center gap-2 bg-accent-color/10 hover:bg-accent-color text-accent-color hover:text-bg-primary font-semibold text-xs py-1.5 px-3 rounded-lg transition duration-150 cursor-pointer font-sans"
+          >
+            <Pause className="w-3.5 h-3.5" />
+            <span>Pausar e Salvar</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Título do Livro / Progresso Geral */}
+      <div className="text-center">
+        <h1 className="text-2xl font-bold text-text-main font-sans mt-0 mb-1">{book.title}</h1>
+        {book.author && <p className="text-sm text-text-muted font-sans">por {book.author}</p>}
+        
+        <div className="flex items-center justify-center gap-4 text-xs font-mono text-text-muted mt-3">
+          <span>Progresso no Texto: {currentCharIndex.toLocaleString()} / {book.rawText.length.toLocaleString()} caracteres</span>
+          <span>•</span>
+          <span>{((currentCharIndex / book.rawText.length) * 100).toFixed(1)}% concluído</span>
+        </div>
+      </div>
+
+      {/* Painel de Digitação Principal */}
+      <div 
+        ref={containerRef}
+        tabIndex={0}
+        onFocus={() => setIsFocused(true)}
+        onBlur={() => setIsFocused(false)}
+        className="relative outline-none cursor-text focus:ring-1 focus:ring-accent-color/20 rounded-xl"
+      >
+        {/* Renderizador Ativo */}
+        {settings.displayMode === 'autoscroll' ? renderAutoscroll() : renderPaginated()}
+
+        {/* Modal de perda de foco (Anti-distração) */}
+        {!isFocused && !isFinished && (
+          <div className="absolute inset-0 bg-bg-primary/80 backdrop-blur-[2px] rounded-xl flex flex-col items-center justify-center gap-3 z-20 transition duration-150 animate-fade-in">
+            <AlertTriangle className="w-10 h-10 text-accent-color" />
+            <h3 className="text-lg font-bold text-text-main font-sans">Clique para focar no treino</h3>
+            <p className="text-xs text-text-muted font-sans">A digitação e a contagem de tempo estão pausadas enquanto a janela estiver desfocada.</p>
+            <button 
+              onClick={() => containerRef.current?.focus()}
+              className="bg-accent-color text-bg-primary font-bold text-xs px-4 py-2 rounded hover:opacity-90 transition duration-150 cursor-pointer font-sans"
+            >
+              Focar Tela
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Painel de Métricas e Estatísticas em Tempo Real */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 font-mono">
+        {/* Velocidade */}
+        <div className="bg-bg-secondary border border-text-muted/15 p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+          <span className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Velocidade Geral</span>
+          <span className="text-3xl font-extrabold text-accent-color">{wpm} <span className="text-xs font-normal text-text-muted">WPM</span></span>
+          <span className="text-[10px] text-text-muted mt-1">Velocidade Instantânea: {cpm} CPM</span>
+        </div>
+
+        {/* Acurácia */}
+        <div className="bg-bg-secondary border border-text-muted/15 p-4 rounded-xl flex flex-col gap-1 items-center justify-center text-center">
+          <span className="text-[10px] text-text-muted uppercase tracking-wider font-semibold">Precisão Geral</span>
+          <span className="text-3xl font-extrabold text-text-main">{accuracy.toFixed(1)}<span className="text-xs font-normal text-text-muted">%</span></span>
+          <span className="text-[10px] text-text-muted mt-1">Total de Erros: {totalErrors}</span>
+        </div>
+
+        {/* Janela Deslizante (Stats Recentes) */}
+        <div className="bg-bg-secondary border border-text-muted/15 p-4 rounded-xl flex flex-col gap-2 justify-center font-sans">
+          <span className="text-[10px] text-text-muted uppercase tracking-wider font-semibold font-mono text-center mb-1">Estatísticas Recentes</span>
+          
+          <div className="flex items-center justify-between text-xs font-mono">
+            <span className="text-text-muted">Últimos 10 seg:</span>
+            <span className="font-bold text-text-main">{wpmLast10s} WPM <span className="text-text-muted">|</span> {accuracyLast10s}%</span>
+          </div>
+
+          <div className="flex items-center justify-between text-xs font-mono">
+            <span className="text-text-muted">Últimas 100 pal:</span>
+            <span className="font-bold text-text-main">{wpmLast100Words} WPM <span className="text-text-muted">|</span> {accuracyLast100Words}%</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Dica Ergonomica */}
+      <div className="text-center text-xs text-text-muted font-sans">
+        {isTyping ? (
+          <p className="animate-pulse">Sessão ativa... Pressione Backspace para apagar e corrigir erros se necessário.</p>
+        ) : (
+          <p>Digite qualquer caractere para iniciar o cronômetro do treino de digitação.</p>
+        )}
+      </div>
+    </div>
+  );
+}

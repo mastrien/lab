@@ -7,11 +7,11 @@ O **Arkeynist** é uma aplicação web (Single Page Application) de treinamento 
 ## 1. Diretrizes de Arquitetura e Fluxo de Dados
 
 ### 1.1 Persistência de Dados (Local-First)
-- **Armazenamento:** 100% cliente-side. Não há banco de dados em nuvem ou API externa para armazenamento. Isso garante privacidade completa dos dados e conformidade técnica e jurídica em relação a conteúdos protegidos por direitos autorais (livros e artigos importados pelo usuário).
+- **Armazenamento:** 100% cliente-side. Não há banco de dados em nuvem ou API externa para armazenamento. Isso garante privacidade completa dos dados e conformidade técnica e jurídica em relação a conteúdos protegidos por direitos autorais (livros, PDFs e artigos importados pelo usuário).
 - **Tecnologia de Armazenamento:**
   - **IndexedDB:** Utilizado para salvar os textos/livros importados de grande porte e o histórico detalhado de sessões de digitação (devido ao limite de 5MB do `localStorage`).
   - **LocalStorage:** Utilizado para salvar as configurações de interface do usuário (preferências de temas, fontes, volume de áudio e modo de exibição).
-- **Biblioteca Curada:** Não há biblioteca pré-carregada hospedada. O usuário constrói sua própria biblioteca importando seus arquivos e textos, que permanecem restritos ao armazenamento do seu navegador.
+- **Biblioteca Curada:** Não há biblioteca pré-carregada hospedada. O usuário constrói sua própria biblioteca importando seus arquivos, PDFs e textos, que permanecem restritos ao armazenamento do seu navegador.
 
 ### 1.2 Gerenciamento e Sessão de Leitura/Digitação
 - **Persistência de Progresso:** O sistema monitora o índice exato do caractere atual em que o usuário está no texto.
@@ -42,7 +42,8 @@ O **Arkeynist** é uma aplicação web (Single Page Application) de treinamento 
 
 ### 2.3 Importação de Textos (Input)
 - **Área de Texto Livre:** Campo simples para colagem manual de blocos de texto.
-- **Upload de Arquivos:** Suporte à importação local de arquivos `.txt` e `.md`.
+- **Upload de Arquivos:** Suporte à importação local de arquivos `.txt`, `.md` e `.pdf`.
+  - *Extração de PDF:* A extração de texto de arquivos PDF deve ocorrer de forma 100% cliente-side (ex: utilizando a biblioteca `pdfjs-dist` no frontend para ler as páginas e concatenar o texto bruto), sem envio do arquivo para processamento externo.
 - **Filtro de Processamento (Sanitização):** O importador deve limpar espaços em branco excessivos, quebras de linha desnecessárias e caracteres não suportados antes de persistir o texto no IndexedDB.
 
 ### 2.4 Estatísticas e Desempenho
