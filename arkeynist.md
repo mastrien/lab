@@ -1,75 +1,80 @@
-# 🌌 Arkeynist - O Arcanista da Digitação
+# Especificação Técnica - Arkeynist
 
-Bem-vindo ao **Arkeynist**, um sistema inovador que transforma qualquer texto (artigos, livros, códigos, letras de música ou conteúdos personalizados) em um treino interativo e altamente imersivo de digitação. 
-
-O nome **Arkeynist** surge da fusão de *Arcane* (ligado ao místico, ao conhecimento antigo e à escrita de pergaminhos) com *Key* (tecla) e *Keyboardist* (digitador).
+O **Arkeynist** é uma aplicação web (Single Page Application) de treinamento de digitação focada na leitura e escrita de textos longos (como livros, artigos e códigos). O objetivo do sistema é permitir que o usuário pratique digitação enquanto lê conteúdos de seu interesse, com persistência de progresso e estatísticas de desempenho salvas localmente no navegador.
 
 ---
 
-## 🔮 Visão Geral e Conceito
+## 1. Diretrizes de Arquitetura e Fluxo de Dados
 
-Diferente de plataformas tradicionais, o Arkeynist é um treino de digitação focado na escrita/leitura de longos textos. A ideia surgiu do conceito de ler textos enquanto pratica digitação, podendo treinar com seus livros e artigos favoritos. Todos os textos processados pelo sistema são salvos apenas localmente no seu navegador.
+### 1.1 Persistência de Dados (Local-First)
+- **Armazenamento:** 100% cliente-side. Não há banco de dados em nuvem ou API externa para armazenamento. Isso garante privacidade completa dos dados e conformidade técnica e jurídica em relação a conteúdos protegidos por direitos autorais (livros e artigos importados pelo usuário).
+- **Tecnologia de Armazenamento:**
+  - **IndexedDB:** Utilizado para salvar os textos/livros importados de grande porte e o histórico detalhado de sessões de digitação (devido ao limite de 5MB do `localStorage`).
+  - **LocalStorage:** Utilizado para salvar as configurações de interface do usuário (preferências de temas, fontes, volume de áudio e modo de exibição).
+- **Biblioteca Curada:** Não há biblioteca pré-carregada hospedada. O usuário constrói sua própria biblioteca importando seus arquivos e textos, que permanecem restritos ao armazenamento do seu navegador.
 
-### Os Pilares do Arkeynist:
-1. **Transmutação de Textos (Input Dinâmico):** O usuário pode colar qualquer texto, enviar um arquivo (.txt, .md, .pdf), inserir uma URL de artigo ou escolher de uma biblioteca curada de clássicos literários, poemas ou snippets de código de programação.
-2. **Estética Minimalista:** Interface minimalista com cores de destaque customizáveis nas configurações. Possibilidade de alternar entre modo escuro/claro.
-3. **Micro-interações Vivazes:** Efeitos visuais táteis ao digitar — sons táteis opcionais customizáveis de teclas mecânicas de alta qualidade ou cliques mágicos sutis.
-4. **Gamificação com Propósito:** Medição clássica de **WPM** e **CPM** (Palavras por Minuto) e **Precisão**. O progresso no texto pode desbloquear elementos visuais, insígnias de alquimista ou novos "grimórios" (temas visuais). As estatísticas, como dias de treino em sequência (ofensiva), assim como as estatísticas de precisão e velocidade medidas nas últimas 100 palavras e nos últimos 10 segundos devem ser registradas e visíveis em uma tela de estatísticas.
-5. **Gestão de textos:** Queremos possibilitar a leitura de livros e artigos longos enquanto o usuário digita, portanto é essencial que o usuário possa pausar a leitura, sair e voltar outro dia continuando de onde parou.
-
----
-
-## 🛠️ Arquitetura e Funcionalidades Propostas
-
-### 1. Tela Principal de Digitação
-- **Painel de Texto:** Exibição elegante do texto a ser digitado, com diferenciação visual clara entre caracteres digitados corretamente, incorretos e o caractere atual (cor de destaque customizada para os caracteres corretos, opacidade menor para os caracteres ainda não digitados, mas mantendo-os visíveis).
-- **Indicadores Dinâmicos:** Painel flutuante de estatísticas em tempo real (WPM, Acurácia e Progresso Total).
-
-### 2. Mecanismo de Importação
-- **Área de Conversão:** Campo inteligente onde o usuário joga um texto arbitrário e o sistema limpa caracteres problemáticos, formata parágrafos em blocos confortáveis e prepara a sessão de treino.
-
-### 3. Registro (Estatísticas e Histórico)
-- Histórico visual do desenvolvimento da velocidade e acurácia através de gráficos interativos e dinâmicos de linha do tempo.
-- Conquistas e Títulos desbloqueáveis com base no volume de texto transmutado.
+### 1.2 Gerenciamento e Sessão de Leitura/Digitação
+- **Persistência de Progresso:** O sistema monitora o índice exato do caractere atual em que o usuário está no texto.
+- **Retomada de Sessão:** Ao sair da aplicação e retornar, o usuário pode reabrir o texto e retomar a digitação exatamente a partir do caractere onde parou. O estado da sessão salva inclui:
+  - Identificador único do texto.
+  - Índice do caractere atual.
+  - Estatísticas acumuladas daquele texto.
 
 ---
 
-## 🎨 Identidade Visual e Estética (Diretrizes Premium)
-- **Paleta de Cores Recomendada (Dark/Mystic Mode):**
-  - **Fundo Primário:** Slate/Indigo Profundo (`#0f111a` ou HSL equivalente) para reduzir fadiga ocular.
-  - **Texto Não Digitado:** Cinza-azulado fosco, de baixo contraste (`#4e5569`).
-  - **Texto Digitado Correto:** Roxo-brilhante ou Verde-esmeralda suave (`#a78bfa` ou `#34d399`).
-  - **Texto Digitado Incorreto:** Vermelho-coral vibrante (`#fb7185`).
-  - **Destaques/Detalhes:** Ouro/Bronze envelhecido (`#fbbf24`) para bordas de botões, barras de progresso e runas de status.
-- **Tipografia:** Uso de fontes geométricas e expressivas como *Outfit* ou *Cinzel* para cabeçalhos (estética arcana) e *JetBrains Mono* ou *Inter* para o corpo de digitação (legibilidade máxima).
+## 2. Requisitos Funcionais
+
+### 2.1 Interface de Digitação (Playground)
+- **Painel de Texto:** Exibição do bloco de texto ativo com as seguintes distinções visuais:
+  - **Caracteres já digitados corretamente:** Cor de destaque customizável (opacidade 100%).
+  - **Caracteres já digitados incorretamente:** Cor de erro em destaque (vermelho-coral ou similar).
+  - **Cursor (Caret):** Cursor suave (smooth caret) com estilo customizável (linha vertical, bloco, sublinhado ou apenas piscante).
+  - **Caracteres pendentes:** Opacidade reduzida em relação ao texto correto para manter o foco visual no caractere ativo.
+- **Modos de Visualização (Customizável pelo Usuário):**
+  - **Modo Autoscroll (Linha Única):** Exibe apenas 1 ou 2 linhas horizontalmente, centralizando o cursor e deslizando o texto conforme a digitação progride.
+  - **Modo Página Completa (Parágrafos):** Exibe o texto formatado em parágrafos estruturados (similar a um leitor de e-book). A página avança/desce suavemente à medida que os blocos de parágrafo são concluídos.
+
+### 2.2 Motor de Digitação e Validação de Erros
+- **Fluxo Livre com Penalização:** O usuário não é travado ao cometer um erro. Ele pode continuar digitando a sequência de caracteres, sendo estes marcados como incorretos. O usuário tem a opção de usar `Backspace` para voltar e corrigir, ou prosseguir acumulando o erro nas estatísticas finais de precisão.
+- **Configurações de Rigor (Strictness):** O usuário pode ligar ou desligar parâmetros de rigor no menu de opções:
+  - **Ignorar Letras Maiúsculas/Minúsculas (Case Insensitivity):** Se ativo, pressionar `a` valida o caractere `A` do texto.
+  - **Ignorar Pontuação/Sinais:** Se ativo, ignora caracteres especiais e pontuações no fluxo de validação.
+
+### 2.3 Importação de Textos (Input)
+- **Área de Texto Livre:** Campo simples para colagem manual de blocos de texto.
+- **Upload de Arquivos:** Suporte à importação local de arquivos `.txt` e `.md`.
+- **Filtro de Processamento (Sanitização):** O importador deve limpar espaços em branco excessivos, quebras de linha desnecessárias e caracteres não suportados antes de persistir o texto no IndexedDB.
+
+### 2.4 Estatísticas e Desempenho
+O sistema monitora e calcula as seguintes métricas, divididas em tempo real e consolidadas:
+- **Métricas em Tempo Real:**
+  - **WPM (Words Per Minute) Geral:** Média de palavras por minuto desde o início do texto ativo.
+  - **CPM (Characters Per Minute):** Caracteres digitados por minuto.
+  - **Precisão (%):** Porcentagem de acertos em relação ao total de teclas pressionadas.
+- **Métricas Curtas (Janela Deslizante):**
+  - Desempenho (WPM e Precisão) medido especificamente nas **últimas 100 palavras** digitadas.
+  - Desempenho medido nos **últimos 10 segundos** de atividade contínua.
+- **Estatísticas de Engajamento:**
+  - **Ofensiva (Streak):** Registro de dias consecutivos de treino.
+- **Histórico e Gráficos:**
+  - Gráfico de linha temporal pós-sessão detalhando a oscilação de velocidade (WPM) e erros ao longo do tempo.
 
 ---
 
-## ❓ Perguntas para Refinamento e Amadurecimento da Ideia
+## 3. Diretrizes de Design e Customização da UI
 
-Para moldar o **Arkeynist** no sistema ideal e definir o escopo tecnológico inicial, reflita e responda às perguntas abaixo. Elas ajudarão a guiar os próximos passos do desenvolvimento:
+### 3.1 Estética Minimalista e Customizável
+- **Foco Visual:** Todo o foco é direcionado para a tipografia e o contraste de cores. Elementos de UI não essenciais (barras de navegação, cabeçalhos, painéis de status) são ocultados ou minimizados durante a digitação ativa.
+- **Interface Customizável:** O usuário tem controle direto de:
+  - **Fontes:** Seleção de fontes limpas (ex: *Inter*, *System UI*) e fontes monoespaçadas com boa diferenciação de caracteres para treinos de código (ex: *JetBrains Mono*, *Fira Code*).
+  - **Paleta de Cores (Temas):** Customização manual das cores de fundo, texto ativo, erro, texto não digitado e cursor.
+  - **Sons de Feedback:** Efeitos táteis e personalizáveis de cliques de teclas mecânicas (com controle de volume ou opção de desativar).
 
-### 🚀 Escopo e Plataforma
-1. **Qual será o ecossistema principal do Arkeynist nesta fase inicial?**
-   - *Opção A:* Uma aplicação web moderna (Single Page Application com HTML/CSS/JS puros ou usando um framework como React/Vite/Next.js) rodando diretamente no navegador.
+---
 
-2. **Como você imagina o fluxo de armazenamento de dados e progresso?**
-   - *Opção A:* Apenas local no navegador (`LocalStorage` / `IndexedDB`), focado em privacidade, velocidade e zero necessidade de servidores de banco de dados inicialmente (Esse projeto não prevê manter um banco de dados tão cedo, não queremos ter que lidar com dados sob direitos autorais salvos em bancos, como livros ou artigos, por isso esses materiais SEMPRE ficarão salvos APENAS localmente).
+## 4. Stack Tecnológico Proposto (SPA)
 
-### 🎮 Experiência de Digitação e Mecânicas
-3. **No modo de digitação de textos longos (como capítulos de livros), como o sistema deve gerenciar a visualização do texto?**
-
-   - *Opção ESCOLHIDA: Customizável.* Deixe o usuário escolher entre as duas visualizações.
-
-   - *Opção A: Linha Única Autoscroll.* Apenas uma ou duas linhas são mostradas, deslizando horizontalmente ou verticalmente conforme o usuário avança (estilo Monkeytype tradicional).
-   - *Opção B: Modo Página Completa.* O texto é exibido em formato de parágrafos estruturados (como um leitor de e-book ou pergaminho completo), e a página desce suavemente conforme os parágrafos são concluídos.
-
-4. **Como lidaremos com erros de digitação durante o treino?**
-
-   - *Opção B: Fluxo livre com penalização.* O usuário pode continuar digitando mesmo errando, marcando as palavras subsequentes com erro até que ele decida voltar e corrigir, ou simplesmente aceitando a perda de acurácia no final da corrida. (Observação: o foco da aplicação é tornar a leitura uma experiência agradável para as pessoas que sentem prazer em digitar, de modo que possam ler enquanto digitam o que estão lendo, vamos registrar estatísticas de desempenho mas o conceito de "corrida" não é nosso foco aqui). Deixe o usuário escolher nas configurações o quão rigoroso será o marcador de respostas "certas" e "erradas", por exemplo se serão considerados sinais ou letras maiúsculas/minúsculas.
-
-### 📚 Funcionalidades Adicionais e Diferenciais
-5. **Gostaria de ter suporte nativo a uma biblioteca local pré-carregada de textos clássicos ou públicos?**
-   - Se sim, que tipo de conteúdo você mais gostaria de ver (ex: clássicos da literatura mundial traduzidos, histórias de fantasia/sci-fi originais, documentação técnica de programação, poesias famosas)?
-
-   Não. A biblioteca fica salva exclusivamente localmente e é construída pelo usuário.
+Para implementar esta arquitetura de forma enxuta e robusta, propõe-se:
+1. **Frontend:** React.js com TypeScript e Vite. O TypeScript garante segurança de tipos nos modelos de dados complexos das sessões de texto e estatísticas.
+2. **Estilização:** CSS nativo (Vanilla CSS) com variáveis CSS estruturadas para suportar a troca dinâmica de temas visuais e customizações de cores configuradas pelo usuário.
+3. **Banco de Dados Local:** IndexedDB gerenciado via biblioteca `localForage` ou `Dexie.js` para simplificar transações assíncronas e estruturação das tabelas de livros/textos importados e histórico de sessões.
