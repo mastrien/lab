@@ -2,13 +2,13 @@ import * as pdfjs from 'pdfjs-dist';
 
 // Configuração do Worker para processamento assíncrono em Web Workers.
 // Tenta carregar o worker local via Vite. Se houver falha, faz fallback para o CDN oficial do Unpkg da versão exata instalada.
+const version = pdfjs.version || '6.0.227';
 try {
   pdfjs.GlobalWorkerOptions.workerSrc = new URL(
     'pdfjs-dist/build/pdf.worker.min.mjs',
     import.meta.url
   ).toString();
 } catch (e) {
-  const version = pdfjs.version || '6.0.227';
   pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${version}/build/pdf.worker.min.mjs`;
 }
 
@@ -20,7 +20,12 @@ export async function extractTextFromPdf(
   onProgress?: (processed: number, total: number) => void
 ): Promise<string> {
   const arrayBuffer = await file.arrayBuffer();
-  const loadingTask = pdfjs.getDocument({ data: arrayBuffer });
+  const loadingTask = pdfjs.getDocument({ 
+    data: arrayBuffer,
+    cMapUrl: `https://unpkg.com/pdfjs-dist@${version}/cmaps/`,
+    cMapPacked: true,
+    standardFontDataUrl: `https://unpkg.com/pdfjs-dist@${version}/standard_fonts/`
+  });
   const pdf = await loadingTask.promise;
   
   let fullText = '';

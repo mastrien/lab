@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Pause, ChevronLeft, RotateCcw, AlertTriangle } from 'lucide-react';
+import { Pause, ChevronLeft, RotateCcw, AlertTriangle, Search, Compass, X, ChevronRight } from 'lucide-react';
 import { db } from '../services/db';
 import type { Book } from '../services/db';
 import { useTypingEngine } from '../hooks/useTypingEngine';
@@ -30,6 +30,47 @@ export default function Playground({
   onSessionFinish,
 }: PlaygroundProps) {
   const [isFocused, setIsFocused] = useState(true);
+
+  // Estados para o Command Palette de Navegação
+  const [isNavOpen, setIsNavOpen] = useState(false);
+  const [activeNavTab, setActiveNavTab] = useState<'search' | 'percentage'>('search');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<{ index: number; snippet: string; percentage: number }[]>([]);
+  const [sliderPercentage, setSliderPercentage] = useState(0);
+
+  // Calcula resultados de busca de forma otimizada
+  useEffect(() => {
+    if (!searchQuery.trim() || searchQuery.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+    const query = searchQuery.toLowerCase();
+    const text = book.rawText.toLowerCase();
+    const results: { index: number; snippet: string; percentage: number }[] = [];
+    let idx = text.indexOf(query);
+
+    // Limita a 15 resultados para performance fluida no typing
+    while (idx !== -1 && results.length < 15) {
+      const start = Math.max(0, idx - 30);
+      const end = Math.min(book.rawText.length, idx + query.length + 30);
+      let snippet = book.rawText.slice(start, end).replace(/\n/g, ' ');
+      if (start > 0) snippet = '...' + snippet;
+      if (end < book.rawText.length) snippet = snippet + '...';
+
+      const percentage = Math.round((idx / book.rawText.length) * 100);
+      results.push({ index: idx, snippet, percentage });
+      idx = text.indexOf(query, idx + 1);
+    }
+    setSearchResults(results);
+  }, [searchQuery, book.rawText]);
+
+  // Calcula preview com base no slider
+  const targetSliderIndex = Math.floor((sliderPercentage / 100) * book.rawText.length);
+  const sliderPreviewStart = Math.max(0, targetSliderIndex - 75);
+  const sliderPreviewEnd = Math.min(book.rawText.length, targetSliderIndex + 75);
+  let sliderPreviewText = book.rawText.slice(sliderPreviewStart, sliderPreviewEnd).replace(/\n/g, ' ');
+  if (sliderPreviewStart > 0) sliderPreviewText = '...' + sliderPreviewText;
+  if (sliderPreviewEnd < book.rawText.length) sliderPreviewText = sliderPreviewText + '...';
   
   // Instanciar o motor de digitação
   const engine = useTypingEngine(book.rawText, {
@@ -144,14 +185,27 @@ export default function Playground({
   // Capturar eventos globais de digitação quando focado
   useEffect(() => {
     const handleGlobalKeyDown = (e: KeyboardEvent) => {
-      if (isFocused && !isFinished) {
+      // Abre a busca com Ctrl+F ou Ctrl+K
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'f' || e.key === 'k')) {
+        e.preventDefault();
+        setIsNavOpen(true);
+        pauseSession();
+        return;
+      }
+      // Fecha a busca com Escape
+      if (e.key === 'Escape' && isNavOpen) {
+        setIsNavOpen(false);
+        containerRef.current?.focus();
+        return;
+      }
+      if (isFocused && !isFinished && !isNavOpen) {
         handleKeyDown(e);
       }
     };
 
     window.addEventListener('keydown', handleGlobalKeyDown);
     return () => window.removeEventListener('keydown', handleGlobalKeyDown);
-  }, [isFocused, isFinished, handleKeyDown]);
+  }, [isFocused, isFinished, isNavOpen, handleKeyDown, pauseSession]);
 
   // Focar o container ao montar
   useEffect(() => {
@@ -369,6 +423,18 @@ export default function Playground({
 
         <div className="flex items-center gap-3">
           <button
+            onClick={() => {
+              pauseSession();
+              setIsNavOpen(true);
+            }}
+            title="Buscar e Pular Trecho (Ctrl+F)"
+            className="flex items-center gap-1.5 p-2 text-text-muted hover:text-text-main hover:bg-bg-secondary rounded-lg transition duration-150 cursor-pointer font-sans"
+          >
+            <Search className="w-4 h-4" />
+            <span className="text-xs font-bold">Pular/Buscar</span>
+          </button>
+
+          <button
             onClick={handleRestart}
             title="Reiniciar Progresso"
             className="p-2 text-text-muted hover:text-text-main hover:bg-bg-secondary rounded-lg transition duration-150 cursor-pointer"
@@ -462,9 +528,151 @@ export default function Playground({
         {isTyping ? (
           <p className="animate-pulse">Sessão ativa... Pressione Backspace para apagar e corrigir erros se necessário.</p>
         ) : (
-          <p>Digite qualquer caractere para iniciar o cronômetro do treino de digitação.</p>
+          <p>Digite qualquer caractere para iniciar o cronômetro do treino de digitação. <span className="font-mono text-[10px] bg-bg-secondary border border-text-muted/15 px-1 py-0.5 rounded text-text-muted">Ctrl+F</span> para pular trecho.</p>
         )}
       </div>
+
+      {/* Command Palette / Modal de Navegação Avançada */}
+      {isNavOpen && (
+        <div className="fixed inset-0 bg-bg-primary/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in">
+          <div className="bg-bg-secondary border border-text-muted/15 w-full max-w-lg rounded-2xl shadow-2xl flex flex-col overflow-hidden max-h-[80vh] animate-scale-up">
+            
+            {/* Header do Modal */}
+            <div className="p-4 border-b border-text-muted/10 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Search className="w-5 h-5 text-accent-color" />
+                <h3 className="text-base font-bold text-text-main font-sans">Navegação e Busca</h3>
+              </div>
+              <button 
+                onClick={() => {
+                  setIsNavOpen(false);
+                  containerRef.current?.focus();
+                }}
+                className="p-1.5 hover:bg-bg-primary/50 text-text-muted hover:text-text-main rounded-lg transition duration-150 cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Selector de Abas */}
+            <div className="flex border-b border-text-muted/10 text-sm font-sans">
+              <button 
+                onClick={() => setActiveNavTab('search')}
+                className={`flex-1 py-3 flex items-center justify-center gap-2 border-b-2 font-semibold transition duration-150 cursor-pointer ${activeNavTab === 'search' ? 'border-accent-color text-accent-color' : 'border-transparent text-text-muted hover:text-text-main'}`}
+              >
+                <Search className="w-4 h-4" />
+                <span>Buscar Texto</span>
+              </button>
+              <button 
+                onClick={() => setActiveNavTab('percentage')}
+                className={`flex-1 py-3 flex items-center justify-center gap-2 border-b-2 font-semibold transition duration-150 cursor-pointer ${activeNavTab === 'percentage' ? 'border-accent-color text-accent-color' : 'border-transparent text-text-muted hover:text-text-main'}`}
+              >
+                <Compass className="w-4 h-4" />
+                <span>Pular por %</span>
+              </button>
+            </div>
+
+            {/* Conteúdo do Modal */}
+            <div className="flex-1 overflow-y-auto p-4 flex flex-col gap-4">
+              {activeNavTab === 'search' ? (
+                <div className="flex flex-col gap-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-2.5 w-4 h-4 text-text-muted" />
+                    <input 
+                      type="text"
+                      placeholder="Busque por capítulos, frases ou trechos... (mín. 2 letras)"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="w-full bg-bg-primary/50 border border-text-muted/15 rounded-xl py-2 pl-9 pr-4 text-sm text-text-main placeholder-text-muted/60 focus:outline-none focus:border-accent-color focus:ring-1 focus:ring-accent-color/25 font-sans"
+                      autoFocus
+                    />
+                  </div>
+
+                  {/* Resultados */}
+                  <div className="flex flex-col gap-1.5 mt-2">
+                    {searchQuery.trim().length >= 2 && searchResults.length === 0 ? (
+                      <p className="text-center text-xs text-text-muted py-6 font-sans">Nenhum resultado encontrado para "{searchQuery}"</p>
+                    ) : searchResults.length > 0 ? (
+                      <div className="flex flex-col gap-2 max-h-[300px] overflow-y-auto pr-1">
+                        <span className="text-[10px] text-text-muted font-mono uppercase tracking-wider font-semibold">Ocorrências encontradas</span>
+                        {searchResults.map((result, i) => (
+                          <button
+                            key={i}
+                            onClick={() => {
+                              resetEngine(book.rawText, result.index, elapsedTime);
+                              setIsNavOpen(false);
+                              containerRef.current?.focus();
+                            }}
+                            className="text-left w-full p-3 rounded-xl bg-bg-primary/30 hover:bg-accent-color/10 border border-text-muted/10 hover:border-accent-color/30 flex items-center justify-between gap-3 group transition duration-150 cursor-pointer"
+                          >
+                            <div className="flex-1 min-w-0">
+                              <p className="text-xs text-text-main font-mono leading-relaxed truncate group-hover:text-accent-color transition duration-150">
+                                {result.snippet}
+                              </p>
+                              <span className="text-[9px] text-text-muted font-mono block mt-1">Caractere nº {result.index.toLocaleString()}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5 shrink-0">
+                              <span className="text-xs font-bold font-mono text-accent-color bg-accent-color/10 px-2 py-0.5 rounded-full">{result.percentage}%</span>
+                              <ChevronRight className="w-4 h-4 text-text-muted group-hover:text-accent-color transition duration-150" />
+                            </div>
+                          </button>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-center text-xs text-text-muted py-6 font-sans">Digite acima para buscar trechos e capítulos no livro.</p>
+                    )}
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-5 py-2">
+                  <div className="flex flex-col gap-2">
+                    <div className="flex justify-between text-xs font-mono text-text-muted">
+                      <span>Início (0%)</span>
+                      <span className="text-accent-color font-bold text-sm bg-accent-color/10 px-2 py-0.5 rounded-full">{sliderPercentage}%</span>
+                      <span>Fim (100%)</span>
+                    </div>
+                    <input 
+                      type="range"
+                      min="0"
+                      max="100"
+                      value={sliderPercentage}
+                      onChange={(e) => setSliderPercentage(parseInt(e.target.value, 10))}
+                      className="w-full h-1.5 bg-bg-primary rounded-lg appearance-none cursor-pointer accent-accent-color"
+                    />
+                  </div>
+
+                  {/* Preview do Trecho Selecionado */}
+                  <div className="bg-bg-primary/40 border border-text-muted/10 rounded-xl p-4 flex flex-col gap-2">
+                    <span className="text-[10px] text-text-muted font-mono uppercase tracking-wider font-semibold">Visualização do trecho</span>
+                    <p className="text-xs text-text-muted font-mono leading-relaxed text-justify line-clamp-4 min-h-[4.5rem]">
+                      {sliderPreviewText}
+                    </p>
+                    <span className="text-[9px] text-text-muted font-mono block mt-1">Ponto de partida estimado: caractere nº {targetSliderIndex.toLocaleString()}</span>
+                  </div>
+
+                  <button
+                    onClick={() => {
+                      resetEngine(book.rawText, targetSliderIndex, elapsedTime);
+                      setIsNavOpen(false);
+                      containerRef.current?.focus();
+                    }}
+                    className="w-full bg-accent-color hover:opacity-90 text-bg-primary font-bold text-sm py-2.5 rounded-xl transition duration-150 cursor-pointer flex items-center justify-center gap-2 font-sans"
+                  >
+                    <Compass className="w-4 h-4" />
+                    <span>Pular para esta Posição ({sliderPercentage}%)</span>
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Rodapé do Modal */}
+            <div className="p-3 bg-bg-primary/30 border-t border-text-muted/10 text-center text-[10px] text-text-muted font-sans">
+              <span>Dica: Use as teclas <kbd className="font-mono bg-bg-secondary border border-text-muted/20 px-1 rounded">Esc</kbd> para fechar ou <kbd className="font-mono bg-bg-secondary border border-text-muted/20 px-1 rounded">Enter</kbd> nos resultados para navegar.</span>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
