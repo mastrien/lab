@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocToTex - Template Generator</title>
+    
+    <!-- Styling -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- KaTeX for math formulas -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/katex.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js"></script>
+    
+    <!-- JSZip for handling DOCX unzipping and ZIP generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- Prism.js core and LaTeX language component for syntax highlighting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-core.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-latex.min.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="logo-group">
+                <div class="logo-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5S19.832 5.477 21 6.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                </div>
+                <div class="logo-text">
+                    <h1>DocToTex</h1>
+                    <p>Mapeador de Estilos & Gerador LaTeX</p>
+                </div>
+            </div>
+            <a href="../index.html" class="back-btn" id="back-to-hub">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Voltar ao Hub
+            </a>
+        </header>
+
+        <!-- Main Workspace Area -->
+        <div class="workspace-grid" id="workspace-grid">
+            
+            <!-- Upload Panel (Full width initially) -->
+            <div class="glass upload-card" id="upload-card">
+                <input type="file" id="docx-file-input" class="file-input" accept=".docx">
+                <div class="upload-icon-container">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                </div>
+                <div class="upload-text">
+                    <h3>Importe seu Documento</h3>
+                    <p>Arraste e solte o seu arquivo Word (.docx) ou Google Docs exportado aqui.</p>
+                    <button class="browse-btn" id="browse-btn">Procurar Arquivo</button>
+                </div>
+            </div>
+
+            <!-- Loading Overlay -->
+            <div class="glass loading-overlay" id="loading-overlay">
+                <div class="spinner"></div>
+                <h4 class="loading-status" id="loading-status">Carregando arquivo...</h4>
+                <p class="loading-subtext" id="loading-subtext">Isso pode levar alguns segundos.</p>
+            </div>
+
+            <!-- Left Config Panel (Hidden initially) -->
+            <div class="glass config-panel" id="config-panel">
+                <div class="config-section">
+                    <h3 class="config-title">Configurações de Saída</h3>
+                    
+                    <div class="form-group">
+                        <label for="compiler-select">Compilador Alvo</label>
+                        <select id="compiler-select" class="form-select">
+                            <option value="pdflatex">pdfLaTeX (Padrão MVP)</option>
+                            <option value="xelatex">XeLaTeX / LuaLaTeX (Fontes Locais)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="format-select">Estrutura do Modelo</label>
+                        <select id="format-select" class="form-select">
+                            <option value="cls">Classe Personalizada (.cls + .tex)</option>
+                            <option value="preamble">Preamble Embutido (.tex Único)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Tipografia & Fontes</h3>
+                    
+                    <div class="form-group">
+                        <label for="font-select">Gerenciamento de Fonte</label>
+                        <select id="font-select" class="form-select">
+                            <option value="keep">Manter Tipografia Original (Arial/Times...)</option>
+                            <option value="standard">Substituir por Fonte Padrão LaTeX</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Referências Científicas</h3>
+                    
+                    <div class="form-group">
+                        <label for="citations-select">Gerenciador de Citações</label>
+                        <select id="citations-select" class="form-select">
+                            <option value="none">Nenhum (MVP)</option>
+                            <option value="biblatex">BibLaTeX (Moderno)</option>
+                            <option value="natbib">Natbib (Clássico)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="citation-style-group" style="display: none;">
+                        <label for="citation-style-select">Estilo das Citações</label>
+                        <select id="citation-style-select" class="form-select">
+                            <option value="apa">APA (American Psychological Assoc.)</option>
+                            <option value="ieee">IEEE style</option>
+                            <option value="abnt">ABNT (Regras Brasileiras)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-section">
+                    <h3 class="config-title">Pacotes Extras LaTeX</h3>
+                    
+                    <div class="toggle-group">
+                        <label for="toggle-hyperref">Links interativos (hyperref)</label>
+                        <span class="switch">
+                            <input type="checkbox" id="toggle-hyperref" checked>
+                            <span class="slider"></span>
+                        </span>
+                    </div>
+
+                    <div class="toggle-group">
+                        <label for="toggle-booktabs">Tabelas acadêmicas (booktabs)</label>
+                        <span class="switch">
+                            <input type="checkbox" id="toggle-booktabs" checked>
+                            <span class="slider"></span>
+                        </span>
+                    </div>
+
+                    <div class="toggle-group">
+                        <label for="toggle-graphicx">Gráficos & Imagens (graphicx)</label>
+                        <span class="switch">
+                            <input type="checkbox" id="toggle-graphicx" checked>
+                            <span class="slider"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Preview Panel (Hidden initially) -->
+            <div class="glass preview-panel" id="preview-panel">
+                <div class="preview-header">
+                    <div class="tabs-group">
+                        <button class="tab-btn active" id="tab-layout">Visualização do Layout</button>
+                        <button class="tab-btn" id="tab-code">Código LaTeX Gerado</button>
+                    </div>
+                    <div class="preview-actions">
+                        <button class="action-btn" id="copy-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                            Copiar
+                        </button>
+                        <button class="action-btn download-btn" id="download-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="white">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                            </svg>
+                            Baixar ZIP
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visual Layout Preview Viewport -->
+                <div class="layout-viewport active" id="layout-viewport">
+                    <div class="paper-sheet" id="paper-sheet">
+                        <!-- Rendered paper preview will go here -->
+                    </div>
+                </div>
+
+                <!-- LaTeX Code Source Preview Viewport -->
+                <div class="preview-panel" id="code-viewport-container" style="border: none; box-shadow: none; border-radius: 0; height: 100%; display: none;">
+                    <div class="file-tabs" id="file-tabs">
+                        <button class="file-tab active" data-file="cls" id="file-tab-cls">doctotex.cls</button>
+                        <button class="file-tab" data-file="tex" id="file-tab-tex">main.tex</button>
+                        <button class="file-tab" data-file="bib" id="file-tab-bib" style="display: none;">references.bib</button>
+                    </div>
+                    
+                    <div class="code-viewport active" id="code-cls-viewport">
+                        <pre><code class="language-latex" id="code-cls-block"></code></pre>
+                    </div>
+                    <div class="code-viewport" id="code-tex-viewport">
+                        <pre><code class="language-latex" id="code-tex-block"></code></pre>
+                    </div>
+                    <div class="code-viewport" id="code-bib-viewport">
+                        <pre><code class="language-latex" id="code-bib-block"></code></pre>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Page Logic Scripts -->
+    <script src="js/OmmlConverter.js"></script>
+    <script src="js/DocxParser.js"></script>
+    <script src="js/LatexGenerator.js"></script>
+    <script src="js/PreviewRenderer.js"></script>
+    <script src="js/ZipPackager.js"></script>
+    <script src="js/App.js"></script>
+</body>
+</html>

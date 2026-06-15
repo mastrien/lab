@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>League Whiteboard - LoL Itemization Tool</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="/src/style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="logo-area">
+        <i class="fa-solid fa-chalkboard"></i>
+        <span>League Whiteboard</span>
+      </div>
+      
+      <nav class="nav-menu">
+        <button class="nav-btn active" data-target="panel-scoreboard" id="btn-scoreboard">
+          <i class="fa-solid fa-list-ol"></i> <span data-i18n="nav.scoreboard">Placar</span>
+        </button>
+        <button class="nav-btn" data-target="panel-comparator" id="btn-comparator">
+          <i class="fa-solid fa-code-compare"></i> <span data-i18n="nav.comparator">Comparador</span>
+        </button>
+        <button class="nav-btn" data-target="panel-simulator" id="btn-simulator">
+          <i class="fa-solid fa-calculator"></i> <span data-i18n="nav.simulator">Simulador</span>
+        </button>
+        <button class="nav-btn" data-target="panel-runes" id="btn-runes">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="nav.runes">Runas</span>
+        </button>
+        <button class="nav-btn" data-target="panel-map" id="btn-map">
+          <i class="fa-solid fa-map"></i> <span data-i18n="nav.map">Mapa Rift</span>
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="version-badge">
+          Patch <span id="patch-version">...</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+      <!-- Top header bar -->
+      <header class="top-bar">
+        <div class="header-left">
+          <h1 id="active-panel-title" data-i18n="title.scoreboard">Placar Comparativo</h1>
+        </div>
+        <div class="header-right">
+          <!-- Control Buttons -->
+          <button class="btn btn-secondary" id="btn-export-board" title="Exportar Cenário (JSON)">
+            <i class="fa-solid fa-file-export"></i> <span data-i18n="btn.export">Exportar</span>
+          </button>
+          <button class="btn btn-secondary" id="btn-import-board" title="Importar Cenário (JSON)">
+            <i class="fa-solid fa-file-import"></i> <span data-i18n="btn.import">Importar</span>
+          </button>
+          <button class="btn btn-danger-outline" id="btn-reset-board" title="Limpar Placar">
+            <i class="fa-solid fa-trash-can"></i> <span data-i18n="btn.reset">Limpar</span>
+          </button>
+
+          <!-- Theme Toggle -->
+          <button class="btn btn-secondary" id="btn-toggle-theme" title="Alternar Tema">
+            <i class="fa-solid fa-moon"></i>
+          </button>
+
+          <!-- Language Selector -->
+          <div class="language-selector">
+            <i class="fa-solid fa-globe"></i>
+            <select id="select-language">
+              <option value="pt_BR">PT-BR</option>
+              <option value="en_US">EN-US</option>
+            </select>
+          </div>
+        </div>
+      </header>
+
+      <!-- PANELS container -->
+      <div class="panels-container">
+        
+        <!-- MODULE 1: SCOREBOARD -->
+        <section class="panel active" id="panel-scoreboard">
+          <div class="scoreboard-layout">
+            
+            <!-- BLUE TEAM (Left Column) -->
+            <div class="team-column blue-team">
+              <div class="team-header">
+                <h2>TEAM BLUE</h2>
+                <div class="team-gold"><i class="fa-solid fa-coins"></i> <span id="blue-total-gold">0</span></div>
+              </div>
+              <div class="slots-container" id="blue-slots">
+                <!-- Top, Jungle, Mid, Adc, Support slots injected dynamically -->
+              </div>
+            </div>
+
+            <!-- RED TEAM (Right Column) -->
+            <div class="team-column red-team">
+              <div class="team-header">
+                <h2>TEAM RED</h2>
+                <div class="team-gold"><i class="fa-solid fa-coins"></i> <span id="red-total-gold">0</span></div>
+              </div>
+              <div class="slots-container" id="red-slots">
+                <!-- Top, Jungle, Mid, Adc, Support slots injected dynamically -->
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Champion Detail Panel -->
+          <div class="champ-details-panel glass-card" id="champ-details-panel">
+            <button class="close-modal-btn" id="close-details-btn">&times;</button>
+            <div class="details-disclaimer" id="champ-details-disclaimer">
+              *Nota: A exibição abaixo mostra apenas os atributos base de nível 1 do campeão e não leva em consideração efeitos passivos e ativos de itens avançados (como Capuz da Morte de Rabadon, Armadura Sangrenta de Suserano, Cria-fendas, etc.).*
+            </div>
+            <div class="details-content" id="champ-details-content">
+              <!-- Selected champion details injected here -->
+            </div>
+          </div>
+        </section>
+
+        <!-- MODULE 5: COMPARATOR -->
+        <section class="panel" id="panel-comparator">
+          <div class="comparator-layout">
+            <!-- Champion Selection for Comparison -->
+            <div class="glass-card comparator-champ-selector" style="margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem;">
+              <div style="display: flex; align-items: center; gap: 1rem;">
+                <div class="comparator-champ-box champ-box" id="comparator-champ-slot" style="width: 58px; height: 58px;">
+                  <span class="champ-placeholder">+</span>
+                </div>
+                <div>
+                  <h3 id="comparator-champ-name" style="font-size: 1.2rem; font-weight: 700; color: var(--text-main);">Selecionar Campeão</h3>
+                  <p id="comparator-champ-title" style="font-size: 0.85rem; color: var(--text-muted);">Escolha um campeão para comparar suas builds</p>
+                </div>
+              </div>
+              <button class="btn btn-secondary" id="btn-comparator-add-build">
+                <i class="fa-solid fa-plus"></i> <span data-i18n="comparator.addBuild">Nova Build</span>
+              </button>
+            </div>
+
+            <!-- Builds container -->
+            <div class="comparator-builds-list" id="comparator-builds-list" style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+              <!-- Build rows dynamically injected -->
+            </div>
+
+            <!-- Comparative Table -->
+            <div class="glass-card comparator-table-card" id="comparator-table-card" style="display: none;">
+              <h3 style="font-size: 1.1rem; font-weight: 700; text-transform: uppercase; color: var(--text-gold); margin-bottom: 1rem;">Comparação de Atributos</h3>
+              <div style="overflow-x: auto;">
+                <table class="stats-comparison-table" id="comparator-stats-table">
+                  <!-- Injected dynamically -->
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- MODULE 2: SIMULATOR -->
+        <section class="panel" id="panel-simulator">
+          <div class="simulator-layout">
+            
+            <!-- Damage Calculator Card -->
+            <div class="glass-card calculator-card">
+              <div class="card-header">
+                <i class="fa-solid fa-burst text-orange"></i>
+                <h3 data-i18n="sim.damageTitle">Simulador de Dano Efetivo</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="input-raw-damage" data-i18n="sim.rawDamage">Dano Bruto Aplicado</label>
+                  <input type="number" id="input-raw-damage" value="1000" min="0">
+                </div>
+                <div class="form-group">
+                  <label for="select-damage-type" data-i18n="sim.damageType">Tipo de Dano</label>
+                  <select id="select-damage-type">
+                    <option value="physical" data-i18n="sim.physical">Físico</option>
+                    <option value="magic" data-i18n="sim.magic">Mágico</option>
+                    <option value="true" data-i18n="sim.true">Verdadeiro</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label for="input-target-resistance" id="label-resistance" data-i18n="sim.resistance">Armadura do Alvo</label>
+                  <input type="number" id="input-target-resistance" value="100">
+                </div>
+                <div class="sim-result-box damage-result">
+                  <div class="result-label" data-i18n="sim.finalDamage">Dano Efetivo Recebido</div>
+                  <div class="result-value" id="val-effective-damage">500.00</div>
+                  <div class="result-sub" id="val-damage-reduction">50% de redução</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tenacity Calculator Card -->
+            <div class="glass-card calculator-card">
+              <div class="card-header">
+                <i class="fa-solid fa-hourglass-half text-cyan"></i>
+                <h3 data-i18n="sim.ccTitle">Redução por Tenacidade (CC)</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="input-original-cc" data-i18n="sim.ccDuration">Duração Original do CC (s)</label>
+                  <input type="number" id="input-original-cc" value="2.0" step="0.1" min="0">
+                </div>
+                <div class="form-group">
+                  <label for="input-target-tenacity" data-i18n="sim.tenacity">Tenacidade do Alvo (%)</label>
+                  <input type="number" id="input-target-tenacity" value="30" min="0" max="100">
+                </div>
+                <div class="form-group checkbox-group">
+                  <input type="checkbox" id="check-clamp-cc" checked>
+                  <label for="check-clamp-cc" data-i18n="sim.clampCc">Limitar a 0.5 segundos (mínimo do LoL)</label>
+                </div>
+                <div class="sim-result-box cc-result">
+                  <div class="result-label" data-i18n="sim.finalCc">Duração Efetiva do Efeito</div>
+                  <div class="result-value" id="val-effective-cc">1.40s</div>
+                  <div class="result-sub" id="val-cc-reduction">30% menor</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Ability Haste Card -->
+            <div class="glass-card calculator-card">
+              <div class="card-header">
+                <i class="fa-solid fa-bolt text-gold"></i>
+                <h3 data-i18n="sim.hasteTitle">Aceleração de Habilidade vs CDR</h3>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label for="input-ability-haste" data-i18n="sim.haste">Aceleração de Habilidade (AH)</label>
+                  <input type="number" id="input-ability-haste" value="50" min="0">
+                </div>
+                <div class="form-group">
+                  <label for="input-base-cooldown" data-i18n="sim.baseCooldown">Tempo de Recarga Base (s)</label>
+                  <input type="number" id="input-base-cooldown" value="10.0" step="0.5" min="0">
+                </div>
+                <div class="sim-result-box haste-result">
+                  <div class="result-label" data-i18n="sim.cdr">Redução de Tempo de Recarga (CDR)</div>
+                  <div class="result-value" id="val-cdr-percent">33.33%</div>
+                  <div class="result-sub" id="val-cdr-scaling">100 AH = 50% CDR</div>
+                  <div class="result-cooldown-text" id="val-final-cooldown">
+                    Recarga Final: <span class="text-gold" id="val-final-cooldown-sec">6.67s</span>
+                  </div>
+                </div>
+                <div class="haste-scale-visual">
+                  <div class="haste-scale-bar" id="haste-bar-fill" style="width: 33.33%;"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- MODULE 3: RUNES -->
+        <section class="panel" id="panel-runes">
+          <!-- Top Row Header -->
+          <div class="glass-card runes-header-row" style="display: flex; justify-content: space-between; align-items: center; gap: 2rem; margin-bottom: 1.5rem; padding: 1.25rem;">
+            <div class="form-group" style="margin-bottom: 0; flex-grow: 1; max-width: 600px;">
+              <div class="input-action-group" style="display: flex; flex-direction: row; gap: 1rem; align-items: center;">
+                <input type="text" id="input-rune-page-name" value="Página Customizada 1" style="flex-grow: 1;">
+                <button class="btn btn-primary" id="btn-save-runes" style="flex-shrink: 0; height: 42px;">
+                  <i class="fa-solid fa-floppy-disk"></i> <span data-i18n="runes.save">Salvar</span>
+                </button>
+              </div>
+            </div>
+            <button class="btn btn-secondary" id="btn-toggle-rune-mode" style="height: 42px; display: flex; align-items: center; gap: 0.5rem; flex-shrink: 0;">
+              <i class="fa-solid fa-eye"></i> <span id="text-toggle-rune-mode" data-i18n="runes.modeRead">Modo Leitura</span>
+            </button>
+          </div>
+
+          <div class="runes-layout">
+            <!-- Saved Pages List (Left Column) -->
+            <div class="runes-selector-area">
+              <div class="glass-card saved-runes-card" style="height: 100%;">
+                <h4 data-i18n="runes.savedTitle">Páginas Salvas</h4>
+                <div class="saved-runes-list" id="saved-runes-list">
+                  <!-- Injected dynamically -->
+                  <div class="no-pages-message" data-i18n="runes.noPages">Nenhuma página de runas salva.</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rune Planner Workspace (Right Column) -->
+            <div class="rune-planner-workspace">
+              <!-- Summary View (Modo Leitura) - Hidden by default -->
+              <div class="rune-summary-view glass-card" id="rune-summary-view" style="display: none;">
+                <!-- Dynamically populated summary cheatsheet -->
+              </div>
+
+              <!-- Interactive Rune Builder (Grid tree - Modo Edição) -->
+              <div class="rune-builder-main" id="rune-builder-main">
+                <!-- Primary Tree -->
+                <div class="rune-tree-column" id="primary-rune-tree">
+                  <div class="tree-header">
+                    <h3 data-i18n="runes.primaryTree">Caminho Principal</h3>
+                    <div class="path-select-row" id="primary-path-select">
+                      <!-- Path buttons injected dynamically -->
+                    </div>
+                  </div>
+                  <div class="tree-slots" id="primary-slots">
+                    <div class="placeholder-msg" data-i18n="runes.selectPathMsg">Selecione um caminho acima</div>
+                  </div>
+                </div>
+
+                <!-- Secondary Tree & Shards Stacking Column -->
+                <div class="secondary-and-shards-column">
+                  <!-- Secondary Tree -->
+                  <div class="rune-tree-column" id="secondary-rune-tree">
+                    <div class="tree-header">
+                      <h3 data-i18n="runes.secondaryTree">Caminho Secundário</h3>
+                      <div class="path-select-row" id="secondary-path-select">
+                        <!-- Path buttons injected dynamically -->
+                      </div>
+                    </div>
+                    <div class="tree-slots" id="secondary-slots">
+                      <div class="placeholder-msg" data-i18n="runes.selectPathMsg">Selecione um caminho acima</div>
+                    </div>
+                  </div>
+
+                  <!-- Stat Shards (placed below secondary tree) -->
+                  <div class="rune-tree-column stat-shards-column" id="shards-slots-column">
+                    <div class="tree-header">
+                      <h3 data-i18n="runes.shards">Atributos (Shards)</h3>
+                    </div>
+                    <div class="shards-container" id="shards-slots">
+                      <!-- Shard rows injected dynamically -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- MODULE 4: MAP INTERACTIVE -->
+        <section class="panel" id="panel-map">
+          <div class="map-layout">
+            <!-- Map Side Panel -->
+            <div class="map-controls-panel glass-card">
+              <h3 data-i18n="map.controlsTitle">Quadro do Rift</h3>
+              <p class="help-text" data-i18n="map.help">Use o mouse para arrastar e a roda do mouse para dar zoom. Dê um clique duplo para colocar um marcador no mapa para ilustrar jogadas.</p>
+              
+              <div class="map-actions">
+                <button class="btn btn-secondary" id="btn-map-zoom-in" title="Aumentar Zoom">
+                  <i class="fa-solid fa-magnifying-glass-plus"></i> <span data-i18n="map.zoomIn">Aproximar</span>
+                </button>
+                <button class="btn btn-secondary" id="btn-map-zoom-out" title="Diminuir Zoom">
+                  <i class="fa-solid fa-magnifying-glass-minus"></i> <span data-i18n="map.zoomOut">Afastar</span>
+                </button>
+                <button class="btn btn-secondary" id="btn-map-reset" title="Restaurar Visão">
+                  <i class="fa-solid fa-arrows-to-eye"></i> <span data-i18n="map.reset">Focar</span>
+                </button>
+                <button class="btn btn-danger-outline" id="btn-map-clear-pins" title="Remover Marcadores">
+                  <i class="fa-solid fa-eraser"></i> <span data-i18n="map.clearPins">Limpar Quadro</span>
+                </button>
+              </div>
+
+              <!-- Marker palette -->
+              <div class="pin-palette">
+                <h4 data-i18n="map.pinsTitle">Tipo de Marcador</h4>
+                <div class="palette-options">
+                  <button class="palette-btn active" data-pin-type="blue-champ" title="Campeão Time Azul">
+                    <span class="dot blue-dot"></span> <span data-i18n="map.blueChamp">Azul</span>
+                  </button>
+                  <button class="palette-btn" data-pin-type="red-champ" title="Campeão Time Vermelho">
+                    <span class="dot red-dot"></span> <span data-i18n="map.redChamp">Vermelho</span>
+                  </button>
+                  <button class="palette-btn" data-pin-type="ward-green" title="Sentinela Invisível">
+                    <i class="fa-solid fa-eye text-green"></i> <span data-i18n="map.ward">Ward</span>
+                  </button>
+                  <button class="palette-btn" data-pin-type="ping" title="Atenção/Sinalizador">
+                    <i class="fa-solid fa-triangle-exclamation text-yellow"></i> <span data-i18n="map.ping">Ping</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Map Viewport -->
+            <div class="map-viewport" id="map-viewport">
+              <div class="map-canvas" id="map-canvas">
+                <!-- Summoner's Rift map image -->
+                <img src="https://ddragon.leagueoflegends.com/cdn/14.3.1/img/map/map11.png" alt="Summoner's Rift Map" draggable="false" id="map-image">
+                <!-- SVG layer for markers/drawings -->
+                <div class="map-pins-layer" id="map-pins-layer"></div>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <!-- Rodapé Padronizado -->
+        <footer class="lab-footer">
+          <div class="lab-footer-content">
+            <a href="../../" class="lab-footer-link">
+              <i class="fa-solid fa-arrow-left"></i> <span data-i18n="footer.backHub">Voltar ao Menu do Laboratório</span>
+            </a>
+            <p class="lab-footer-text">
+              &copy; 2026 mastrien. Built in Termux.
+            </p>
+          </div>
+        </footer>
+      </div>
+    </main>
+  </div>
+
+  <!-- CHAMPION SELECTION MODAL -->
+  <div class="modal" id="modal-champion">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3 data-i18n="modal.selectChamp">Selecionar Campeão</h3>
+        <button class="close-modal-btn" id="close-modal-champion">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="input-search-champion" placeholder="Buscar campeão (ex: Aatrox, Lux)...">
+        </div>
+        <div class="champions-grid" id="modal-champions-grid">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITEM SELECTION MODAL -->
+  <div class="modal" id="modal-item">
+    <div class="modal-content glass-card">
+      <div class="modal-header">
+        <h3 data-i18n="modal.selectItem">Selecionar Item</h3>
+        <button class="close-modal-btn" id="close-modal-item">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" id="input-search-item" placeholder="Buscar item (ex: Gume do Infinito, Botas)...">
+        </div>
+        <div class="tags-row" id="modal-item-tags">
+          <!-- Tags for filtering injected dynamically -->
+        </div>
+        <div class="items-grid" id="modal-items-grid">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- File Input for JSON import -->
+  <input type="file" id="file-import-board" accept=".json" style="display: none;">
+
+  <!-- Custom Tooltip element -->
+  <div class="app-tooltip" id="app-tooltip"></div>
+
+  <!-- Main script -->
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

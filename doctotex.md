@@ -1,72 +1,66 @@
-# DocToTex - Visão Geral do Projeto
+# DocToTex - Especificação do Projeto
 
-O **DocToTex** é uma ferramenta projetada para analisar a estrutura e a identidade visual de documentos gerados no Microsoft Word (.docx) ou no Google Docs, extraindo seus estilos de formatação e gerando de forma automática um modelo LaTeX idêntico (ou o mais próximo possível) em formato ZIP.
+O **DocToTex** é uma aplicação web voltada para a análise da estrutura e identidade visual de arquivos do Microsoft Word (.docx) ou Google Docs (baixados como .docx), extraindo seus estilos de formatação e gerando de forma automática um modelo LaTeX equivalente em um arquivo compactado (ZIP).
 
 ---
 
-## 1. Fluxo de Funcionamento Proposto
+## 1. Fluxo de Funcionamento e Arquitetura
 
 ```mermaid
 graph TD
-    A[Upload do Documento DOCX / Google Docs] --> B[Análise de Estrutura & Estilos]
-    B --> C[Extração de Metadados de Layout]
-    C --> D[Mapeamento para Comandos LaTeX]
-    D --> E[Geração do Arquivo de Classe .cls e Template .tex]
-    E --> F[Empacotamento em ZIP]
-    F --> G[Download do ZIP]
+    A[Upload de Arquivo .docx] --> B[Análise de Estilos e Layout]
+    B --> C[Painel de Opções e Configurações]
+    C --> D[Visualização Prévia / Preview no Navegador]
+    D --> E[Geração e Download do Arquivo ZIP]
 ```
 
-1. **Entrada**: Upload de um arquivo `.docx` ou integração/exportação de um Google Doc.
-2. **Processamento**:
-   - Varredura da estrutura do documento (parágrafos, cabeçalhos, rodapés, margens, fontes, cores, espaçamentos).
-   - Extração do mapa de estilos (Heading 1, Heading 2, Body Text, Listas, etc.).
-3. **Tradução**:
-   - Conversão das propriedades visuais em comandos e pacotes LaTeX (ex: `geometry` para margens, `titlesec` para títulos, `fancyhdr` para cabeçalhos e rodapés).
-4. **Saída**: Criação de um arquivo ZIP contendo:
-   - Uma classe LaTeX customizada (`doctotex.cls`) com a definição visual.
-   - Um arquivo estrutural (`main.tex`) demonstrando o uso dos estilos.
-   - Recursos adicionais (imagens de cabeçalho, arquivos de fontes, se aplicável).
+1. **Entrada de Dados (Upload)**:
+   - O usuário faz o download do seu documento do Google Docs ou Word no formato `.docx` e realiza o upload na aplicação web.
+2. **Extração e Análise**:
+   - Varredura interna do XML do arquivo `.docx` para mapear: margens, orientação da folha, tipografia (fontes, tamanhos, espaçamento), cores, cabeçalhos/rodapés e hierarquia de títulos.
+   - Extração de imagens e conversão de tabelas e fórmulas matemáticas.
+3. **Painel de Configuração (Opções Extras)**:
+   - Antes da geração do arquivo final, o usuário pode configurar opções extras, como a inclusão de pacotes para referências científicas e citações (ex: `biblatex` ou `natbib` com suporte a estilos como APA, IEEE, ABNT).
+4. **Visualização Prévia (Preview)**:
+   - Exibição de um preview do LaTeX gerado diretamente no navegador.
+   - **Renderização no Navegador**:
+     - *Visualização de Código*: Visualizador interativo com destaque de sintaxe (ex: Prism.js ou Monaco Editor) mostrando o arquivo de classe (`.cls`) e o arquivo principal (`.tex`).
+     - *Visualização de Layout*: Tradução dos estilos para HTML/CSS correspondente para uma prévia visual rápida, ou compilação client-side via WebAssembly (como o **SwiftLaTeX**) / renderização de equações com **KaTeX**/**MathJax**.
+5. **Geração do ZIP**:
+   - Criação e compactação do template de saída conforme as preferências selecionadas.
 
 ---
 
-## 2. Escopo do MVP (Mínimo Produto Viável)
+## 2. Decisões de Design e Tecnologia
 
-Para a primeira versão, sugere-se focar nos seguintes elementos de formatação:
-* **Configurações de Página**: Tamanho da folha (A4/Letter), margens (superior, inferior, esquerda, direita) e orientação.
-* **Tipografia básica**: Tamanhos de fonte, espaçamento entre linhas e alinhamento de texto (justificado, esquerda, etc.).
-* **Hierarquia de Cabeçalhos**: Formatação de Títulos (H1, H2, H3) incluindo tamanho, cor e espaçamento antes/depois.
-* **Cabeçalhos e Rodapés**: Textos repetitivos nas páginas e numeração.
-* **Listas**: Marcadores (bullets) e listas numeradas básicas.
+### Interface e Hospedagem
+* **Plataforma**: Aplicação Web responsiva seguindo a identidade estética premium do laboratório (layout moderno, micro-transições, paleta de cores harmoniosa).
+* **Upload**: Fluxo local e direto via upload de arquivo `.docx`. Evita complexidades iniciais de autenticação OAuth com a API do Google Docs.
+
+### Estrutura do LaTeX Gerado (Opção do Usuário)
+* **Formato Padrão (MVP)**: Separação estrutural clara. O ZIP conterá:
+  - `doctotex.cls`: Arquivo de classe customizado contendo todas as definições visuais (margens, fontes, estilos de títulos, cabeçalho/rodapé).
+  - `main.tex`: Arquivo principal limpo, contendo apenas o texto estruturado com os comandos da classe customizada.
+* **Formato Alternativo**: Um único arquivo `main.tex` contendo todas as definições no preâmbulo (útil para submissões rápidas que exigem arquivo único).
+
+### Motor de Compilação e Fontes
+* **Opção de Compilador**: O painel de configuração permitirá ao usuário escolher o compilador desejado:
+  - **pdfLaTeX**: Padrão do MVP. Efetivo e amplamente compatível.
+  - **XeLaTeX / LuaLaTeX**: Para suporte avançado a fontes do sistema (como Arial, Times New Roman, Calibri) usando o pacote `fontspec`.
+
+### Suporte a Elementos Avançados
+* **Tabelas**: Conversão automatizada de tabelas DOCX para ambientes de tabelas LaTeX (`booktabs`, `tabularx`), preservando cores de fundo e bordas básicas.
+* **Imagens**: Extração das imagens inseridas no documento original para uma pasta `images/` no ZIP, gerando os respectivos comandos `\includegraphics` no corpo do documento.
+* **Equações**: Conversão de fórmulas matemáticas nativas do Word (formato OMML) para notação matemática LaTeX (`$ ... $` ou `\begin{equation} ... \end{equation}`).
 
 ---
 
-## 3. Perguntas para Amadurecimento da Ideia
+## 3. Tecnologias Recomendadas para o Preview no Navegador
 
-Para avançarmos com o rascunho e a implementação do DocToTex, precisamos detalhar alguns pontos práticos:
+Para implementar o preview interativo do LaTeX no navegador antes do download, usaremos uma combinação das seguintes bibliotecas:
 
-### Q1. Interface e Hospedagem
-* **Como o usuário interagirá com a ferramenta?**
-  1. Uma aplicação web moderna (React/Next.js/HTML+JS) onde ele arrasta o arquivo e baixa o ZIP.
-  2. Uma ferramenta de linha de comando (CLI) focada em desenvolvedores e automação.
-  3. Uma extensão/add-on direto dentro do Google Docs.
-
-### Q2. Mecanismo de Entrada
-* **Como faremos a leitura do Google Docs?**
-  1. O usuário faz download do Google Doc como `.docx` e faz o upload desse arquivo na ferramenta (simplifica o desenvolvimento, unificando a entrada).
-  2. Conexão direta com a Google Docs API (exige login com conta Google e gerenciamento de tokens OAuth).
-
-### Q3. Motor de Compilação LaTeX e Fontes
-* **Qual compilador LaTeX padrão o template deve visar?**
-  1. **pdfLaTeX**: Mais comum e tradicional, mas limitado no uso de fontes TrueType/OpenType (requer conversão de fontes).
-  2. **XeLaTeX / LuaLaTeX**: Permite carregar diretamente fontes instaladas no sistema (ex: Arial, Times New Roman, Calibri) usando o pacote `fontspec` (recomendado para manter a fidelidade visual idêntica).
-
-### Q4. Estrutura do ZIP Gerado
-* **Qual é o formato preferencial do arquivo LaTeX gerado?**
-  1. Uma classe customizada `.cls` (doctotex.cls) contendo os estilos + um `main.tex` limpo contendo apenas o conteúdo do documento original.
-  2. Um único arquivo `main.tex` com todo o preâmbulo de estilos no início e o conteúdo logo em seguida.
-
-### Q5. Elementos Avançados (Fases Futuras)
-* **Como devemos tratar elementos complexos caso existam no documento original?**
-  - **Tabelas**: Gerar tabelas LaTeX dinâmicas (utilizando `booktabs` / `tabularx`) com cores de fundo idênticas?
-  - **Imagens**: Extrair as imagens do DOCX, salvá-las no ZIP e gerar as tags `\includegraphics` correspondentes no LaTeX?
-  - **Equações**: Converter equações nativas do Word (OMML) para código matemático LaTeX?
+| Biblioteca | Função | Vantagem para o DocToTex |
+| :--- | :--- | :--- |
+| **Monaco Editor / Prism.js** | Visualização e Edição de Código | Permite ao usuário inspecionar e fazer pequenos ajustes no código do `doctotex.cls` e `main.tex` gerados antes de baixar. |
+| **KaTeX** | Renderização de Expressões Matemáticas | Rápida e leve, ideal para mostrar equações matemáticas formatadas no preview visual. |
+| **LaTeX.js** / **SwiftLaTeX (Wasm)** | Renderização de Layout | O **LaTeX.js** traduz o código LaTeX diretamente em elementos HTML5/CSS para uma prévia rápida, enquanto o **SwiftLaTeX** permite compilação real para PDF no navegador. |

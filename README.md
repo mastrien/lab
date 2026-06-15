@@ -58,6 +58,19 @@ A premium, interactive reading experience that transforms any long text into a s
     - **Deep Customization:** Configure font size, family, punctuation/accent sensitivity, and performance tweaks.
     - **Local Persistence:** Everything is saved locally via IndexedDB (Dexie.js), ensuring complete privacy.
 
+### 6. League Whiteboard
+An interactive drafting and itemization planning tool for League of Legends designed to help players analyze build costs, simulate stats, and sketch map strategies.
+
+- **Purpose:** Serve as a client-side whiteboard for LoL theorycrafting, item builds, runes, and strategic plays without server-side overhead.
+- **Key Features:**
+    - **Interactive Scoreboard:** Draft teams, assign champions, select item builds, and automatically calculate total build costs.
+    - **Build Comparator:** Compare multiple item sets side-by-side to analyze stat improvements, gold efficiency, and scaling.
+    - **Stats & Damage Simulator:** Calculate effective damage after armor/magic resistance reductions, model tenacity effects on crowd control duration, and convert Ability Haste to Cooldown Reduction (CDR).
+    - **Runes Planner:** Interactive runes selector supporting saved pages, local persistence (localStorage), and a clean reading/viewing mode.
+    - **Strategic Map:** Drag, zoom, and place strategic pings, wards, or champion tokens on a high-fidelity Summoner's Rift map canvas.
+    - **Local Persistence & Portability:** Import and export your drafted boards as JSON files, and save rune presets to your browser.
+    - **Aesthetics & Internationalization:** Vibrant responsive UI with full light/dark theme toggling, custom tooltip overlays, and English/Portuguese translations.
+
 ---
 
 ## ⏳ Pending Ideas
