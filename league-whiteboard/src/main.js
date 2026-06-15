@@ -13,7 +13,8 @@ const TRANSLATIONS = {
     'nav.simulator': 'Simulador',
     'nav.runes': 'Runas',
     'nav.map': 'Mapa Rift',
-    'title.scoreboard': 'Placar Comparativo',
+    'title.comparator': 'Comparador de Builds',
+    'title.scoreboard': 'Simulador de Comp',
     'title.simulator': 'Simulador de Atributos e Danos',
     'title.runes': 'Planejador de Runas Reforçadas',
     'title.map': 'Quadro de Estratégia do Summoner\'s Rift',
@@ -76,7 +77,8 @@ const TRANSLATIONS = {
     'nav.simulator': 'Simulator',
     'nav.runes': 'Runes',
     'nav.map': 'Rift Map',
-    'title.scoreboard': 'Comparative Scoreboard',
+    'title.comparator': 'Build Comparator',
+    'title.scoreboard': 'Comp Simulator',
     'title.simulator': 'Stats & Damage Simulator',
     'title.runes': 'Reforged Runes Planner',
     'title.map': 'Summoner\'s Rift Strategy Board',
@@ -474,6 +476,32 @@ function setupNavigation() {
   const navBtns = document.querySelectorAll('.nav-btn');
   const panels = document.querySelectorAll('.panel');
   const activeTitle = document.getElementById('active-panel-title');
+  const navMenu = document.querySelector('.nav-menu');
+  const menuToggle = document.getElementById('menu-toggle-btn');
+
+  if (menuToggle && navMenu) {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      navMenu.classList.toggle('open');
+      const icon = menuToggle.querySelector('i');
+      if (icon) {
+        if (navMenu.classList.contains('open')) {
+          icon.className = 'fa-solid fa-xmark';
+        } else {
+          icon.className = 'fa-solid fa-bars';
+        }
+      }
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !menuToggle.contains(e.target)) {
+        navMenu.classList.remove('open');
+        const icon = menuToggle.querySelector('i');
+        if (icon) icon.className = 'fa-solid fa-bars';
+      }
+    });
+  }
 
   navBtns.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -495,6 +523,15 @@ function setupNavigation() {
         setTimeout(centerMap, 50);
       } else if (targetId === 'panel-comparator') {
         renderComparator();
+      }
+
+      // Close mobile menu on button click
+      if (navMenu) {
+        navMenu.classList.remove('open');
+        if (menuToggle) {
+          const icon = menuToggle.querySelector('i');
+          if (icon) icon.className = 'fa-solid fa-bars';
+        }
       }
     });
   });
@@ -1436,6 +1473,21 @@ function filterItems(query, activeTag) {
     .map(([id, item]) => ({ id, ...item }))
     .filter(item => item.gold && item.gold.purchasable && item.maps && item.maps['11']);
 
+  // Deduplicar itens com o mesmo nome, mantendo apenas a versão padrão (ID numérico menor)
+  const groupedByName = {};
+  items.forEach(item => {
+    if (!groupedByName[item.name]) {
+      groupedByName[item.name] = [];
+    }
+    groupedByName[item.name].push(item);
+  });
+  items = Object.values(groupedByName).map(group => {
+    if (group.length === 1) return group[0];
+    group.sort((a, b) => parseInt(a.id) - parseInt(b.id));
+    return group[0];
+  });
+
+
   if (activeModalTarget.type === 'trinket') {
     items = items.filter(item => item.tags && item.tags.includes('Trinket'));
   } else {
@@ -1918,6 +1970,7 @@ function centerMap() {
 function setupMapControls() {
   const viewport = document.getElementById('map-viewport');
   const canvas = document.getElementById('map-canvas');
+  let lastTap = 0;
 
   viewport.addEventListener('wheel', (e) => {
     e.preventDefault();
@@ -1948,6 +2001,46 @@ function setupMapControls() {
   });
 
   window.addEventListener('mouseup', () => {
+    isDraggingMap = false;
+  });
+
+  // Touch support for mobile devices
+  viewport.addEventListener('touchstart', (e) => {
+    if (e.touches.length === 1) {
+      isDraggingMap = true;
+      startDragX = e.touches[0].clientX;
+      startDragY = e.touches[0].clientY;
+      
+      const currentTime = new Date().getTime();
+      const tapLength = currentTime - lastTap;
+      if (tapLength < 300 && tapLength > 0) {
+        const rect = canvas.getBoundingClientRect();
+        const xPercent = ((e.touches[0].clientX - rect.left) / rect.width) * 100;
+        const yPercent = ((e.touches[0].clientY - rect.top) / rect.height) * 100;
+        placeMapPin(xPercent, yPercent, activePinType);
+        e.preventDefault();
+      }
+      lastTap = currentTime;
+    }
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isDraggingMap || e.touches.length !== 1) return;
+    const dx = e.touches[0].clientX - startDragX;
+    const dy = e.touches[0].clientY - startDragY;
+    mapNavigator.pan(dx, dy);
+    
+    startDragX = e.touches[0].clientX;
+    startDragY = e.touches[0].clientY;
+    updateMapCSS();
+    
+    // Prevent default body scrolling while panning inside map viewport
+    if (e.target.closest('#map-viewport')) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
+  window.addEventListener('touchend', () => {
     isDraggingMap = false;
   });
 

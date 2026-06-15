@@ -97,6 +97,10 @@ button, input, select {
   text-shadow: 0 0 10px var(--color-blue-glow);
 }
 
+.menu-toggle-btn {
+  display: none;
+}
+
 .nav-menu {
   display: flex;
   flex-direction: column;
@@ -1761,7 +1765,7 @@ body.light-theme .summary-rune-row {
 /* ==========================================================================
    RESPONSIVE DESIGN (MEDIA QUERIES)
    ========================================================================== */
-@media (max-width: 1200px) {
+@media (max-width: 1600px) {
   .scoreboard-layout {
     grid-template-columns: 1fr;
     gap: 1.5rem;
@@ -1789,30 +1793,71 @@ body.light-theme .summary-rune-row {
   }
   
   .sidebar {
+    position: relative;
     width: 100%;
     height: auto;
     border-right: none;
     border-bottom: 1px solid var(--border-color);
-    padding: 1rem;
+    padding: 0.75rem 1.5rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
   
   .logo-area {
-    padding-bottom: 0.75rem;
-    justify-content: center;
+    padding-bottom: 0;
+    justify-content: space-between;
+    align-items: center;
     border-bottom: none;
+    width: 100%;
+    display: flex;
+  }
+
+  .menu-toggle-btn {
+    display: block !important;
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-main);
+    cursor: pointer;
+    transition: var(--transition-fast);
+    padding: 0.25rem 0.5rem;
+    line-height: 1;
+  }
+
+  .menu-toggle-btn:hover {
+    color: var(--color-blue-team);
   }
   
   .nav-menu {
-    flex-direction: row;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-    gap: 0.25rem;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--bg-sidebar);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+    z-index: 200;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  .nav-menu.open {
+    display: flex !important;
+    animation: slideDown var(--transition-fast) forwards;
   }
   
   .nav-btn {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.9rem;
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
   
   .sidebar-footer {
@@ -1820,7 +1865,9 @@ body.light-theme .summary-rune-row {
   }
   
   .main-content {
-    height: calc(100vh - 160px);
+    height: auto;
+    flex: 1;
+    min-height: 0;
   }
   
   .top-bar {
@@ -1879,6 +1926,11 @@ body.light-theme .summary-rune-row {
     gap: 0.5rem;
   }
   
+  .header-left {
+    text-align: center;
+    width: 100%;
+  }
+
   .header-right {
     width: 100%;
     justify-content: center;
@@ -1893,53 +1945,8 @@ body.light-theme .summary-rune-row {
   .simulator-layout {
     grid-template-columns: 1fr;
   }
-}
 
-/* Modal styling for champion details on tablet and mobile */
-@media (max-width: 992px) {
-  .champ-details-panel {
-    display: none;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 95%;
-    max-width: 500px;
-    z-index: 1000;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
-    max-height: 80vh;
-    overflow-y: auto;
-    margin-top: 0;
-    background-color: var(--bg-card);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
-  }
-  
-  .champ-details-panel.active {
-    display: block;
-  }
-  
-  #close-details-btn {
-    display: block;
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 1.5rem;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    color: var(--text-main);
-  }
-  
-  .details-content {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Beautiful wrapped scoreboard layout for mobile screens */
-@media (max-width: 576px) {
+  /* Wrapped Scoreboard Layout */
   .slot-row {
     display: grid !important;
     grid-template-areas: 
@@ -1974,8 +1981,9 @@ body.light-theme .summary-rune-row {
   }
   
   .item-box {
-    width: 34px !important;
-    height: 34px !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
     flex-grow: 1;
     max-width: 40px;
   }
@@ -1989,6 +1997,89 @@ body.light-theme .summary-rune-row {
   
   .panels-container {
     padding-bottom: 7rem !important;
+  }
+
+  /* Runes header row mobile adjustment */
+  .runes-header-row {
+    flex-direction: column !important;
+    gap: 1rem !important;
+    align-items: stretch !important;
+  }
+  .runes-header-row .form-group {
+    max-width: none !important;
+    width: 100% !important;
+  }
+  #btn-toggle-rune-mode {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Comparator champion selector mobile adjustment */
+  .comparator-champ-selector {
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 1rem !important;
+  }
+  .comparator-champ-selector > button {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  /* Comparator build items flex-box aspect-ratio scaling */
+  .comparator-build-row .item-box {
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1;
+    flex-grow: 1;
+    max-width: 40px;
+  }
+}
+
+/* Modal styling for champion details on tablet and mobile */
+@media (max-width: 992px) {
+  .champ-details-panel {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 95%;
+    max-width: 500px;
+    z-index: 1000;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    max-height: 80vh;
+    overflow-y: auto;
+    margin-top: 0;
+    background-color: #0b0f17 !important;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  
+  body.light-theme .champ-details-panel {
+    background-color: #f0f4f8 !important;
+    border-color: rgba(0, 0, 0, 0.15) !important;
+  }
+  
+  .champ-details-panel.active {
+    display: block;
+  }
+  
+  #close-details-btn {
+    display: block;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--text-main);
+  }
+  
+  .details-content {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -2244,7 +2335,7 @@ body.light-theme .build-name-input {
 }
 
 /* Vertically stretch runes column components on desktop viewports */
-@media (min-width: 1201px) {
+@media (min-width: 1601px) {
   .runes-layout {
     height: calc(100vh - 290px);
   }
