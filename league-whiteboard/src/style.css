@@ -1176,6 +1176,7 @@ button, input, select {
 .modal-content {
   width: 90%;
   max-width: 680px;
+  height: 600px;
   max-height: 80vh;
   overflow: hidden;
   display: flex;

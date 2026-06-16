@@ -341,14 +341,19 @@ function renderChampionTooltip(champ) {
 // ==========================================================================
 function setupCustomTooltips() {
   let tooltipTimeout = null;
+  let activeTarget = null;
   const tooltip = document.getElementById('app-tooltip');
 
   document.addEventListener('mouseover', (e) => {
     const target = e.target.closest('[data-tooltip], [data-tooltip-type]');
     if (!target) return;
 
+    activeTarget = target;
     clearTimeout(tooltipTimeout);
     tooltipTimeout = setTimeout(() => {
+      // Check if target is still in the DOM (e.g. wasn't removed/changed during the 200ms delay)
+      if (!document.body.contains(target)) return;
+
       const type = target.getAttribute('data-tooltip-type');
       const id = target.getAttribute('data-tooltip-id');
       const text = target.getAttribute('data-tooltip');
@@ -406,7 +411,19 @@ function setupCustomTooltips() {
 
     clearTimeout(tooltipTimeout);
     tooltip.classList.remove('active');
+    activeTarget = null;
   });
+
+  // Handle case where an element is clicked and removed from DOM (e.g. item deletion)
+  document.addEventListener('click', () => {
+    setTimeout(() => {
+      if (activeTarget && !document.body.contains(activeTarget)) {
+        clearTimeout(tooltipTimeout);
+        tooltip.classList.remove('active');
+        activeTarget = null;
+      }
+    }, 0);
+  }, true);
 }
 
 // ==========================================================================
