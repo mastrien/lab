@@ -1,6 +1,6 @@
 {
   "type": "item",
-  "version": "16.12.1",
+  "version": "16.13.1",
   "basic": {
     "name": "",
     "rune": {
@@ -351,7 +351,6 @@
         "3165",
         "3115",
         "324005",
-        "4005",
         "2510",
         "3116",
         "3118",
@@ -1072,6 +1071,7 @@
         "3147",
         "3146",
         "3802",
+        "4005",
         "2508",
         "326616",
         "3108",
@@ -1987,7 +1987,7 @@
     },
     "1120": {
       "name": "Elmo de Doran",
-      "description": "<mainText><stats><attention>140</attention> de Vida<br><attention>10</attention> de Armadura<br><attention>10</attention> de Resistência Mágica</stats><br><br><passive>Ajudinha</passive><br>Os ataques causam <physicalDamage>5 de Dano Físico</physicalDamage> adicional a tropas.</mainText>",
+      "description": "<mainText><stats><attention>150</attention> de Vida<br><attention>8</attention> de Armadura<br><attention>8</attention> de Resistência Mágica</stats><br><br><passive>Ajudinha</passive><br>Os ataques causam <physicalDamage>5 de Dano Físico</physicalDamage> adicional a tropas.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -2021,9 +2021,9 @@
         "35": false
       },
       "stats": {
-        "FlatSpellBlockMod": 10,
-        "FlatHPPoolMod": 140,
-        "FlatArmorMod": 10
+        "FlatSpellBlockMod": 8,
+        "FlatHPPoolMod": 150,
+        "FlatArmorMod": 8
       }
     },
     "1200": {
@@ -13291,12 +13291,13 @@
     },
     "4005": {
       "name": "Mandato Imperial",
-      "description": "<mainText><stats><attention>65</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>150%</attention> de Regeneração de Mana base</stats><br><br><passive>Controle</passive><br>Recebe 15 de Aceleração de Habilidade para suas habilidades com efeitos de <keyword>Imobilização</keyword>.<br><br><passive>Comando</passive><br>Ao <keyword>Imobilizar</keyword> um Campeão inimigo, você aplica uma marca que o deixa 6% <Keyword>Vulnerável</Keyword> por 4s.<br></mainText>",
+      "description": "<mainText><stats><attention>60</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>150%</attention> de Regeneração de Mana base</stats><br><br><passive>Controle</passive><br>Recebe 20 de Aceleração de Habilidade para suas habilidades com efeitos de <keyword>Imobilização</keyword>.<br><br><passive>Comando</passive><br>Ao <keyword>Imobilizar</keyword> um Campeão inimigo, você aplica uma marca que o deixa 7% <Keyword>Vulnerável</Keyword> por 4s.<br></mainText>",
       "colloq": ";",
       "plaintext": "Defere dano posteriormente.",
       "from": [
-        "1026",
-        "4642"
+        "1052",
+        "4642",
+        "1052"
       ],
       "image": {
         "full": "4005.png",
@@ -13308,7 +13309,7 @@
         "h": 48
       },
       "gold": {
-        "base": 650,
+        "base": 700,
         "purchasable": true,
         "total": 2400,
         "sell": 1680
@@ -13329,7 +13330,7 @@
         "35": true
       },
       "stats": {
-        "FlatMagicDamageMod": 65
+        "FlatMagicDamageMod": 60
       },
       "depth": 3
     },
@@ -13539,7 +13540,7 @@
     },
     "4015": {
       "name": "Perplexidade",
-      "description": "<mainText><stats><attention>60</attention> de Poder de Habilidade<br><attention>5%</attention> de Velocidade de Movimento<br><attention>22%</attention> de Penetração de Armadura<br><attention>30%</attention> de Penetração Mágica</stats><br><br><passive>Mata-Gigantes</passive><br>Causa até 15% de dano adicional a Campeões com Vida máxima maior que a sua.<br><br><rules>Aumento máximo de dano com diferença de Vida maior que 2500.</rules></mainText>",
+      "description": "<mainText><stats><attention>60</attention> de Poder de Habilidade<br><attention>5%</attention> de Velocidade de Movimento<br><attention>22%</attention> de Penetração de Armadura<br><attention>30%</attention> de Penetração Mágica</stats><br><br><passive>Mata-Gigantes</passive><br>Causa até 15% de dano adicional a Campeões com Vida máxima maior que a sua.<br><br><rules>Aumento máximo de dano com diferença de Vida maior que 3000.</rules></mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -13581,7 +13582,7 @@
     },
     "4016": {
       "name": "Promessa Silenciosa",
-      "description": "<mainText><stats><attention>50</attention> de Poder de Habilidade<br><attention>15%</attention> de Cura e Resistência do Escudo<br><attention>25</attention> de Aceleração de Habilidade</stats><br><br><passive>Promessa</passive><br>Recebe 15% do <scaleAP>Poder de Habilidade do seu aliado</scaleAP> <attention>Prometido</attention> e concede 15% da sua Aceleração de Habilidade ao seu aliado <attention>Prometido</attention>.<br><br><active>ATIVOS</active> (0s)<br><active>Promessa</active><br>Faça uma <attention>Promessa</attention> a um aliado.</mainText>",
+      "description": "<mainText><stats><attention>50</attention> de Poder de Habilidade<br><attention>15%</attention> de Cura e Resistência do Escudo<br><attention>25</attention> de Aceleração de Habilidade</stats><br><br><passive>Promessa</passive><br>Recebe 10% do <scaleAP>Poder de Habilidade do seu aliado</scaleAP> <attention>Prometido</attention> e concede 10% da sua Aceleração de Habilidade ao seu aliado <attention>Prometido</attention>.<br><br><active>ATIVOS</active> (0s)<br><active>Promessa</active><br>Faça uma <attention>Promessa</attention> a um aliado.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -13619,7 +13620,7 @@
     },
     "4017": {
       "name": "Machadinha Infernal",
-      "description": "<mainText><stats><attention>35</attention> de Dano de Ataque<br><attention>12</attention> de Letalidade</stats><br><br><passive>Carbonizar</passive> (0s) por alvo<br>Sua próxima Habilidade que acertar <keywordMajor>Queimará</keywordMajor> inimigos em <scaleAD>0 - 0 da Vida atual como Dano Físico</scaleAD> ao longo de 4s com base em quanto de <scaleHealth>Vida máxima</scaleHealth> os inimigos têm a mais do que você.<br><br><rules>O dano adicional máximo é alcançado com uma diferença de 3000 de Vida</rules></mainText>",
+      "description": "<mainText><stats><attention>40</attention> de Dano de Ataque<br><attention>12</attention> de Letalidade</stats><br><br><passive>Carbonizar</passive> (0s) por alvo<br>Sua próxima Habilidade que acertar <keywordMajor>Queimará</keywordMajor> inimigos em <scaleAD>0 - 0 da Vida atual como Dano Físico</scaleAD> ao longo de 4s com base em quanto de <scaleHealth>Vida máxima</scaleHealth> os inimigos têm a mais do que você.<br><br><rules>O dano adicional máximo é alcançado com uma diferença de 3000 de Vida</rules></mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -13651,7 +13652,7 @@
         "35": false
       },
       "stats": {
-        "FlatPhysicalDamageMod": 35
+        "FlatPhysicalDamageMod": 40
       }
     },
     "4401": {
@@ -21177,7 +21178,7 @@
     },
     "223069": {
       "name": "Imolação do Vazio",
-      "description": "<mainText><stats><attention>1000</attention> de Vida<br><attention>100</attention> de Armadura<br><attention>80</attention> de Resistência Mágica<br><attention>25</attention> de Aceleração de Habilidade<br><attention>200%</attention> de Regeneração de Vida base</stats><br><br><passive>Imolar</passive><br>Depois de causar ou sofrer qualquer dano, você causa <magicDamage>0 de Dano Mágico</magicDamage> por segundo a inimigos próximos por 5s. </mainText>",
+      "description": "<mainText><stats><attention>1000</attention> de Vida<br><attention>100</attention> de Armadura<br><attention>80</attention> de Resistência Mágica<br><attention>25</attention> de Aceleração de Habilidade<br><attention>200%</attention> de Regeneração de Vida base</stats><br><br><passive>Imolar</passive><br>Depois de causar ou sofrer qualquer dano, você causa <magicDamage>0 de Dano Mágico</magicDamage> por segundo a inimigos próximos por 5s. <br><br><passive>Desolar</passive><br>Abater um inimigo causa <magicDamage>Dano Mágico</magicDamage> ao redor dele.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -25046,7 +25047,7 @@
     },
     "226692": {
       "name": "Eclipse",
-      "description": "<mainText><stats><attention>50</attention> de Dano de Ataque<br><attention>10</attention> de Aceleração de Habilidade</stats><br><br><passive>Lua Sempre Crescente</passive><br>Atingir um Campeão com 2 Ataques ou Habilidades separados dentro de 2s concede ao usuário um <shield>Escudo</shield> por 2s.</mainText>",
+      "description": "<mainText><stats><attention>60</attention> de Dano de Ataque<br><attention>15</attention> de Aceleração de Habilidade</stats><br><br><passive>Lua Sempre Crescente</passive><br>Atingir um Campeão com 2 Ataques ou Habilidades separados dentro de 2s concede ao usuário um <shield>Escudo</shield> por 2s.</mainText>",
       "colloq": "",
       "plaintext": "",
       "image": {
@@ -25079,7 +25080,7 @@
         "35": false
       },
       "stats": {
-        "FlatPhysicalDamageMod": 50
+        "FlatPhysicalDamageMod": 60
       }
     },
     "226693": {
@@ -26644,7 +26645,7 @@
     },
     "324005": {
       "name": "Mandato Imperial",
-      "description": "<mainText><stats><attention>65</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>150%</attention> de Regeneração de Mana base</stats><br><br><passive>Controle</passive><br>Recebe 15 de Aceleração de Habilidade para suas habilidades com efeitos de <keyword>Imobilização</keyword>.<br><br><passive>Comando</passive><br>Ao <keyword>Imobilizar</keyword> um Campeão inimigo, você aplica uma marca que o deixa 6% <Keyword>Vulnerável</Keyword> por 4s.<br></mainText>",
+      "description": "<mainText><stats><attention>65</attention> de Poder de Habilidade<br><attention>15</attention> de Aceleração de Habilidade<br><attention>150%</attention> de Regeneração de Mana base</stats><br><br><passive>Controle</passive><br>Recebe 20 de Aceleração de Habilidade para suas habilidades com efeitos de <keyword>Imobilização</keyword>.<br><br><passive>Comando</passive><br>Ao <keyword>Imobilizar</keyword> um Campeão inimigo, você aplica uma marca que o deixa 7% <Keyword>Vulnerável</Keyword> por 4s.<br></mainText>",
       "colloq": "",
       "plaintext": "",
       "from": [
