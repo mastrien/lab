@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Tools Hub | Labs Hub 🧪</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0f172a',
+                        lightBg: '#f8fafc',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-lightBg dark:bg-darkBg text-slate-800 dark:text-slate-100 selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+
+    <div class="container mx-auto px-4 py-8 max-w-6xl relative">
+        <!-- Theme Toggle -->
+        <div class="absolute top-6 right-4 z-20">
+            <button id="theme-toggle" class="p-3 rounded-2xl bg-slate-200/50 hover:bg-slate-200 dark:bg-slate-800/40 dark:hover:bg-slate-800 transition-all duration-200 border border-slate-300/30 dark:border-slate-700/30 shadow-sm" aria-label="Alternar Tema">
+                <!-- Icon inserted via JS -->
+            </button>
+        </div>
+
+        <section class="text-center mb-16 pt-8 relative">
+            <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/20 mb-4">
+                <span id="active-count" class="text-xs font-bold text-indigo-500 dark:text-indigo-400 uppercase tracking-wider">
+                    Carregando ferramentas...
+                </span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 pb-2 bg-clip-text text-transparent bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 dark:from-emerald-400 dark:via-teal-400 dark:to-cyan-400 tracking-tight">
+                AI Tools Hub
+            </h1>
+            
+            <p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl mx-auto mb-8 font-light">
+                Sua central definitiva de ferramentas de Inteligência Artificial. Filtre por funcionalidade, tipo de plano e empresa.
+            </p>
+        </section>
+
+        <!-- Filters -->
+        <section class="glass-panel p-5 md:p-6 rounded-3xl mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
+                
+                <!-- Search -->
+                <div class="md:col-span-5 relative">
+                    <span class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                    </span>
+                    <input id="search-input" type="text" placeholder="Buscar ferramentas por nome, categoria..." class="w-full pl-11 pr-4 py-3 rounded-2xl bg-white/50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none text-slate-700 dark:text-white text-sm shadow-sm transition-all duration-200">
+                </div>
+
+                <!-- Category Dropdown -->
+                <div class="md:col-span-3 relative">
+                    <select id="category-select" class="w-full appearance-none pl-4 pr-10 py-3 rounded-2xl bg-white/50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none text-slate-700 dark:text-white text-sm shadow-sm transition-all duration-200 cursor-pointer font-medium">
+                        <!-- Options via JS -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+
+                <!-- Pricing Dropdown -->
+                <div class="md:col-span-2 relative">
+                    <select id="pricing-select" class="w-full appearance-none pl-4 pr-10 py-3 rounded-2xl bg-white/50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none text-slate-700 dark:text-white text-sm shadow-sm transition-all duration-200 cursor-pointer font-medium">
+                        <!-- Options via JS -->
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-slate-400">
+                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+
+                <!-- Favorites Button -->
+                <div class="md:col-span-2">
+                    <button id="filter-btn-favoritos" class="w-full h-full min-h-[48px] px-4 py-3 text-sm font-bold rounded-2xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 transition-all duration-200 border border-slate-300/30 dark:border-slate-700/30 flex justify-center items-center gap-1.5 shadow-sm">
+                        Favoritos ⭐
+                    </button>
+                </div>
+                
+            </div>
+        </section>
+
+        <main class="relative mb-16">
+            <div id="no-tools-message" class="hidden text-center py-20 bg-slate-100/50 dark:bg-slate-800/20 rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
+                <h3 class="text-xl font-bold mb-2 text-slate-700 dark:text-slate-300">Nenhuma ferramenta encontrada</h3>
+            </div>
+
+            <div id="tools-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- JS injeta os cards aqui -->
+            </div>
+        </main>
+
+        <!-- Arquivados -->
+        <section id="archived-section" class="hidden border border-slate-200 dark:border-slate-800/80 rounded-3xl overflow-hidden bg-slate-50/50 dark:bg-slate-900/30 transition-all duration-300 mb-16">
+            <div id="archived-header-click" class="flex justify-between items-center px-6 py-5 cursor-pointer hover:bg-slate-100 dark:hover:bg-slate-800/30 transition-colors select-none">
+                <div class="flex items-center space-x-3">
+                    <span class="font-extrabold text-base text-slate-700 dark:text-slate-300">Ferramentas Ocultas</span>
+                    <span id="archived-count" class="text-xs text-slate-500 font-bold ml-1.5">(0)</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="restore-all-btn" class="text-xs font-semibold px-3 py-1.5 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-500 dark:text-indigo-400 transition-colors z-10">Restaurar Todos</button>
+                </div>
+            </div>
+            <div id="archived-drawer" class="collapsible-content">
+                <div id="archived-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6 pb-6 pt-2 border-t border-slate-200/50 dark:border-slate-800/30">
+                    <!-- JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-20 pt-8 border-t border-slate-200 dark:border-slate-800/80">
+            <div class="flex flex-col items-center justify-center space-y-4">
+                <a href="../" class="inline-flex items-center space-x-2 px-5 py-2.5 rounded-xl bg-slate-200/50 hover:bg-slate-200 dark:bg-slate-800/40 dark:hover:bg-slate-800 text-sm font-semibold text-slate-600 dark:text-slate-400 hover:text-indigo-500 dark:hover:text-indigo-400 transition-all duration-200 border border-slate-300/30 dark:border-slate-700/30">
+                    <span>Voltar ao Menu do Laboratório</span>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
