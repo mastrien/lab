@@ -71,6 +71,21 @@ An interactive drafting and itemization planning tool for League of Legends desi
     - **Local Persistence & Portability:** Import and export your drafted boards as JSON files, and save rune presets to your browser.
     - **Aesthetics & Internationalization:** Vibrant responsive UI with full light/dark theme toggling, custom tooltip overlays, and English/Portuguese translations.
 
+### 7. DataLab - Laboratório Interativo de Data Science 🧪
+Uma plataforma educacional prática e interativa voltada para o aprendizado intuitivo de Ciência de Dados, Mineração de Dados e Machine Learning.
+
+- **Propósito:** Permitir que estudantes e iniciantes compreendam conceitos abstratos de Data Science através de manipulação direta, visualizações reativas e simulações em tempo real 100% no navegador.
+- **Destaques:**
+    - **Mineração de Dados & KDD Dedicado:** Mapeamento visual das 5 fases do KDD, simulador do algoritmo Apriori de cesta de compras (cálculo de Suporte, Confiança e Lift em tempo real) e mineração de anomalias (Tukey IQR).
+    - **Análise Exploratória (EDA):** Diagnóstico de saúde da base, sumários estatísticos, heatmap interativo de correlação de Pearson e dispersão 2D reativa.
+    - **Engenharia de Features:** Comparação visual de normalizadores (MinMax vs Standard vs Robust com impacto de outliers), One-Hot Encoding e redução de dimensionalidade com PCA 2D.
+    - **Aprendizado Supervisionado:** Simulador de overfitting/underfitting em regressão polinomial (R², MSE, MAE) e explorador 2D de fronteiras de decisão do KNN.
+    - **Aprendizado Não-Supervisionado:** K-Means passo a passo com animação da migração de centroides e gráfico da curva do cotovelo (Elbow Method).
+    - **Avaliação de Modelos:** Matriz de confusão interativa com slider de limiar (Threshold), cálculo dinâmico de Precisão/Recall/F1 e Curva ROC com AUC.
+    - **Meu Laboratório DS:** Importação de arquivos CSV pelo usuário com profiling e ajuste de modelos localmente sem envio a servidores.
+    - **Placeholders Interativos:** Catálogo estruturado de ramificações futuras (Deep Learning, NLP, Visão Computacional, Séries Temporais, Grafos, MLOps e Ética) com modal amigável explicativo ao clicar.
+    - **Identidade do Laboratório:** Total suporte a Dark Mode com alternador e rodapé padronizado com link de retorno ao hub.
+
 ---
 
 ## ⏳ Pending Ideas
