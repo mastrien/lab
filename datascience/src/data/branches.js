@@ -5,238 +5,223 @@ export const DS_BRANCHES = [
   {
     id: "kdd",
     name: "Mineração de Dados & KDD",
-    category: "Engenharia de Descoberta",
+    category: "Descoberta de Conhecimento",
     status: "active",
-    badge: "Essencial",
-    badgeColor: "emerald",
-    icon: "⛏️",
-    shortDesc: "O processo KDD de ponta a ponta: regras de associação (Apriori), suporte, confiança e mineração de padrões.",
-    summary: "Seção dedicada ao processo de Knowledge Discovery in Databases (KDD) e suas 5 etapas fundamentais."
+    badge: "Disponível",
+    iconKey: "database",
+    shortDesc: "Etapas do processo KDD, regras de associação com o algoritmo Apriori e mineração de anomalias com IQR.",
+    summary: "Estudo formal do processo de Knowledge Discovery in Databases e algoritmos de identificação de padrões."
   },
   {
     id: "eda",
     name: "Análise Exploratória (EDA)",
-    category: "Fundamentos Analíticos",
+    category: "Estatística Descritiva",
     status: "active",
-    badge: "Essencial",
-    badgeColor: "blue",
-    icon: "📊",
-    shortDesc: "Diagnóstico de saúde da base, tipos de variáveis, estatísticas descritivas e matriz de correlação interativa.",
-    summary: "Entenda a distribuição, assimetria, nulos e relações entre variáveis antes de qualquer modelagem."
+    badge: "Disponível",
+    iconKey: "chart",
+    shortDesc: "Tipos de atributos, medidas de tendência central e dispersão, matriz de correlação e dispersão bivariada.",
+    summary: "Inspeção sistemática de distribuições, variâncias e correlações lineares em datasets tabulares."
   },
   {
     id: "preprocessing",
     name: "Pré-Processamento & Features",
     category: "Engenharia de Dados",
     status: "active",
-    badge: "Essencial",
-    badgeColor: "amber",
-    icon: "⚙️",
-    shortDesc: "Scalers visuais (Standard vs MinMax), One-Hot Encoding e redução de dimensionalidade (PCA 2D/3D).",
-    summary: "Transforme dados brutos em representações numéricas otimizadas para algoritmos de Machine Learning."
+    badge: "Disponível",
+    iconKey: "sliders",
+    shortDesc: "Normalização e padronização (MinMax, Standard, Robust), codificação One-Hot e projeção ortogonal PCA 2D.",
+    summary: "Transformações numéricas e geométricas para preparação de conjuntos de dados para modelagem estatística."
   },
   {
     id: "supervised",
     name: "Aprendizado Supervisionado",
-    category: "Machine Learning",
+    category: "Modelagem Preditiva",
     status: "active",
-    badge: "Interativo",
-    badgeColor: "violet",
-    icon: "🧠",
-    shortDesc: "Fronteiras de decisão 2D (KNN, Árvore de Decisão) e simulador de Overfitting na Regressão Polinomial.",
-    summary: "Ajuste hiperparâmetros em tempo real e visualize como o algoritmo aprende e separa as classes."
+    badge: "Disponível",
+    iconKey: "brain",
+    shortDesc: "Regressão polinomial com diagnóstico de viés e variância, e classificador K-Nearest Neighbors com fronteiras 2D.",
+    summary: "Algoritmos supervisionados de regressão e classificação com ajuste interativo de hiperparâmetros."
   },
   {
     id: "unsupervised",
-    name: "Não-Supervisionado & Clustering",
-    category: "Machine Learning",
+    name: "Não-Supervisionado (Clustering)",
+    category: "Agrupamento de Dados",
     status: "active",
-    badge: "Interativo",
-    badgeColor: "indigo",
-    icon: "🧩",
-    shortDesc: "K-Means passo a passo com migração de centroides e gráfico do método do cotovelo (Elbow Curve).",
-    summary: "Descubra agrupamentos naturais e estruturas ocultas em dados sem rótulos prévios."
+    badge: "Disponível",
+    iconKey: "scatter",
+    shortDesc: "Execução passo a passo do algoritmo K-Means, atualização de centroides e análise da inércia (Método do Cotovelo).",
+    summary: "Particionamento de amostras sem rótulo prévio baseado em medidas de distância euclidiana."
   },
   {
     id: "evaluation",
     name: "Avaliação & Métricas",
-    category: "Validação & Diagnóstico",
+    category: "Diagnóstico de Modelos",
     status: "active",
-    badge: "Interativo",
-    badgeColor: "rose",
-    icon: "🎯",
-    shortDesc: "Matriz de Confusão dinâmica com slider de Threshold (limiar de corte) e cálculo de Curva ROC/AUC.",
-    summary: "Entenda o trade-off entre Precisão e Recall e como escolher o melhor ponto de corte para o negócio."
+    badge: "Disponível",
+    iconKey: "target",
+    shortDesc: "Matriz de Confusão com limiar de decisão dinâmico, taxas de erro e Curva ROC com cálculo de AUC.",
+    summary: "Métricas quantitativas para diagnóstico de classificadores binários sob variação de threshold."
   },
   {
     id: "mylab",
-    name: "Meu Laboratório DS",
-    category: "Playground & Prática",
+    name: "Gerenciador de Datasets & Lab",
+    category: "Laboratório Prático",
     status: "active",
-    badge: "Prático",
-    badgeColor: "cyan",
-    icon: "🧪",
-    shortDesc: "Importe seus próprios dados em CSV e execute o pipeline completo diretamente no navegador.",
-    summary: "Ambiente prático inspirado no Garu: carregue sua planilha e aplique profiling e modelagem localmente."
+    badge: "Disponível",
+    iconKey: "table",
+    shortDesc: "Importação e persistência local de arquivos CSV, inspeção tabular e modelagem rápida diretamente no navegador.",
+    summary: "Ambiente para upload de dados próprios e aplicação dos métodos disponíveis na plataforma."
   },
   {
     id: "quizzes",
-    name: "Desafios & Quizzes",
-    category: "Educação & Fixação",
+    name: "Exercícios Conceituais",
+    category: "Fixação e Avaliação",
     status: "active",
-    badge: "Gamificado",
-    badgeColor: "yellow",
-    icon: "🎓",
-    shortDesc: "Teste e fixe seus conhecimentos conceituais com feedback imediato e explicações didáticas.",
-    summary: "Perguntas desafiadoras sobre viés, variância, KDD, vazamento de dados e seleção de algoritmos."
+    badge: "Disponível",
+    iconKey: "bookOpen",
+    shortDesc: "Questões comentadas sobre fundamentos de KDD, métricas, vazamento de dados e trade-off viés-variância.",
+    summary: "Avaliação formativa com feedback teórico imediato sobre conceitos fundamentais."
   },
 
-  // Ramificações Futuras (Placeholders Interativos)
+  // Ramificações Futuras (Placeholders Estruturados)
   {
     id: "deep-learning",
     name: "Deep Learning & Redes Neurais",
-    category: "Inteligência Artificial Avançada",
+    category: "Modelos Conexistas",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "purple",
-    icon: "🤖",
-    shortDesc: "Perceptron, funções de ativação (ReLU, Sigmoid), retropropagação (backpropagation) e redes neurais profundas.",
+    badge: "Planejado",
+    iconKey: "cpu",
+    shortDesc: "Topologias multicamadas (MLP), funções de ativação, retropropagação do erro e redes convolucionais.",
     details: {
-      tagline: "O poder das representações hierárquicas e arquiteturas neurais profundas.",
-      importance: "O Deep Learning revolucionou áreas como reconhecimento de voz, geração de texto e visão computacional, permitindo que computadores aprendam padrões abstratos diretamente de dados complexos e não estruturados sem necessidade de engenharia manual de features.",
+      tagline: "Arquiteturas de redes neurais profundas para representação hierárquica de características.",
+      importance: "O aprendizado profundo permite extrair padrões abstratos em domínios de alta dimensionalidade como imagens, sinais sonoros e representações densas.",
       topics: [
-        "Neurônio Artificial & Perceptron Multicamadas (MLP)",
-        "Funções de Ativação Interativas: Sigmoid, Tanh, ReLU e Leaky ReLU",
-        "Visualizador de Forward e Backpropagation com Gradiente Descendente",
-        "Redes Neurais Convolucionais (CNN) e Recorrentes (RNN/LSTM)"
+        "Perceptron Simples e Multicamadas (MLP)",
+        "Funções de Ativação: Sigmoide, Tangente Hiperbólica e ReLU",
+        "Algoritmo de Retropropagação (Backpropagation) e Otimizadores (SGD, Adam)",
+        "Fundamentos de Redes Convolucionais (CNN) para dados em grade"
       ],
-      tools: ["TensorFlow.js", "ONNX Web Runtime", "PyTorch concepts"]
+      tools: ["TensorFlow.js", "ONNX Runtime Web"]
     }
   },
   {
     id: "nlp",
-    name: "Processamento de Linguagem Natural (NLP)",
-    category: "Dados Não-Estruturados",
+    name: "Processamento de Linguagem Natural",
+    category: "Dados Textuais",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "sky",
-    icon: "💬",
-    shortDesc: "Tokenização, Bag-of-Words, TF-IDF, Word Embeddings semânticos e arquitetura Transformers.",
+    badge: "Planejado",
+    iconKey: "messageSquare",
+    shortDesc: "Normalização textual, modelos Bag-of-Words, representação TF-IDF e embeddings semânticos.",
     details: {
-      tagline: "Ensinando máquinas a compreender, interpretar e gerar linguagem humana.",
-      importance: "A maior parte do conhecimento humano reside em textos não estruturados. O NLP capacita sistemas a realizar análise de sentimentos, tradução automática, extração de entidades e respostas a perguntas (LLMs).",
+      tagline: "Extração de estruturas sintáticas e semânticas de corpos textuais.",
+      importance: "Permite estruturar e analisar grandes volumes de dados não tabulares para tarefas de classificação de texto, análise de tópicos e recuperação de informação.",
       topics: [
-        "Pipeline de Texto: Limpeza, Remoção de Stopwords, Stemming e Lematização",
-        "Vetorização: Bag-of-Words e Term Frequency-Inverse Document Frequency (TF-IDF)",
-        "Espaços Vetoriais Semânticos: Word2Vec e Cosine Similarity",
-        "Mecanismo de Atenção (Attention Mechanism) e Arquitetura Transformer"
+        "Pré-processamento Textual: Tokenização, Remoção de Stopwords e Lematização",
+        "Representações Vetoriais: Bag-of-Words e Matriz TF-IDF",
+        "Espaços Vetoriais Contínuos: Word Embeddings e Similaridade de Cosseno",
+        "Mecanismos de Atenção e Introdução a Modelos Baseados em Transformers"
       ],
-      tools: ["NLTK concepts", "HuggingFace Transformers", "Word2Vec 3D Explorer"]
+      tools: ["NLTK (conceitual)", "Transformers JS"]
     }
   },
   {
     id: "computer-vision",
     name: "Visão Computacional",
-    category: "Dados Visuais",
+    category: "Processamento de Imagens",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "teal",
-    icon: "👁️",
-    shortDesc: "Matrizes de pixels, convoluções 2D interativas (filtros Sobel, Gaussian Blur) e segmentação de imagens.",
+    badge: "Planejado",
+    iconKey: "eye",
+    shortDesc: "Operações matriciais sobre canais de cor, filtros convolucionais 2D e extração de contornos.",
     details: {
-      tagline: "Extração de significado, padrões e geometria a partir de imagens e vídeos digitais.",
-      importance: "Desde diagnósticos médicos por imagem até veículos autônomos e biometria facial, a Visão Computacional transforma tensores de pixels em inteligência visual acionável.",
+      tagline: "Processamento matemático e geométrico de sinais visuais digitais.",
+      importance: "Tratamento de imagens matriciais para segmentação, detecção de bordas e extração de características visuais para tomada de decisão automatizada.",
       topics: [
-        "Estrutura Digital da Imagem (Canais RGB, Grayscale e Histograma de Cores)",
-        "Convoluções Interativas 2D: Aplique filtros Sobel, Blur e Sharpen no navegador",
-        "Detecção de Bordas, Cantos e Características Relevantes",
-        "Classificação e Detecção de Objetos com Redes Convolucionais"
+        "Representação Matricial de Imagens: Canais RGB e Escala de Cinza",
+        "Filtros de Convolução 2D: Passa-baixas (Blur) e Passa-altas (Sobel / Detecção de Bordas)",
+        "Equalização de Histograma e Binarização Adaptativa",
+        "Classificação e Segmentação Semântica de Regiões de Interesse"
       ],
-      tools: ["OpenCV concepts", "Canvas Pixel Manipulation", "YOLO visualizer"]
+      tools: ["Canvas 2D Image Filtering", "OpenCV Web"]
     }
   },
   {
     id: "time-series",
-    name: "Séries Temporais & Previsão",
-    category: "Modelagem Sequencial",
+    name: "Séries Temporais",
+    category: "Dados Sequenciais",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "orange",
-    icon: "📈",
-    shortDesc: "Decomposição temporal (tendência, sazonalidade, ruído), médias móveis e modelos autoregressivos.",
+    badge: "Planejado",
+    iconKey: "trendingUp",
+    shortDesc: "Decomposição aditiva e multiplicativa, médias móveis, autocorrelação e modelos autoregressivos.",
     details: {
-      tagline: "Compreensão do passado para projetar horizontes no futuro.",
-      importance: "Diferente de dados tabulares comuns, séries temporais possuem dependência temporal crítica. São a base para previsão de demanda, séries financeiras, consumo de energia e sensores IoT.",
+      tagline: "Análise quantitativa de sequências temporais com autocorrelação.",
+      importance: "Diferencia-se de dados tabulares pelo fator de ordenação temporal estrita, sendo indispensável em previsão de demanda, monitoramento de métricas e economia.",
       topics: [
-        "Componentes de Séries: Tendência, Sazonalidade Cíclica e Ruído Estocástico",
-        "Estacionariedade e Testes de Raiz Unitária (Dickey-Fuller)",
-        "Suavização Exponencial e Médias Móveis Ponderadas",
-        "Modelos ARIMA (AutoRegressive Integrated Moving Average) e Prophet"
+        "Componentes Estruturais: Tendência, Sazonalidade e Resíduos Estocásticos",
+        "Estacionariedade e Funções de Autocorrelação (ACF / PACF)",
+        "Suavização Exponencial Simples e de Holt-Winters",
+        "Introdução a Modelos Lineares Autoregressivos (AR, MA, ARIMA)"
       ],
-      tools: ["Plotly Time-Series", "Seasonal Decomposer", "ARIMA Simulator"]
+      tools: ["Plotly.js Time Series", "Seasonal Decomposer"]
     }
   },
   {
     id: "graph-analytics",
     name: "Grafos & Redes Complexas",
-    category: "Conectividade & Topologia",
+    category: "Topologia e Conectividade",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "fuchsia",
-    icon: "🕸️",
-    shortDesc: "Nós, arestas, centralidade de grau, algoritmo PageRank e detecção de comunidades em redes.",
+    badge: "Planejado",
+    iconKey: "network",
+    shortDesc: "Matrizes de adjacência, métricas de centralidade, propagação e detecção de comunidades.",
     details: {
-      tagline: "Descobrindo relações, conexões e influência em redes interconectadas.",
-      importance: "Muitos problemas do mundo real não são linhas e colunas, mas redes: redes sociais, rotas de transporte, biologia de proteínas e transações financeiras suspeitas (combate a fraudes).",
+      tagline: "Modelagem de relacionamentos e entidades interdependentes em estruturas de grafos.",
+      importance: "Muitos sistemas complexos (redes biológicas, sistemas viários e redes sociais) são modelados formalmente através de nós e arestas com pesos e direcionamentos.",
       topics: [
-        "Fundamentos de Teoria dos Grafos: Nós, Arestas direcionadas e com pesos",
-        "Métricas de Centralidade: Grau, Intermediação (Betweenness) e Closeness",
-        "O Algoritmo PageRank: Como links determinam autoridade",
-        "Detecção de Comunidades (Louvain) e Agrupamentos Topológicos"
+        "Representação de Grafos: Matriz de Adjacência e Lista de Arestas",
+        "Métricas Estruturais: Grau, Intermediação (Betweenness) e Proximidade",
+        "Algoritmo PageRank e Difusão de Informação",
+        "Particionamento de Grafos e Detecção de Comunidades"
       ],
-      tools: ["D3.js Force Graphs", "NetworkX concepts", "Cytoscape"]
+      tools: ["D3.js Network Graph", "Cytoscape"]
     }
   },
   {
     id: "mlops",
-    name: "MLOps & Ciclo de Vida de Modelos",
-    category: "Engenharia & Produção",
+    name: "MLOps & Governança",
+    category: "Engenharia de Sistemas",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "lime",
-    icon: "🚀",
-    shortDesc: "Da experimentação ao deploy: versionamento de dados, monitoramento de Data Drift e esteiras CI/CD.",
+    badge: "Planejado",
+    iconKey: "gitBranch",
+    shortDesc: "Rastreabilidade de experimentos, desvio de dados (data drift), reprodutibilidade e empacotamento.",
     details: {
-      tagline: "Levar modelos do laboratório para o mundo real com confiabilidade e escala.",
-      importance: "Mais de 80% dos modelos de Data Science nunca chegam a gerar valor porque falham na etapa de implantação e manutenção. MLOps une DevOps com Machine Learning.",
+      tagline: "Práticas e esteiras de engenharia para sustentação de modelos analíticos em produção.",
+      importance: "Garante a reprodutibilidade dos experimentos científicos e monitora a perda de acurácia com a alteração temporal do perfil dos dados reais.",
       topics: [
-        "Ciclo de Vida de Modelos: Treinamento, Empacotamento, Registro e Deploy",
-        "Detecção de Data Drift e Concept Drift quando os dados do mundo mudam",
-        "Versionamento de Dados e Modelos com DVC e MLflow",
-        "APIs de Inferência e Monitoramento de Latência e Erros"
+        "Ciclo de Vida de Modelos: Treino, Registro, Homologação e Monitoramento",
+        "Detecção de Data Drift e Deslocamento de Conceito (Concept Drift)",
+        "Versionamento de Dados e Código para Reprodutibilidade",
+        "Métricas de Latência de Inferência e Governança de Parâmetros"
       ],
-      tools: ["MLflow concepts", "Docker for DS", "Drift Visualizer"]
+      tools: ["MLflow concepts", "Drift Visualizer"]
     }
   },
   {
     id: "ai-ethics",
     name: "Ética, Viés & IA Responsável",
-    category: "Governança & Sociedade",
+    category: "Governança e Confiabilidade",
     status: "upcoming",
-    badge: "Em Breve",
-    badgeColor: "pink",
-    icon: "⚖️",
-    shortDesc: "Identificação de viés algorítmico, métricas de justiça (fairness) e explicabilidade de modelos (XAI / SHAP).",
+    badge: "Planejado",
+    iconKey: "shieldCheck",
+    shortDesc: "Definições matemáticas de justiça (fairness), viés amostral e explicabilidade com SHAP e LIME.",
     details: {
-      tagline: "Garantindo que algoritmos sejam justos, transparentes, auditáveis e éticos.",
-      importance: "Sistemas automatizados tomam decisões sobre concessão de crédito, contratação de pessoas e justiça penal. Garantir que esses modelos não perpetuem preconceitos históricos é um dever fundamental do cientista de dados.",
+      tagline: "Avaliação de imparcialidade, transparência e explicabilidade de sistemas algorítmicos.",
+      importance: "Aborda a responsabilidade ética na modelagem de decisões automatizadas, evitando a propagação de viés discriminatório em grupos sub-representados.",
       topics: [
-        "Origens do Viés em Dados: Amostragem, Rótulos Históricos e Variáveis Ocultas",
-        "Métricas Matemáticas de Justiça: Paridade Demográfica e Oportunidade Igualada",
-        "Explicabilidade e Interpretabilidade (XAI): SHAP e LIME simplificados",
-        "Privacidade de Dados: Anonimização e Privacidade Diferencial"
+        "Origens do Viés Amostral e Variáveis de Confusão",
+        "Critérios Formais de Justiça: Paridade Demográfica e Oportunidades Igualadas",
+        "Explicabilidade Local e Global: Valores de Shapley (SHAP) e LIME",
+        "Anonimização e Princípios de Privacidade Diferencial"
       ],
-      tools: ["SHAP Waterfall simulator", "Fairness Metrics Inspector"]
+      tools: ["SHAP Waterfall simulator", "Fairness Metrics Panel"]
     }
   }
 ];
