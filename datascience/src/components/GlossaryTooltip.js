@@ -1,104 +1,106 @@
 // Componente de Glossário e Dicas Interativas (Hover / Click Tooltips Didáticos)
 // Permite que leitores consultem definições intuitivas de termos técnicos e notações matemáticas
 
+import { renderMath } from "../utils/mathRenderer.js";
+
 export const GLOSSARY_TERMS = {
   iid: {
     term: "Variáveis i.i.d.",
     notation: "X_1, X_2, \\dots, X_n \\sim \\text{i.i.d.}",
     title: "Independentes e Identicamente Distribuídas",
     definition: "Diz-se de variáveis em que cada observação é coletada de forma estocasticamente independente das demais (o valor de uma não altera as probabilidades da próxima), e todas provêm do mesmo processo gerador com a mesma lei de probabilidade.",
-    intuition: "Exemplo: cada lançamento de uma moeda equilibrada não tem 'memória' dos lançamentos anteriores e tem sempre 50% de chance de cara."
+    intuition: "Exemplo: cada lançamento de uma moeda equilibrada não tem 'memória' dos lançamentos anteriores e tem sempre $50\\%$ de chance de cara."
   },
   "espaco-probabilidade": {
     term: "Espaço de Probabilidade",
     notation: "(\\Omega, \\mathcal{F}, P)",
     title: "Espaço de Probabilidade Formal",
-    definition: "Tripla matemática que modela um experimento aleatório: Ω é o espaço amostral (todos os desfechos possíveis), F é a álgebra de eventos analisáveis, e P é a medida que atribui a cada evento uma probabilidade entre 0 e 1.",
-    intuition: "É o 'cenário' matemático formal que garante que as regras de soma e multiplicação de probabilidades sejam consistentes."
+    definition: "Tripla matemática que modela um experimento aleatório: $\\Omega$ é o espaço amostral (todos os desfechos possíveis), $\\mathcal{F}$ é a álgebra de eventos analisáveis, e $P$ é a medida que atribui a cada evento uma probabilidade entre $0$ e $1$.",
+    intuition: "É o cenário formal que assegura a validade das leis de soma e produto das probabilidades."
   },
   esperanca: {
     term: "Esperança Matemática",
-    notation: "\\mathbb{E}[X] \\text{ ou } \\mu",
+    notation: "\\mathbb{E}[X] = \\mu",
     title: "Esperança Matemática (Valor Esperado)",
-    definition: "O valor médio teórico ponderado de uma variável aleatória a longo prazo. Matematicamente, para variáveis contínuas é a integral \\int_{-\\infty}^{\\infty} x f(x) dx.",
-    intuition: "Representa o 'centro de gravidade' ou ponto de equilíbrio da distribuição. Se você repetir o experimento milhões de vezes, a média aritmética dos resultados convergirá para esse ponto."
+    definition: "O valor médio teórico ponderado de uma variável aleatória a longo prazo. Matematicamente, para variáveis contínuas é dado pela integral $\\int_{-\\infty}^{\\infty} x f(x) \\, dx$.",
+    intuition: "Representa o 'centro de gravidade' da distribuição. Se você repetir o experimento muitas vezes, a média aritmética dos dados convergirá exatamente para esse ponto."
   },
   variancia: {
     term: "Variância",
-    notation: "\\operatorname{Var}(X) \\text{ ou } \\sigma^2",
+    notation: "\\operatorname{Var}(X) = \\sigma^2",
     title: "Variância Populacional",
-    definition: "Medida da dispersão dos valores em torno da média, calculada como a esperança dos desvios quadráticos: \\mathbb{E}[(X - \\mu)^2].",
-    intuition: "Quantifica a instabilidade ou espalhamento dos dados. Uma variância baixa significa que os valores estão muito concentrados perto da média; uma variância alta indica ampla dispersão."
+    definition: "Medida da dispersão dos valores em torno da média $\\mu$, calculada como a esperança dos desvios quadráticos: $\\mathbb{E}[(X - \\mu)^2]$.",
+    intuition: "Quantifica a dispersão dos dados. Uma variância baixa indica concentração próxima à média; uma variância alta indica grande espalhamento."
   },
   "desvio-padrao": {
     term: "Desvio Padrão",
-    notation: "\\sigma = \\sqrt{\\sigma^2}",
+    notation: "\\sigma = \\sqrt{\\operatorname{Var}(X)}",
     title: "Desvio Padrão",
-    definition: "A raiz quadrada positiva da variância populacional. Expressa a dispersão dos dados na mesmíssima unidade de medida da variável original.",
-    intuition: "Se os dados medem salários em reais, a variância está em 'reais ao quadrado' (difícil de interpretar), enquanto o desvio padrão volta a estar em reais."
+    definition: "A raiz quadrada positiva da variância populacional $\\sigma^2$. Expressa a dispersão dos dados na mesmíssima unidade de medida da variável original.",
+    intuition: "Se os dados medem salários em reais, a variância está em 'reais ao quadrado', enquanto o desvio padrão volta a estar em reais."
   },
   "erro-padrao": {
     term: "Erro Padrão da Média",
     notation: "\\operatorname{SE}(\\bar{X}_n) = \\frac{\\sigma}{\\sqrt{n}}",
-    title: "Erro Padrão da Média (Standard Error)",
-    definition: "O desvio padrão da distribuição amostral da média. Mede o erro típico ou a incerteza esperada ao usar a média amostral como estimador da média populacional.",
-    intuition: "Como n está no denominador dentro de uma raiz quadrada, para reduzir o erro padrão pela metade é necessário quadruplicar o tamanho da amostra (n)."
+    title: "Erro Padrão da Média",
+    definition: "O desvio padrão da distribuição amostral da média. Mede o erro típico ou a incerteza esperada ao usar a média amostral $\\bar{X}_n$ como estimador da média populacional $\\mu$.",
+    intuition: "Como $n$ está no denominador dentro de uma raiz quadrada, para reduzir o erro padrão pela metade é necessário quadruplicar o tamanho da amostra ($4n$)."
   },
   "convergencia-probabilidade": {
     term: "Convergência em Probabilidade",
     notation: "\\bar{X}_n \\xrightarrow{P} \\mu",
     title: "Convergência em Probabilidade (Lei dos Grandes Números)",
-    definition: "Para qualquer tolerância positiva \\varepsilon > 0, a probabilidade de que a distância |\\bar{X}_n - \\mu| seja maior que \\varepsilon tende a zero conforme n tende ao infinito.",
-    intuition: "Afirma que médias de grandes amostras praticamente nunca erram o alvo populacional por uma margem perceptível."
+    definition: "Para qualquer tolerância positiva $\\varepsilon > 0$, a probabilidade de que $|\\bar{X}_n - \\mu| > \\varepsilon$ tende a zero conforme $n \\to \\infty$.",
+    intuition: "Garante que médias de grandes amostras praticamente nunca erram o valor populacional $\\mu$ por uma margem perceptível."
   },
   "convergencia-distribuicao": {
     term: "Convergência em Distribuição",
     notation: "Z_n \\xrightarrow{d} \\mathcal{N}(0, 1)",
-    title: "Convergência em Lei ou Distribuição",
-    definition: "A Função de Distribuição Acumulada (CDF) da sequência de variáveis converge pontualmente para a CDF da distribuição limite em todos os seus pontos de continuidade.",
-    intuition: "Não diz que cada ponto individual se torna normal, mas que o desenho global da curva de probabilidade acumulada se torna indistinguível de uma curva em sino."
+    title: "Convergência em Distribuição (TCL)",
+    definition: "A Função de Distribuição Acumulada $F_n(z)$ da sequência amostral converge pontualmente para a função acumulada da distribuição normal limite: $\\lim_{n \\to \\infty} F_n(z) = \\Phi(z)$.",
+    intuition: "Não diz que cada dado individual se torna normal, mas que a distribuição global das médias padronizadas adota a forma da curva em sino."
   },
   "normal-padrao": {
     term: "Distribuição Normal Padrão",
     notation: "\\mathcal{N}(0, 1)",
     title: "Distribuição Gaussiana Padronizada",
-    definition: "A distribuição normal especial que possui média zero (\\mu = 0) e variância unitária (\\sigma^2 = 1). Sua função de densidade é dada por \\phi(z) = \\frac{1}{\\sqrt{2\\pi}} e^{-z^2/2}.",
-    intuition: "Serve como escala universal na estatística: qualquer distribuição normal pode ser convertida para ela através do cálculo Z = (X - \\mu) / \\sigma."
+    definition: "A distribuição normal especial que possui média zero ($\\mu = 0$) e variância unitária ($\\sigma^2 = 1$). Sua densidade de probabilidade é dada por $\\phi(z) = \\frac{1}{\\sqrt{2\\pi}} e^{-z^2/2}$.",
+    intuition: "Serve como régua universal na estatística: qualquer distribuição normal pode ser convertida para ela através do cálculo $Z = \\frac{X - \\mu}{\\sigma}$."
   },
   "funcao-distribuicao-acumulada": {
     term: "Função de Distribuição Acumulada",
-    notation: "\\text{CDF ou } \\Phi(z) = P(Z \\le z)",
+    notation: "\\Phi(z) = P(Z \\le z)",
     title: "Função de Distribuição Acumulada (CDF)",
-    definition: "Função que expressa a probabilidade de uma variável aleatória assumir um valor menor ou igual a uma dada coordenada z.",
-    intuition: "Geometricamente, corresponde à área total sob a curva de densidade à esquerda da reta vertical x = z."
+    definition: "Função que expressa a probabilidade de uma variável aleatória contínua assumir um valor menor ou igual a uma dada coordenada $z$: $\\Phi(z) = \\int_{-\\infty}^z \\phi(t) \\, dt$.",
+    intuition: "Geometricamente, corresponde à área acumulada sob a curva de densidade à esquerda da reta vertical $x = z$."
   },
   "funcoes-caracteristicas": {
     term: "Função Característica",
     notation: "\\varphi_X(t) = \\mathbb{E}[e^{itX}]",
     title: "Função Característica (Transformada de Fourier)",
-    definition: "Transformação estocástica que codifica unicamente todas as propriedades probabilísticas e momentos de uma variável aleatória.",
-    intuition: "Permitiu a Lyapunov provar o Teorema Central do Limite porque transforma a soma de variáveis independentes em uma simples multiplicação de funções."
+    definition: "Transformada de Fourier da distribuição de probabilidade. Converte a operação complexa de convolução da soma de variáveis independentes em um simples produto algébrico $\\varphi_{X+Y}(t) = \\varphi_X(t) \\cdot \\varphi_Y(t)$.",
+    intuition: "Permitiu a Aleksandr Lyapunov provar o Teorema Central do Limite sem depender da premissa de densidades estritamente idênticas."
   },
   "teste-z": {
     term: "Teste Z",
     notation: "Z = \\frac{\\bar{X} - \\mu_0}{\\sigma / \\sqrt{n}}",
     title: "Teste de Hipóteses Z",
-    definition: "Teste estatístico que afere se a média observada em uma amostra difere significativamente de um valor nulo hipotético \\mu_0, fundamentado na convergência gaussiana do TCL.",
-    intuition: "Se o valor de Z for muito distante de zero (ex: |Z| > 1.96 para 95% de confiança), conclui-se que a diferença observada é improvável de ter ocorrido por puro acaso."
+    definition: "Teste paramétrico que afere se a média de uma amostra difere significativamente de um valor nulo hipotético $\\mu_0$, fundamentado na convergência gaussiana do TCL.",
+    intuition: "Se $|Z| > 1.96$, a discrepância observada tem menos de $5\\%$ de probabilidade de ter ocorrido por mero ruído amostral ($p < 0.05$)."
   },
   "p-valor": {
     term: "p-valor (Valor de p)",
-    notation: "p = P(|Z| \\ge |z_{calc}| \\mid H_0)",
+    notation: "p = P(|Z| \\ge |z_{\\text{obs}}| \\mid H_0)",
     title: "Valor de Probabilidade (p-value)",
-    definition: "A probabilidade de obter uma estatística de teste tão ou mais extrema do que a observada, assumindo que a hipótese nula (de inexistência de efeito) seja estritamente verdadeira.",
-    intuition: "Um p-valor pequeno (ex: p < 0.05) significa: 'se não houvesse efeito real, seria extremamente raro ver dados como esses'."
+    definition: "A probabilidade de obter uma estatística de teste tão ou mais extrema do que a observada, assumindo que a hipótese nula $H_0$ (de inexistência de efeito) seja estritamente verdadeira.",
+    intuition: "Um p-valor diminuto ($p < 0.05$) indica que os dados observados são altamente improváveis sob a hipótese nula de neutralidade."
   },
   "nivel-significancia": {
     term: "Nível de Significância",
-    notation: "\\alpha \\text{ (geralmente } 0.05 \\text{ ou } 5\\%)",
-    title: "Limiar de Falso Positivo (\\alpha)",
-    definition: "A probabilidade máxima pré-fixada pelo pesquisador de cometer um Erro Tipo I (rejeitar a hipótese nula quando ela é na realidade verdadeira).",
-    intuition: "É o 'custo de tolerância ao erro' que você aceita antes de declarar uma descoberta científica ou mudança de produto."
+    notation: "\\alpha = 0.05 \\text{ (5\\%)}",
+    title: "Limiar de Significância (\\alpha)",
+    definition: "A probabilidade máxima pré-fixada pelo analista de cometer um Erro Tipo I (rejeitar a hipótese nula quando ela é na realidade verdadeira).",
+    intuition: "É a tolerância máxima a falsos positivos aceita antes de declarar uma conclusão científica ou de negócio."
   }
 };
 
@@ -148,7 +150,7 @@ export function initGlossaryTooltips(rootElement = document) {
           <span class="text-[10px] font-mono text-slate-400 font-bold uppercase tracking-wider block">Nota Conceitual</span>
           <h4 class="text-xs font-bold text-white tracking-tight">${item.title}</h4>
         </div>
-        ${item.notation ? `<span class="px-1.5 py-0.5 rounded bg-slate-800 dark:bg-slate-700/80 text-[10px] font-mono text-slate-300">$${item.notation}$</span>` : ''}
+        ${item.notation ? `<span class="px-1.5 py-0.5 rounded bg-slate-800 dark:bg-slate-700/80 text-[10px] font-mono text-slate-300 font-bold">$${item.notation}$</span>` : ''}
       </div>
       <p class="text-[11px] text-slate-300 dark:text-slate-300 leading-relaxed">
         ${item.definition}
@@ -182,15 +184,8 @@ export function initGlossaryTooltips(rootElement = document) {
     tooltipEl.style.top = `${top}px`;
     tooltipEl.style.width = `${tooltipWidth}px`;
 
-    // Renderizar KaTeX na notação do tooltip se aplicável
-    if (window.renderMathInElement) {
-      try {
-        window.renderMathInElement(tooltipEl, {
-          delimiters: [{ left: "$", right: "$", display: false }],
-          throwOnError: false
-        });
-      } catch (e) {}
-    }
+    // Renderizar KaTeX em todos os delimitadores matemáticos do tooltip
+    renderMath(tooltipEl);
 
     tooltipEl.classList.remove("opacity-0", "scale-95", "pointer-events-none");
     tooltipEl.classList.add("opacity-100", "scale-100");
