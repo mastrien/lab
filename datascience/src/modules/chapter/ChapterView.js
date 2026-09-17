@@ -111,15 +111,15 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </div>
 
           <p>
-            Considere uma sequência de $n$ variáveis aleatórias <strong>independentes e identicamente distribuídas (i.i.d.)</strong>, denotadas por $X_1, X_2, \dots, X_n$, definidas no mesmo espaço de probabilidade, possuindo esperança matemática finita $\mathbb{E}[X_i] = \mu$ e variância finita $\operatorname{Var}(X_i) = \sigma^2 > 0$.
+            Considere uma sequência de $n$ variáveis aleatórias <strong>independentes e identicamente distribuídas (i.i.d.)</strong>, denotadas por $X_1, X_2, \dots, X_n$, definidas no mesmo espaço de probabilidade, possuindo esperança matemática finita $\\mathbb{E}[X_i] = \\mu$ e variância finita $\\operatorname{Var}(X_i) = \\sigma^2 > 0$.
           </p>
 
           <p>
-            Definimos a <strong>média amostral</strong> $\bar{X}_n$ como a combinação linear:
+            Definimos a <strong>média amostral</strong> $\\bar{X}_n$ como a combinação linear:
           </p>
 
           <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
-            $$\bar{X}_n = \frac{1}{n} \sum_{i=1}^n X_i$$
+            $$\\bar{X}_n = \\frac{1}{n} \\sum_{i=1}^n X_i$$
           </div>
 
           <p>
@@ -127,12 +127,12 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </p>
 
           <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3 space-y-2">
-            $$\mathbb{E}[\bar{X}_n] = \mu$$
-            $$\operatorname{Var}(\bar{X}_n) = \frac{\sigma^2}{n} \implies \operatorname{SE}(\bar{X}_n) = \frac{\sigma}{\sqrt{n}}$$
+            $$\\mathbb{E}[\\bar{X}_n] = \\mu$$
+            $$\\operatorname{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n} \\implies \\operatorname{SE}(\\bar{X}_n) = \\frac{\\sigma}{\\sqrt{n}}$$
           </div>
 
           <p>
-            Onde $\operatorname{SE}(\bar{X}_n)$ representa o <strong>Erro Padrão da Média</strong> (*Standard Error*). Observe que, enquanto a Lei dos Grandes Números afirma que $\bar{X}_n \xrightarrow{P} \mu$ conforme $n \to \infty$, o Teorema Central do Limite especifica a <em>forma assintótica exata da distribuição de probabilidade das flutuações</em> em torno de $\mu$.
+            Onde $\\operatorname{SE}(\\bar{X}_n)$ representa o <strong>Erro Padrão da Média</strong> (*Standard Error*). Observe que, enquanto a Lei dos Grandes Números afirma que $\\bar{X}_n \\xrightarrow{P} \\mu$ conforme $n \\to \\infty$, o Teorema Central do Limite especifica a <em>forma assintótica exata da distribuição de probabilidade das flutuações</em> em torno de $\\mu$.
           </p>
 
           <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">
@@ -140,11 +140,11 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </h3>
 
           <p>
-            A versão canônica de Lindeberg-Lévy estabelece que a variável padronizada $Z_n$ converge em distribuição ($\xrightarrow{d}$) para uma variável aleatória com Distribuição Normal Padrão $\mathcal{N}(0, 1)$:
+            A versão canônica de Lindeberg-Lévy estabelece que a variável padronizada $Z_n$ converge em distribuição ($\\xrightarrow{d}$) para uma variável aleatória com Distribuição Normal Padrão $\\mathcal{N}(0, 1)$:
           </p>
 
           <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
-            $$Z_n = \frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} = \frac{\sum_{i=1}^n X_i - n\mu}{\sigma \sqrt{n}} \xrightarrow{d} \mathcal{N}(0, 1)$$
+            $$Z_n = \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}} = \\frac{\\sum_{i=1}^n X_i - n\\mu}{\\sigma \\sqrt{n}} \\xrightarrow{d} \\mathcal{N}(0, 1)$$
           </div>
 
           <p>
@@ -152,11 +152,11 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </p>
 
           <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
-            $$\lim_{n \to \infty} P\left( \frac{\bar{X}_n - \mu}{\sigma / \sqrt{n}} \le z \right) = \Phi(z) = \frac{1}{\sqrt{2\pi}} \int_{-\infty}^z e^{-\frac{t^2}{2}} \, dt$$
+            $$\\lim_{n \\to \\infty} P\\left( \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}} \\le z \\right) = \\Phi(z) = \\frac{1}{\\sqrt{2\\pi}} \\int_{-\\infty}^z e^{-\\frac{t^2}{2}} \\, dt$$
           </div>
 
           <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border-l-4 border-slate-900 dark:border-slate-200 text-xs text-slate-600 dark:text-slate-300">
-            <strong>Implicação Crítica:</strong> Nenhuma premissa é feita a respeito da distribuição da população de origem $X_i$. A população pode ser contínua, discreta, fortemente assimétrica, exponencial ou bimodal; contanto que sua variância $\sigma^2$ seja finita, a distribuição da média amostral $\bar{X}_n$ será assintoticamente normal para tamanhos de amostra razoáveis (geralmente $n \ge 30$).
+            <strong>Implicação Crítica:</strong> Nenhuma premissa é feita a respeito da distribuição da população de origem $X_i$. A população pode ser contínua, discreta, fortemente assimétrica, exponencial ou bimodal; contanto que sua variância $\\sigma^2$ seja finita, a distribuição da média amostral $\\bar{X}_n$ será assintoticamente normal para tamanhos de amostra razoáveis (geralmente $n \\ge 30$).
           </div>
         </section>
 
@@ -176,15 +176,15 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
             <div class="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
               <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Testes A/B em Plataformas Digitais</h4>
               <p class="text-xs text-slate-500 dark:text-slate-400">
-                Ao comparar taxas de conversão de usuários ou tempo em página, as distribuições originais costumam ser Bernoulli ou assimétricas de cauda longa. O TCL garante que as diferenças entre médias amostrais $(\bar{X}_A - \bar{X}_B)$ seguem distribuição normal, viabilizando o teste Z e a computação precisa de p-valores.
+                Ao comparar taxas de conversão de usuários ou tempo em página, as distribuições originais costumam ser Bernoulli ou assimétricas de cauda longa. O TCL garante que as diferenças entre médias amostrais $(\\bar{X}_A - \\bar{X}_B)$ seguem distribuição normal, viabilizando o teste Z e a computação precisa de p-valores.
               </p>
             </div>
 
             <div class="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
               <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Intervalos de Confiança para Métricas</h4>
               <p class="text-xs text-slate-500 dark:text-slate-400">
-                Permite construir intervalos de confiança analíticos para a verdadeira média populacional $\mu$ a um nível de confiança $(1 - \alpha)$:
-                $$\operatorname{IC}_{1-\alpha} = \left[ \bar{x} - z_{\alpha/2} \frac{s}{\sqrt{n}}, \; \bar{x} + z_{\alpha/2} \frac{s}{\sqrt{n}} \right]$$
+                Permite construir intervalos de confiança analíticos para a verdadeira média populacional $\\mu$ a um nível de confiança $(1 - \\alpha)$:
+                $$\\operatorname{IC}_{1-\\alpha} = \\left[ \\bar{x} - z_{\\alpha/2} \\frac{s}{\\sqrt{n}}, \\; \\bar{x} + z_{\\alpha/2} \\frac{s}{\\sqrt{n}} \\right]$$
               </p>
             </div>
           </div>

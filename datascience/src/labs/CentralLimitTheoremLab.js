@@ -159,9 +159,10 @@ export function renderCentralLimitTheoremLab() {
 
   function drawHistogram(canvas, data, color, isBell = false) {
     if (!canvas || data.length === 0) return;
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext ? canvas.getContext("2d") : null;
+    if (!ctx) return;
     const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
+    const rect = canvas.getBoundingClientRect ? canvas.getBoundingClientRect() : { width: 300, height: 160 };
     canvas.width = rect.width * dpr;
     canvas.height = rect.height * dpr;
     ctx.scale(dpr, dpr);

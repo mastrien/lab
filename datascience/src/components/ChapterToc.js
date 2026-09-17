@@ -55,7 +55,7 @@ export function renderChapterToc(sections, contentContainer) {
   }
 
   // ScrollSpy via IntersectionObserver
-  if (contentContainer) {
+  if (contentContainer && typeof IntersectionObserver !== "undefined") {
     const observer = new IntersectionObserver((entries) => {
       const visible = entries.filter(e => e.isIntersecting);
       if (visible.length > 0) {

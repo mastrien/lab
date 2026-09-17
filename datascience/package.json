@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "node --test tests/engine.node.test.js tests/curriculum.node.test.js"
+    "test": "node --test tests/engine.node.test.js tests/curriculum.node.test.js && node tests/check_syntax.js && node tests/render.node.test.js"
   },
   "devDependencies": {
     "vitest": "^1.0.0"
