@@ -11,6 +11,7 @@ import { renderAxisDetailView } from "./modules/axis/AxisDetailView.js";
 import { renderChapterView } from "./modules/chapter/ChapterView.js";
 import { renderMyLabView } from "./modules/mylab/MyLabView.js";
 import { renderQuizzesView } from "./modules/quizzes/QuizzesView.js";
+import { renderTrackingView } from "./modules/tracking/TrackingView.js";
 
 // Módulos legados (para compatibilidade transparente com rotas antigas)
 import { renderKddView } from "./modules/kdd/KddView.js";
@@ -124,6 +125,8 @@ function renderApp() {
     view = renderMyLabView();
   } else if (currentRoute === "quizzes") {
     view = renderQuizzesView();
+  } else if (currentRoute === "tracking") {
+    view = renderTrackingView();
   } else if (currentRoute === "kdd") {
     view = renderKddView();
   } else if (currentRoute === "eda") {

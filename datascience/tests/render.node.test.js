@@ -106,6 +106,11 @@ async function testRender() {
     const sidebar = renderSidebar('overview');
     console.log('renderSidebar SUCCESS');
 
+    const { renderTrackingView } = await import('../src/modules/tracking/TrackingView.js');
+    console.log('Testing renderTrackingView...');
+    const tracking = renderTrackingView();
+    console.log('renderTrackingView SUCCESS');
+
     console.log('ALL RENDER TESTS PASSED!');
   } catch (err) {
     console.error('RENDER ERROR:', err);

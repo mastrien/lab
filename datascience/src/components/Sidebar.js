@@ -68,6 +68,11 @@ export function renderSidebar(activeRoute, onNavigate, onCloseMobile) {
           <span class="text-slate-500 dark:text-slate-400">${Icons.bookOpen("w-4 h-4")}</span>
           <span>Exercícios Conceituais</span>
         </button>
+
+        <button data-route="tracking" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-md font-semibold transition-colors ${activeRoute === 'tracking' ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
+          <span class="text-slate-500 dark:text-slate-400">${Icons.list("w-4 h-4")}</span>
+          <span>Status do Currículo</span>
+        </button>
       </div>
 
     </div>

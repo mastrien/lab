@@ -1,21 +1,21 @@
-// Componente minimalista de Sumário Lateral Interativo (On-Page Sticky TOC)
-
-import { Icons } from "./Icons.js";
+// Componente minimalista de Sumário Lateral Interativo (On-Page Sticky TOC Transparente)
 
 export function renderChapterToc(sections, contentContainer) {
   const nav = document.createElement("nav");
-  nav.className = "w-60 shrink-0 hidden xl:block sticky top-24 max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar space-y-3 pr-2 text-xs";
+  // Design limpo: fundo transparente, sem ícone de hambúrguer, fixo/sticky durante a rolagem
+  nav.className = "w-56 shrink-0 text-xs select-none";
 
   nav.innerHTML = `
-    <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm">
-      <div class="flex items-center gap-2 pb-2.5 mb-2.5 border-b border-slate-100 dark:border-slate-800 text-slate-800 dark:text-slate-200 font-bold uppercase tracking-wider text-[11px]">
-        <span class="text-slate-500">${Icons.list ? Icons.list("w-3.5 h-3.5") : Icons.layers("w-3.5 h-3.5")}</span>
-        <span>Neste Capítulo</span>
+    <div class="space-y-3">
+      <div class="text-slate-900 dark:text-white font-bold uppercase tracking-wider text-[11px] pb-1">
+        Neste Capítulo
       </div>
-      <ul class="space-y-1.5 text-slate-500 dark:text-slate-400">
+      <ul class="border-l border-slate-200 dark:border-slate-800 space-y-1 text-slate-500 dark:text-slate-400">
         ${sections.map((sec, idx) => `
           <li>
-            <a href="#${sec.id}" data-toc-id="${sec.id}" class="toc-link block py-1 px-2 rounded-md transition-colors hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-800/60 truncate ${sec.level === 3 ? 'pl-4 text-[11px]' : 'font-medium'}">
+            <a href="#${sec.id}" 
+               data-toc-id="${sec.id}" 
+               class="toc-link block py-1.5 pl-3 transition-colors hover:text-slate-900 dark:hover:text-white truncate ${sec.level === 3 ? 'pl-5 text-[11px]' : 'font-medium'} border-l-2 border-transparent -ml-[1px]">
               <span class="text-slate-400 dark:text-slate-500 mr-1 text-[10px] font-mono">${idx + 1}.</span>
               <span>${sec.title}</span>
             </a>
@@ -25,7 +25,7 @@ export function renderChapterToc(sections, contentContainer) {
     </div>
   `;
 
-  // Listener para scroll suave ao clicar
+  // Listener para rolagem suave ao clicar
   nav.querySelectorAll(".toc-link").forEach(link => {
     link.addEventListener("click", (e) => {
       e.preventDefault();
@@ -43,13 +43,11 @@ export function renderChapterToc(sections, contentContainer) {
     nav.querySelectorAll(".toc-link").forEach(link => {
       const id = link.getAttribute("data-toc-id");
       if (id === activeId) {
-        link.className = link.className
-          .replace("text-slate-500 dark:text-slate-400", "")
-          .replace("hover:bg-slate-50 dark:hover:bg-slate-800/60", "");
-        link.classList.add("bg-slate-100", "dark:bg-slate-800", "text-slate-900", "dark:text-white", "font-bold");
+        link.classList.remove("text-slate-500", "dark:text-slate-400", "border-transparent");
+        link.classList.add("text-slate-900", "dark:text-white", "font-bold", "border-slate-900", "dark:border-white");
       } else {
-        link.classList.remove("bg-slate-100", "dark:bg-slate-800", "text-slate-900", "dark:text-white", "font-bold");
-        link.classList.add("text-slate-500", "dark:text-slate-400");
+        link.classList.remove("text-slate-900", "dark:text-white", "font-bold", "border-slate-900", "dark:border-white");
+        link.classList.add("text-slate-500", "dark:text-slate-400", "border-transparent");
       }
     });
   }

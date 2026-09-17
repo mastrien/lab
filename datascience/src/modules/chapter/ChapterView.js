@@ -1,9 +1,10 @@
-// Módulo de Leitura e Experimentação de Capítulos com KaTeX e Sumário Lateral
+// Módulo de Leitura e Experimentação de Capítulos com KaTeX, Glossário Interativo e Sumário Sticky
 
 import { getChapterById, getAxisById } from "../../data/curriculum.js";
 import { getLabById } from "../../labs/registry.js";
 import { renderChapterToc } from "../../components/ChapterToc.js";
 import { renderMath } from "../../utils/mathRenderer.js";
+import { termHint, initGlossaryTooltips } from "../../components/GlossaryTooltip.js";
 import { Icons } from "../../components/Icons.js";
 
 export function renderChapterView(chapterId) {
@@ -32,7 +33,7 @@ export function renderChapterView(chapterId) {
   if (chapter.id === "axis-1-cap-3-clt") {
     renderCltBenchmarkChapter(container, axis, chapter);
   } else {
-    // Para capítulos com laboratórios existentes (ou futuros em planejamento)
+    // Para capítulos estruturados do currículo
     renderStandardChapter(container, axis, chapter);
   }
 
@@ -58,10 +59,10 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
       </span>
     </div>
 
-    <!-- Layout Duplo: Artigo Central + Sumário Lateral Fixo -->
-    <div class="flex gap-8 items-start">
+    <!-- Layout Duplo: Artigo Central + Sumário Lateral Sticky -->
+    <div class="flex gap-8 items-start relative">
       
-      <!-- Coluna Principal do Artigo -->
+      <!-- Coluna Principal do Artigo Didático -->
       <article id="chapter-article" class="flex-1 min-w-0 space-y-10 text-slate-700 dark:text-slate-300 leading-relaxed text-sm">
         
         <!-- Cabeçalho do Capítulo -->
@@ -77,7 +78,7 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </p>
         </header>
 
-        <!-- Seção 1: Origem Epistemológica e História -->
+        <!-- Seção 1: Origem Epistemológica e Contexto Histórico -->
         <section id="sec-origem-historica" class="space-y-4 scroll-mt-24">
           <div class="flex items-center gap-2 pb-1 border-b border-slate-100 dark:border-slate-800">
             <h2 class="text-lg font-bold text-slate-900 dark:text-white">
@@ -94,69 +95,119 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </p>
 
           <p>
-            Em 1810, o matemático e astrônomo francês <strong>Pierre-Simon Laplace</strong> generalizou o resultado de De Moivre em sua memória perante a Academia de Ciências de Paris, <a href="https://gallica.bnf.fr/ark:/12148/bpt6k3017q" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Mémoire sur les approximations des formules qui sont fonctions de très grands nombres</em></a>. Laplace demonstrou que a soma de um grande número de erros observacionais independentes — qualquer que fosse a sua distribuição individual contínua — tendia inexoravelmente a uma distribuição em forma de sino, permitindo aos astrônomos estabelecer limites de confiança para medições planetárias (Teorema de De Moivre-Laplace).
+            Em 1810, o matemático e astrônomo francês <strong>Pierre-Simon Laplace</strong> generalizou o resultado de De Moivre em sua memória perante a Academia de Ciências de Paris, publicada no Tomo 12 de suas obras completas (<a href="https://archive.org/details/oeuvrescomplte12lapluoft" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Mémoire sur les approximations des formules qui sont fonctions de très grands nombres</em></a>). Laplace demonstrou que a soma de um grande número de erros observacionais independentes — qualquer que fosse a sua distribuição individual contínua — tendia inexoravelmente a uma distribuição em forma de sino, permitindo aos astrônomos estabelecer limites de confiança para medições planetárias (Teorema de De Moivre-Laplace).
           </p>
 
           <p>
-            O rigor matemático moderno e as condições de convergência para variáveis aleatórias arbitrárias com variâncias finitas foram formalizados pelo matemático russo <strong>Aleksandr Lyapunov</strong> em 1901, em sua obra <a href="https://eudml.org/doc/224219" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Nouvelle forme du théorème sur la limite de probabilité</em></a>, introduzindo o método das funções características que dispensava a necessidade de densidades estritamente idênticas.
+            O rigor matemático moderno e as condições de convergência para variáveis aleatórias arbitrárias com variâncias finitas foram formalizados pelo matemático russo <strong>Aleksandr Lyapunov</strong> em 1901, em sua obra <a href="https://eudml.org/doc/224219" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Nouvelle forme du théorème sur la limite de probabilité</em></a>, introduzindo o método das ${termHint("funcoes-caracteristicas")} que dispensava a necessidade de densidades estritamente idênticas.
           </p>
         </section>
 
-        <!-- Seção 2: Formulação Matemática Rigorosa -->
-        <section id="sec-formulacao-matematica" class="space-y-4 scroll-mt-24">
+        <!-- Seção 2: Fundamentação Teórica e Formulação Matemática -->
+        <section id="sec-formulacao-matematica" class="space-y-6 scroll-mt-24">
           <div class="flex items-center gap-2 pb-1 border-b border-slate-100 dark:border-slate-800">
             <h2 class="text-lg font-bold text-slate-900 dark:text-white">
               2. Fundamentação Teórica e Formulação Matemática
             </h2>
           </div>
 
-          <p>
-            Considere uma sequência de $n$ variáveis aleatórias <strong>independentes e identicamente distribuídas (i.i.d.)</strong>, denotadas por $X_1, X_2, \dots, X_n$, definidas no mesmo espaço de probabilidade, possuindo esperança matemática finita $\\mathbb{E}[X_i] = \\mu$ e variância finita $\\operatorname{Var}(X_i) = \\sigma^2 > 0$.
-          </p>
-
-          <p>
-            Definimos a <strong>média amostral</strong> $\\bar{X}_n$ como a combinação linear:
-          </p>
-
-          <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
-            $$\\bar{X}_n = \\frac{1}{n} \\sum_{i=1}^n X_i$$
+          <!-- Subseção Didática: Intuição Prévia -->
+          <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white font-mono">
+              Intuição Didática: O Fenômeno da Emergência Gaussiana
+            </h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Imagine um dado de seis faces. Ao lançar um único dado, a chance de cada face ($1$ a $6$) é exatamente idêntica ($1/6$); o gráfico resultante é plano (distribuição uniforme). Entretanto, se você lançar <strong>30 dados simultaneamente</strong> e calcular a média dos resultados, obter valores extremos como $1.0$ ou $6.0$ é quase impossível, pois exigiria que todos os 30 dados caíssem simultaneamente no mesmo número. A esmagadora maioria das médias amostrais se concentrará ao redor de $3.5$.
+            </p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              Ao repetir essa coleta centenas de vezes, o histograma de médias desenha com precisão cirúrgica uma curva suave em sino (a curva Normal), mesmo que os dados de origem fossem uniformes, binários ou assimétricos. O Teorema Central do Limite é a formalização matemática dessa universalidade.
+            </p>
           </div>
 
-          <p>
-            Pela linearidade da esperança e pelas propriedades da variância para variáveis estocásticas independentes, os momentos de primeira e segunda ordem da média amostral são dados por:
-          </p>
+          <!-- Decodificação de Conceitos Prévios -->
+          <div class="space-y-3">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
+              A Notação Matemática Passo a Passo
+            </h3>
+            <p>
+              Antes de analisar o teorema, é fundamental compreender com clareza o significado de cada símbolo envolvido:
+            </p>
 
-          <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3 space-y-2">
-            $$\\mathbb{E}[\\bar{X}_n] = \\mu$$
-            $$\\operatorname{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n} \\implies \\operatorname{SE}(\\bar{X}_n) = \\frac{\\sigma}{\\sqrt{n}}$$
+            <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
+              <li class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <strong class="text-slate-900 dark:text-white font-mono">$X_1, X_2, \\dots, X_n$:</strong> 
+                Representa uma sequência de medições numéricas aleatórias. Diferente de uma incógnita clássica de álgebra ($x + 2 = 5$), uma <em>variável aleatória</em> é uma função que quantifica desfechos incertos (como a altura de um cidadão ou a receita de uma transação).
+              </li>
+
+              <li class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <strong class="text-slate-900 dark:text-white font-mono">${termHint("iid")}:</strong> 
+                Significa que cada observação $X_i$ não sofre interferência dos valores anteriores (independência) e que todas foram produzidas sob a mesma lei de probabilidade populacional no mesmo ${termHint("espaco-probabilidade")}.
+              </li>
+
+              <li class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+                <strong class="text-slate-900 dark:text-white font-mono">Esperança e Variância Populacionais:</strong> 
+                A população geradora possui média teórica ${termHint("esperanca")} dada por $\\mathbb{E}[X_i] = \\mu$, e dispersão dada pela ${termHint("variancia")} $\\operatorname{Var}(X_i) = \\sigma^2 > 0$, com ${termHint("desvio-padrao")} $\\sigma$.
+              </li>
+            </ul>
           </div>
 
-          <p>
-            Onde $\\operatorname{SE}(\\bar{X}_n)$ representa o <strong>Erro Padrão da Média</strong> (*Standard Error*). Observe que, enquanto a Lei dos Grandes Números afirma que $\\bar{X}_n \\xrightarrow{P} \\mu$ conforme $n \\to \\infty$, o Teorema Central do Limite especifica a <em>forma assintótica exata da distribuição de probabilidade das flutuações</em> em torno de $\\mu$.
-          </p>
+          <!-- Média Amostral e Momentos -->
+          <div class="space-y-3">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
+              A Média Amostral e o Erro Padrão
+            </h3>
+            <p>
+              Definimos a <strong>média amostral</strong> $\\bar{X}_n$ como a combinação linear das $n$ observações coletadas:
+            </p>
 
-          <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">
-            Enunciado Formal de Lindeberg-Lévy
-          </h3>
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-2">
+              $$\\bar{X}_n = \\frac{1}{n} \\sum_{i=1}^n X_i$$
+            </div>
 
-          <p>
-            A versão canônica de Lindeberg-Lévy estabelece que a variável padronizada $Z_n$ converge em distribuição ($\\xrightarrow{d}$) para uma variável aleatória com Distribuição Normal Padrão $\\mathcal{N}(0, 1)$:
-          </p>
+            <p>
+              Pela linearidade da esperança matemática e pela propriedade aditiva da variância para variáveis independentes, os momentos teóricos de primeira e segunda ordem da média amostral são dados por:
+            </p>
 
-          <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
-            $$Z_n = \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}} = \\frac{\\sum_{i=1}^n X_i - n\\mu}{\\sigma \\sqrt{n}} \\xrightarrow{d} \\mathcal{N}(0, 1)$$
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-2 space-y-2">
+              $$\\mathbb{E}[\\bar{X}_n] = \\mu$$
+              $$\\operatorname{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n} \\implies \\operatorname{SE}(\\bar{X}_n) = \\frac{\\sigma}{\\sqrt{n}}$$
+            </div>
+
+            <p>
+              Onde $\\operatorname{SE}(\\bar{X}_n)$ representa o ${termHint("erro-padrao")} (<em>Standard Error</em>).
+            </p>
+
+            <div class="p-3.5 rounded-lg bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-500 text-xs text-amber-900 dark:text-amber-300">
+              <strong>Distinção Epistemológica Crítica:</strong>
+              Enquanto a Lei Fraca dos Grandes Números (${termHint("convergencia-probabilidade")}, $\\bar{X}_n \\xrightarrow{P} \\mu$) estabelece <em>onde</em> a média amostral irá convergir (para a constante $\\mu$), o Teorema Central do Limite (${termHint("convergencia-distribuicao")}) estabelece <em>qual é a forma geométrica exata das flutuações amostrais</em> ao redor de $\\mu$ para valores finitos de $n$.
+            </div>
           </div>
 
-          <p>
-            Em termos da função de distribuição acumulada (CDF):
-          </p>
+          <!-- Enunciado Formal de Lindeberg-Lévy -->
+          <div class="space-y-3">
+            <h3 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
+              Enunciado Formal de Lindeberg-Lévy
+            </h3>
 
-          <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
-            $$\\lim_{n \\to \\infty} P\\left( \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}} \\le z \\right) = \\Phi(z) = \\frac{1}{\\sqrt{2\\pi}} \\int_{-\\infty}^z e^{-\\frac{t^2}{2}} \\, dt$$
-          </div>
+            <p>
+              A versão clássica de Lindeberg-Lévy estabelece que, ao subtrair a média $\\mu$ (centralização em zero) e dividir pelo erro padrão $\\sigma / \\sqrt{n}$ (escala unitária), a variável resultante $Z_n$ converge em distribuição para a ${termHint("normal-padrao")} $\\mathcal{N}(0, 1)$:
+            </p>
 
-          <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border-l-4 border-slate-900 dark:border-slate-200 text-xs text-slate-600 dark:text-slate-300">
-            <strong>Implicação Crítica:</strong> Nenhuma premissa é feita a respeito da distribuição da população de origem $X_i$. A população pode ser contínua, discreta, fortemente assimétrica, exponencial ou bimodal; contanto que sua variância $\\sigma^2$ seja finita, a distribuição da média amostral $\\bar{X}_n$ será assintoticamente normal para tamanhos de amostra razoáveis (geralmente $n \\ge 30$).
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
+              $$Z_n = \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}} = \\frac{\\sum_{i=1}^n X_i - n\\mu}{\\sigma \\sqrt{n}} \\xrightarrow{d} \\mathcal{N}(0, 1)$$
+            </div>
+
+            <p>
+              Em termos da ${termHint("funcao-distribuicao-acumulada")} (CDF) $\\Phi(z)$:
+            </p>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-center font-mono my-3">
+              $$\\lim_{n \\to \\infty} P\\left( \\frac{\\bar{X}_n - \\mu}{\\sigma / \\sqrt{n}} \\le z \\right) = \\Phi(z) = \\frac{1}{\\sqrt{2\\pi}} \\int_{-\\infty}^z e^{-\\frac{t^2}{2}} \\, dt$$
+            </div>
+
+            <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border-l-4 border-slate-900 dark:border-slate-200 text-xs text-slate-600 dark:text-slate-300">
+              <strong>Universalidade da Forma:</strong> Nenhuma premissa é imposta sobre a geometria da distribuição populacional de origem $X_i$. Ela pode ser exponencial, bimodal, discreta ou assimétrica; desde que sua variância $\\sigma^2$ seja finita, a distribuição da média amostral $\\bar{X}_n$ será assintoticamente normal para amostras razoáveis (empiricamente $n \\ge 30$).
+            </div>
           </div>
         </section>
 
@@ -169,23 +220,29 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </div>
 
           <p>
-            O Teorema Central do Limite é o mecanismo que possibilita a inferência estatística no mundo real da Ciência de Dados. Algumas de suas aplicações imediatas incluem:
+            O Teorema Central do Limite é o motor analítico que viabiliza a inferência estatística no dia a dia da Ciência de Dados:
           </p>
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-            <div class="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
-              <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Testes A/B em Plataformas Digitais</h4>
+            <div class="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+              <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                Testes A/B em Plataformas Digitais
+              </h4>
               <p class="text-xs text-slate-500 dark:text-slate-400">
-                Ao comparar taxas de conversão de usuários ou tempo em página, as distribuições originais costumam ser Bernoulli ou assimétricas de cauda longa. O TCL garante que as diferenças entre médias amostrais $(\\bar{X}_A - \\bar{X}_B)$ seguem distribuição normal, viabilizando o teste Z e a computação precisa de p-valores.
+                Ao avaliar taxas de conversão ou engajamento de usuários, as distribuições individuais são puramente binárias (Bernoulli) ou fortemente assimétricas. O TCL assegura que a diferença entre médias amostrais $(\\bar{X}_A - \\bar{X}_B)$ segue uma curva Normal, viabilizando o ${termHint("teste-z")}$, o cálculo exato do ${termHint("p-valor")} e o controle do ${termHint("nivel-significancia")} $\\alpha$.
               </p>
             </div>
 
-            <div class="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-1.5">
-              <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Intervalos de Confiança para Métricas</h4>
+            <div class="p-4 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-2">
+              <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                Intervalos de Confiança para Métricas
+              </h4>
               <p class="text-xs text-slate-500 dark:text-slate-400">
-                Permite construir intervalos de confiança analíticos para a verdadeira média populacional $\\mu$ a um nível de confiança $(1 - \\alpha)$:
-                $$\\operatorname{IC}_{1-\\alpha} = \\left[ \\bar{x} - z_{\\alpha/2} \\frac{s}{\\sqrt{n}}, \\; \\bar{x} + z_{\\alpha/2} \\frac{s}{\\sqrt{n}} \\right]$$
+                Permite construir intervalos de confiança analíticos confiáveis para a verdadeira média populacional $\\mu$ a um nível de confiança $(1 - \\alpha)$:
               </p>
+              <div class="font-mono text-center text-xs py-1">
+                $$\\operatorname{IC}_{1-\\alpha} = \\left[ \\bar{x} - z_{\\alpha/2} \\frac{s}{\\sqrt{n}}, \\; \\bar{x} + z_{\\alpha/2} \\frac{s}{\\sqrt{n}} \\right]$$
+              </div>
             </div>
           </div>
         </section>
@@ -203,16 +260,16 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
               <span class="font-bold text-slate-900 dark:text-white">De Moivre, A. (1738).</span>
               <em>The Doctrine of Chances: Or, A Method of Calculating the Probabilities of Events in Play</em>. 2ª Edição, Londres: H. Woodfall.  
               <a href="https://archive.org/details/doctrineofchance00moiv" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline font-mono text-[11px]">
-                <span>https://archive.org/details/doctrineofchance00moiv</span>
+                <span>https://archive.org/details/doctrineofchance00moiv (Internet Archive)</span>
                 ${Icons.arrowRight("w-3 h-3")}
               </a>
             </li>
 
             <li class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
               <span class="font-bold text-slate-900 dark:text-white">Laplace, P.-S. (1810).</span>
-              <em>Mémoire sur les approximations des formules qui sont fonctions de très grands nombres et sur leur application aux probabilités</em>. Mémoires de l'Académie des Sciences de Paris.  
-              <a href="https://gallica.bnf.fr/ark:/12148/bpt6k3017q" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline font-mono text-[11px]">
-                <span>https://gallica.bnf.fr/ark:/12148/bpt6k3017q</span>
+              <em>Mémoire sur les approximations des formules qui sont fonctions de très grands nombres et sur leur application aux probabilités</em>. Publié dans les <em>Oeuvres complètes de Laplace</em>, Tome 12. Paris: Gauthier-Villars.  
+              <a href="https://archive.org/details/oeuvrescomplte12lapluoft" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline font-mono text-[11px]">
+                <span>https://archive.org/details/oeuvrescomplte12lapluoft (Internet Archive)</span>
                 ${Icons.arrowRight("w-3 h-3")}
               </a>
             </li>
@@ -229,8 +286,8 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
             <li class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-800">
               <span class="font-bold text-slate-900 dark:text-white">Casella, G., & Berger, R. L. (2002).</span>
               <em>Statistical Inference</em>. 2ª Edição, Duxbury Advanced Series. Cengage Learning. ISBN 978-0534243128.  
-              <a href="https://doi.org/10.1002/0471667196.ess5051.pub2" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline font-mono text-[11px]">
-                <span>https://doi.org/10.1002/0471667196.ess5051.pub2</span>
+              <a href="https://openlibrary.org/isbn/9780534243128" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 mt-1 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white underline font-mono text-[11px]">
+                <span>https://openlibrary.org/isbn/9780534243128 (Open Library)</span>
                 ${Icons.arrowRight("w-3 h-3")}
               </a>
             </li>
@@ -241,9 +298,9 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
         <section id="sec-laboratorio-interativo" class="space-y-4 scroll-mt-24 pt-4 border-t border-slate-200 dark:border-slate-800">
           <div class="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
             <div>
-              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400">Experimentação Prática</span>
+              <span class="text-[10px] font-bold uppercase tracking-wider text-slate-400 font-mono">Bancada Experimental</span>
               <h2 class="text-lg font-bold text-slate-900 dark:text-white">
-                5. Laboratório Interativo: Simulação do TCL
+                5. Laboratório Interativo: Simulação Empírica do TCL
               </h2>
             </div>
           </div>
@@ -253,8 +310,8 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
 
       </article>
 
-      <!-- Coluna Direita: Sumário Minimalista Interativo (TOC) -->
-      <aside id="chapter-toc-slot"></aside>
+      <!-- Coluna Direita: Sumário Lateral Sticky com Fundo Transparente -->
+      <aside id="chapter-toc-slot" class="hidden lg:block w-56 shrink-0 sticky top-24 self-start"></aside>
     </div>
   `;
 
@@ -280,14 +337,14 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
     labSlot.appendChild(labMeta.render());
   }
 
-  // Renderizar expressões matemáticas KaTeX
+  // Renderizar expressões matemáticas KaTeX e inicializar dicas de glossário
   setTimeout(() => {
     renderMath(articleEl);
+    initGlossaryTooltips(articleEl);
   }, 10);
 }
 
 function renderStandardChapter(container, axis, chapter) {
-  // Capítulos com ou sem laboratório
   const labMeta = chapter.hasLab && chapter.labId ? getLabById(chapter.labId) : null;
 
   container.innerHTML = `
@@ -330,12 +387,17 @@ function renderStandardChapter(container, axis, chapter) {
       ` : `
         <div class="p-8 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-800 text-center space-y-3">
           <p class="text-xs text-slate-500">
-            A redação didática e o simulador deste capítulo estão programados conforme o cronograma do <a href="#tracking" class="font-bold underline">TRACKING.md</a>.
+            A redação didática e o simulador deste capítulo estão programados conforme o cronograma do <a href="#tracking" class="font-bold underline">Status do Currículo (TRACKING.md)</a>.
           </p>
-          <a href="#overview" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:underline">
-            ${Icons.arrowLeft("w-3.5 h-3.5")}
-            <span>Explorar Outros Capítulos</span>
-          </a>
+          <div class="flex items-center justify-center gap-3 pt-1">
+            <a href="#tracking" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-semibold">
+              <span>Acessar Painel de Status</span>
+            </a>
+            <a href="#overview" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 dark:text-slate-300 hover:underline">
+              ${Icons.arrowLeft("w-3.5 h-3.5")}
+              <span>Explorar Outros Capítulos</span>
+            </a>
+          </div>
         </div>
       `}
     </article>
