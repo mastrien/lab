@@ -27,10 +27,7 @@ export function renderHeader(onNavigate, onToggleMobileSidebar) {
             DL
           </div>
           <div>
-            <div class="flex items-center gap-2">
-              <span class="text-base font-bold text-slate-900 dark:text-white tracking-tight">DataLab</span>
-              <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">Plataforma</span>
-            </div>
+            <span class="text-base font-bold text-slate-900 dark:text-white tracking-tight">DataLab</span>
           </div>
         </a>
       </div>
