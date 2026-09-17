@@ -112,44 +112,41 @@ function renderCltBenchmarkChapter(container, axis, chapter) {
           </div>
 
           <!-- Subseção Didática: Intuição Prévia -->
-          <div class="p-4 rounded-xl bg-slate-100/70 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/60 space-y-2">
-            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white font-mono">
-              Intuição Didática: O Fenômeno da Emergência Gaussiana
-            </h3>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Imagine um dado de seis faces. Ao lançar um único dado, a chance de cada face ($1$ a $6$) é exatamente idêntica ($1/6$); o gráfico resultante é plano (distribuição uniforme). Entretanto, se você lançar <strong>30 dados simultaneamente</strong> e calcular a média dos resultados, obter valores extremos como $1.0$ ou $6.0$ é quase impossível, pois exigiria que todos os 30 dados caíssem simultaneamente no mesmo número. A esmagadora maioria das médias amostrais se concentrará ao redor de $3.5$.
-            </p>
-            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-              Ao repetir essa coleta centenas de vezes, o histograma de médias desenha com precisão cirúrgica uma curva suave em sino (a curva Normal), mesmo que os dados de origem fossem uniformes, binários ou assimétricos. O Teorema Central do Limite é a formalização matemática dessa universalidade.
-            </p>
-          </div>
+          <!-- Intuição Didática no Fluxo Principal da Página -->
+          <p>
+            Imagine o lançamento de um dado equilibrado de seis faces. Ao lançar um único dado, a chance de cada face ($1$ a $6$) é exatamente idêntica ($1/6$), produzindo um gráfico perfeitamente plano (distribuição uniforme). Entretanto, se você lançar <strong>30 dados simultaneamente</strong> e calcular a média aritmética obtida, a ocorrência de valores extremos como $1.0$ ou $6.0$ torna-se praticamente impossível, pois exigiria que todos os 30 dados resultassem simultaneamente na mesma face. A esmagadora maioria das médias amostrais se concentrará ao redor de $3.5$.
+          </p>
 
-          <!-- Decodificação de Conceitos Prévios -->
-          <div class="space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white tracking-tight">
-              A Notação Matemática Passo a Passo
-            </h3>
-            <p>
-              Antes de analisar o teorema, é fundamental compreender com clareza o significado de cada símbolo envolvido:
+          <p>
+            Ao repetir essa coleta centenas ou milhares de vezes, o histograma de médias desenha com precisão analítica uma curva suave em sino (a curva Normal ou Gaussiana), mesmo que os dados populacionais de origem fossem discretos, uniformes, binários ou fortemente assimétricos. O Teorema Central do Limite é a lei universal que formaliza essa emergência assintótica.
+          </p>
+
+          <!-- Decodificação de Termos em Blockquote Identificado -->
+          <blockquote class="p-4 rounded-lg bg-slate-50 dark:bg-slate-800/50 border-l-4 border-slate-900 dark:border-slate-100 my-4 space-y-3 not-italic">
+            <div class="flex items-center gap-2 text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider font-mono">
+              <span>Decodificação de Notação e Termos</span>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-400">
+              Para assegurar uma compreensão sólida antes de abordar as equações formais, decodificamos a notação matemática símbolo por símbolo:
             </p>
 
-            <ul class="space-y-2 text-xs text-slate-600 dark:text-slate-400">
-              <li class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <ul class="space-y-2.5 text-xs text-slate-600 dark:text-slate-400">
+              <li class="p-2.5 rounded-md bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                 <strong class="text-slate-900 dark:text-white font-mono">$X_1, X_2, \\dots, X_n$:</strong> 
-                Representa uma sequência de medições numéricas aleatórias. Diferente de uma incógnita clássica de álgebra ($x + 2 = 5$), uma <em>variável aleatória</em> é uma função que quantifica desfechos incertos (como a altura de um cidadão ou a receita de uma transação).
+                Representa uma sequência de medições numéricas aleatórias. Diferente de uma incógnita clássica de álgebra ($x + 2 = 5$), uma <em>variável aleatória</em> é uma função que quantifica desfechos incertos (como o tempo de resposta de um servidor ou a receita de uma transação).
               </li>
 
-              <li class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <li class="p-2.5 rounded-md bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                 <strong class="text-slate-900 dark:text-white font-mono">${termHint("iid")}:</strong> 
                 Significa que cada observação $X_i$ não sofre interferência dos valores anteriores (independência) e que todas foram produzidas sob a mesma lei de probabilidade populacional no mesmo ${termHint("espaco-probabilidade")}.
               </li>
 
-              <li class="p-2.5 rounded-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+              <li class="p-2.5 rounded-md bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                 <strong class="text-slate-900 dark:text-white font-mono">Esperança e Variância Populacionais:</strong> 
                 A população geradora possui média teórica ${termHint("esperanca")} dada por $\\mathbb{E}[X_i] = \\mu$, e dispersão dada pela ${termHint("variancia")} $\\operatorname{Var}(X_i) = \\sigma^2 > 0$, com ${termHint("desvio-padrao")} $\\sigma$.
               </li>
             </ul>
-          </div>
+          </blockquote>
 
           <!-- Média Amostral e Momentos -->
           <div class="space-y-3">
