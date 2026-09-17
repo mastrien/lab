@@ -1,5 +1,6 @@
 // Registro Central de Laboratórios Modulares Interativos
 
+import { renderLinearAlgebra2DLab } from "./LinearAlgebra2DLab.js";
 import { renderCentralLimitTheoremLab } from "./CentralLimitTheoremLab.js";
 import { renderEdaStatsLab } from "./EdaStatsLab.js";
 import { renderCorrelationHeatmapLab } from "./CorrelationHeatmapLab.js";
@@ -13,6 +14,17 @@ import { renderKMeansClusteringLab } from "./KMeansClusteringLab.js";
 import { renderConfusionMatrixRocLab } from "./ConfusionMatrixRocLab.js";
 
 export const LAB_REGISTRY = [
+  {
+    id: "linear-algebra-lab",
+    name: "Espaço Vetorial, Matrizes & Projeções 2D",
+    axisId: "axis-1",
+    axisName: "Eixo 1: Fundamentos",
+    chapterId: "axis-1-cap-1-linear-algebra",
+    chapterTitle: "Álgebra Linear Computacional",
+    category: "Álgebra Linear & Geometria",
+    shortDesc: "Simulador interativo de transformações lineares 2D, cálculo de determinantes, produto escalar e projeção ortogonal.",
+    render: renderLinearAlgebra2DLab
+  },
   {
     id: "clt-lab",
     name: "Teorema Central do Limite",

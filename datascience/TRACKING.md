@@ -24,7 +24,7 @@
 
 | Capítulo | Tópicos e Ramificações | Status Teoria | Status Lab | Laboratório Associado |
 | :--- | :--- | :---: | :---: | :--- |
-| **Cap. 1: Álgebra Linear Computacional** | Vetores, matrizes, autovalores/vetores, SVD e transformações | ⚪ Planejado | ⚪ Planejado | SvdMatrixPlayground |
+| **Cap. 1: Álgebra Linear Computacional** | Vetores, matrizes, determinantes, produto escalar, projeções e transformações lineares | 🟢 **CONCLUÍDO** | 🟢 **ATIVO** | `LinearAlgebra2DLab` |
 | **Cap. 2: Cálculo & Otimização** | Derivadas multivariáveis, gradientes, Hessiana e SGD | ⚪ Planejado | ⚪ Planejado | GradientDescentVisualizer |
 | **Cap. 3: Probabilidade & Teorema Central do Limite** | Variáveis aleatórias, distribuições teóricas, Teorema de Bayes e TCL | 🟡 **PILOTO BENCHMARK** | 🟢 **ATIVO** | `CentralLimitTheoremLab` |
 | **Cap. 4: Inferência Estatística & Testes de Hipótese** | Testes t, ANOVA, p-valor, intervalos de confiança e bootstrap | ⚪ Planejado | ⚪ Planejado | HypothesisTestingLab |

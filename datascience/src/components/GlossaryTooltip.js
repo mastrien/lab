@@ -101,6 +101,83 @@ export const GLOSSARY_TERMS = {
     title: "Limiar de Significância (\\alpha)",
     definition: "A probabilidade máxima pré-fixada pelo analista de cometer um Erro Tipo I (rejeitar a hipótese nula quando ela é na realidade verdadeira).",
     intuition: "É a tolerância máxima a falsos positivos aceita antes de declarar uma conclusão científica ou de negócio."
+  },
+  vetor: {
+    term: "Vetor",
+    notation: "\\mathbf{x} = (x_1, x_2, \\dots, x_n)^\\top \\in \\mathbb{R}^n",
+    title: "Vetor Euclidiano e Tupla de Atributos",
+    definition: "Elemento de um espaço vetorial $\\mathbb{R}^n$ caracterizado geometricamente por uma magnitude e uma direção a partir da origem, ou algebricamente como uma sequência ordenada de $n$ escalares reais.",
+    intuition: "Em Ciência de Dados, cada linha de uma tabela (ex: idade, renda, score de crédito) é tratada computacionalmente como um vetor de atributos em um espaço multidimensional."
+  },
+  "espaco-vetorial": {
+    term: "Espaço Vetorial",
+    notation: "(V, +, \\cdot, \\mathbb{R})",
+    title: "Espaço Vetorial Formal",
+    definition: "Conjunto $V$ de objetos munido de operações de adição vetorial e multiplicação por escalar que satisfazem os oito axiomas formais (associatividade, comutatividade, elemento neutro, inverso e distributividades).",
+    intuition: "O espaço cartesiano bidimensional $\\mathbb{R}^2$, tridimensional $\\mathbb{R}^3$ ou o espaço de $d$ atributos $\\mathbb{R}^d$ onde residem os dados são exemplos canônicos de espaços vetoriais."
+  },
+  "produto-escalar": {
+    term: "Produto Escalar",
+    notation: "\\mathbf{u} \\cdot \\mathbf{v} = \\langle \\mathbf{u}, \\mathbf{v} \\rangle = \\sum_{i=1}^n u_i v_i",
+    title: "Produto Escalar (Inner Product)",
+    definition: "Operação que associa dois vetores de mesma dimensão a um único número escalar real. Relaciona-se com a geometria euclidiana via $\\mathbf{u} \\cdot \\mathbf{v} = \\|\\mathbf{u}\\| \\|\\mathbf{v}\\| \\cos(\\theta)$.",
+    intuition: "Se o produto for positivo, os vetores apontam na mesma direção geral; se for zero, são perfeitamente perpendiculares (ortogonais); se negativo, apontam em direções opostas."
+  },
+  "norma-euclidiana": {
+    term: "Norma Euclidiana (L2)",
+    notation: "\\|\\mathbf{x}\\|_2 = \\sqrt{\\sum_{i=1}^n x_i^2}",
+    title: "Norma Euclidiana (Magnitude)",
+    definition: "Comprimento geométrico de um vetor no espaço euclidiano, derivado do teorema de Pitágoras generalizado: $\\|\\mathbf{x}\\|_2 = \\sqrt{\\mathbf{x} \\cdot \\mathbf{x}}$.",
+    intuition: "Mede a distância euclidiana direta da origem $(0, \\dots, 0)$ até a coordenada do ponto no espaço $n$-dimensional."
+  },
+  ortogonalidade: {
+    term: "Ortogonalidade",
+    notation: "\\mathbf{u} \\perp \\mathbf{v} \\iff \\mathbf{u} \\cdot \\mathbf{v} = 0",
+    title: "Vetores Ortogonais (Perpendiculares)",
+    definition: "Dois vetores não-nulos são ortogonais quando formam um ângulo de $90^\\circ$ ($\\pi/2$ radianos) entre si, de modo que seu produto interno se anula estritamente.",
+    intuition: "Significa independência geométrica total: variar na direção de $\\mathbf{u}$ não projeta nenhuma sombra nem causa qualquer deslocamento na direção de $\\mathbf{v}$."
+  },
+  "independencia-linear": {
+    term: "Independência Linear",
+    notation: "\\sum_{i=1}^k c_i \\mathbf{v}_i = \\mathbf{0} \\implies c_1 = \\dots = c_k = 0",
+    title: "Independência Linear (LI)",
+    definition: "Um conjunto de vetores é linearmente independente se nenhum vetor do conjunto pode ser escrito como uma combinação linear ponderada dos demais.",
+    intuition: "Cada vetor traz uma informação verdadeiramente nova ou uma dimensão adicional, sem redundância ou multicolinearidade perfeita."
+  },
+  "base-vetorial": {
+    term: "Base Vetorial",
+    notation: "\\mathcal{B} = \\{\\mathbf{v}_1, \\dots, \\mathbf{v}_n\\}",
+    title: "Base e Dimensão de um Espaço",
+    definition: "Conjunto de vetores linearmente independentes que gera todo o espaço vetorial $V$. O número de elementos de qualquer base determina a dimensão do espaço.",
+    intuition: "Os vetores canônicos $\\hat{i} = (1, 0)$ e $\\hat{j} = (0, 1)$ formam a base padrão do plano cartesiano $\\mathbb{R}^2$."
+  },
+  "matriz-operador": {
+    term: "Matriz como Operador Linear",
+    notation: "T(\\mathbf{x}) = \\mathbf{A}\\mathbf{x}",
+    title: "Transformação Linear Matricial",
+    definition: "Uma função $T: \\mathbb{R}^n \\to \\mathbb{R}^m$ que preserva adição ($T(\\mathbf{u}+\\mathbf{v}) = T(\\mathbf{u}) + T(\\mathbf{v})$) e multiplicação por escalar ($T(c\\mathbf{u}) = cT(\\mathbf{u})$), representada canonicamente pela multiplicação por uma matriz $\\mathbf{A}$.",
+    intuition: "As colunas da matriz $\\mathbf{A}$ representam exatamente onde os vetores da base canônica vão parar após a transformação (rotação, escala, cisalhamento)."
+  },
+  determinante: {
+    term: "Determinante",
+    notation: "\\operatorname{det}(\\mathbf{A}) = |\\mathbf{A}|",
+    title: "Determinante de uma Matriz Quadrada",
+    definition: "Escalar que expressa o fator de escalonamento volumétrico induzido pela transformação linear associada à matriz $\\mathbf{A}$. Em $\\mathbb{R}^2$, representa a área orientada do paralelogramo gerado pelas colunas.",
+    intuition: "Se $\\operatorname{det}(\\mathbf{A}) = 0$, o espaço foi colapsado para uma dimensão inferior (uma reta ou ponto), o que significa que a matriz perdeu informação e não possui inversa."
+  },
+  "similaridade-cosseno": {
+    term: "Similaridade de Cosseno",
+    notation: "S_C(\\mathbf{u}, \\mathbf{v}) = \\frac{\\mathbf{u} \\cdot \\mathbf{v}}{\\|\\mathbf{u}\\| \\|\\mathbf{v}\\|}",
+    title: "Similaridade de Cosseno",
+    definition: "Métrica de proximidade angular normalizada entre dois vetores que varia no intervalo $[-1, 1]$, sendo estritamente invariante à magnitude e comprimento dos vetores.",
+    intuition: "Fundamental em NLP e busca semântica: dois textos que tratam do mesmo assunto terão cosseno próximo a $1$, mesmo que um deles seja um parágrafo e o outro um livro inteiro."
+  },
+  "projecao-ortogonal": {
+    term: "Projeção Ortogonal",
+    notation: "\\operatorname{proj}_{\\mathbf{v}}(\\mathbf{u}) = \\frac{\\mathbf{u} \\cdot \\mathbf{v}}{\\|\\mathbf{v}\\|^2} \\mathbf{v}",
+    title: "Projeção Ortogonal",
+    definition: "A decomposição de um vetor $\\mathbf{u}$ na componente paralela à direção de $\\mathbf{v}$, de tal forma que o vetor residual $\\mathbf{u} - \\operatorname{proj}_{\\mathbf{v}}(\\mathbf{u})$ seja estritamente ortogonal a $\\mathbf{v}$.",
+    intuition: "É a sombra perpendicular de $\\mathbf{u}$ projetada sobre a reta gerada por $\\mathbf{v}$, constituindo o fundamento geométrico da Regressão Linear por Mínimos Quadrados (OLS)."
   }
 };
 

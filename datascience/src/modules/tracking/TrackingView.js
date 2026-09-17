@@ -10,12 +10,12 @@ export function renderTrackingView() {
 
   let totalChapters = 0;
   let activeLabsCount = LAB_REGISTRY.length;
-  let pilotChaptersCount = 0;
+  let completedChaptersCount = 0;
 
   CURRICULUM_AXES.forEach(axis => {
     totalChapters += axis.chapters.length;
     axis.chapters.forEach(c => {
-      if (c.status === "pilot") pilotChaptersCount++;
+      if (c.status === "complete" || c.status === "pilot") completedChaptersCount++;
     });
   });
 
@@ -60,8 +60,8 @@ export function renderTrackingView() {
           <span class="text-xl font-bold text-slate-900 dark:text-white mt-0.5 block">${activeLabsCount}</span>
         </div>
         <div class="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/60">
-          <span class="text-[10px] uppercase font-bold text-slate-400 block font-mono">Capítulos Piloto</span>
-          <span class="text-xl font-bold text-slate-900 dark:text-white mt-0.5 block">${pilotChaptersCount}</span>
+          <span class="text-[10px] uppercase font-bold text-slate-400 block font-mono">Capítulos Canônicos</span>
+          <span class="text-xl font-bold text-slate-900 dark:text-white mt-0.5 block">${completedChaptersCount}</span>
         </div>
       </div>
     </div>
@@ -84,7 +84,9 @@ export function renderTrackingView() {
             <div class="divide-y divide-slate-100 dark:divide-slate-800/60 text-xs">
               ${axis.chapters.map(chap => {
                 const lab = chap.labId ? LAB_REGISTRY.find(l => l.id === chap.labId) : null;
+                const isComplete = chap.status === "complete";
                 const isPilot = chap.status === "pilot";
+                const isAvailable = isComplete || isPilot;
 
                 return `
                   <div class="p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:bg-slate-50/60 dark:hover:bg-slate-800/30 transition-colors">
@@ -94,6 +96,10 @@ export function renderTrackingView() {
                         ${isPilot ? `
                           <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-slate-900 text-white dark:bg-white dark:text-slate-900">
                             Piloto Benchmark
+                          </span>
+                        ` : isComplete ? `
+                          <span class="px-2 py-0.5 rounded text-[9px] font-bold uppercase bg-slate-800 text-white dark:bg-slate-200 dark:text-slate-900">
+                            Canônico
                           </span>
                         ` : ''}
                       </div>
@@ -108,8 +114,8 @@ export function renderTrackingView() {
                         </a>
                       ` : ''}
 
-                      <a href="#chapter/${chap.id}" class="px-3 py-1 rounded ${isPilot ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'} font-semibold text-[11px] hover:opacity-90 transition-opacity">
-                        ${isPilot ? 'Ler Capítulo' : 'Detalhes'}
+                      <a href="#chapter/${chap.id}" class="px-3 py-1 rounded ${isAvailable ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900' : 'bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200'} font-semibold text-[11px] hover:opacity-90 transition-opacity">
+                        ${isAvailable ? 'Ler Capítulo' : 'Detalhes'}
                       </a>
                     </div>
                   </div>

@@ -14,9 +14,10 @@ export const CURRICULUM_AXES = [
         id: "axis-1-cap-1-linear-algebra",
         number: 1,
         title: "Álgebra Linear Computacional",
-        shortDesc: "Vetores, espaços vetoriais, operações matriciais, autovalores e Decomposição em Valores Singulares (SVD).",
-        status: "planned",
-        hasLab: false
+        shortDesc: "Vetores, espaços vetoriais, operações matriciais, determinantes, produto escalar e transformações lineares.",
+        status: "complete",
+        hasLab: true,
+        labId: "linear-algebra-lab"
       },
       {
         id: "axis-1-cap-2-calculus-opt",

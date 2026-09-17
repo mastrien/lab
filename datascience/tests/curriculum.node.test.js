@@ -33,6 +33,14 @@ describe('Currículo Canônico (curriculum.js)', () => {
     assert.equal(found.chapter.hasLab, true);
     assert.equal(found.chapter.labId, 'clt-lab');
   });
+
+  test('deve conter o Capítulo 1.1 Canônico de Álgebra Linear com laboratório associado', () => {
+    const found = getChapterById('axis-1-cap-1-linear-algebra');
+    assert.ok(found);
+    assert.equal(found.chapter.status, 'complete');
+    assert.equal(found.chapter.hasLab, true);
+    assert.equal(found.chapter.labId, 'linear-algebra-lab');
+  });
 });
 
 describe('Registro Central de Laboratórios (registry.js)', () => {
@@ -52,5 +60,12 @@ describe('Registro Central de Laboratórios (registry.js)', () => {
     assert.ok(clt);
     assert.equal(clt.id, 'clt-lab');
     assert.equal(clt.axisId, 'axis-1');
+  });
+
+  test('deve recuperar o laboratório linear-algebra-lab', () => {
+    const laLab = getLabById('linear-algebra-lab');
+    assert.ok(laLab);
+    assert.equal(laLab.id, 'linear-algebra-lab');
+    assert.equal(laLab.axisId, 'axis-1');
   });
 });

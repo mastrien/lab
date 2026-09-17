@@ -31,6 +31,7 @@ class MockElement {
       fillRect: () => {},
       clearRect: () => {},
       beginPath: () => {},
+      closePath: () => {},
       moveTo: () => {},
       lineTo: () => {},
       stroke: () => {},
@@ -38,7 +39,10 @@ class MockElement {
       arc: () => {},
       measureText: () => ({ width: 0 }),
       fillText: () => {},
-      scale: () => {}
+      scale: () => {},
+      save: () => {},
+      restore: () => {},
+      setLineDash: () => {}
     };
   }
   appendChild(child) {
@@ -83,8 +87,12 @@ async function testRender() {
 
     const { renderChapterView } = await import('../src/modules/chapter/ChapterView.js');
     console.log('Testing renderChapterView (axis-1-cap-3-clt)...');
-    const chapter = renderChapterView('axis-1-cap-3-clt');
-    console.log('renderChapterView SUCCESS, returned element');
+    const chapterClt = renderChapterView('axis-1-cap-3-clt');
+    console.log('renderChapterView CLT SUCCESS, returned element');
+
+    console.log('Testing renderChapterView (axis-1-cap-1-linear-algebra)...');
+    const chapterLA = renderChapterView('axis-1-cap-1-linear-algebra');
+    console.log('renderChapterView Linear Algebra SUCCESS, returned element');
 
     const { renderLabsCatalogView } = await import('../src/modules/labs/LabsCatalogView.js');
     console.log('Testing renderLabsCatalogView...');
