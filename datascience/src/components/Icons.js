@@ -220,5 +220,47 @@ export const Icons = {
       <path stroke-linecap="round" stroke-linejoin="round" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
       <polyline points="9 12 11 14 15 10"/>
     </svg>
+  `,
+
+  list: (cls = "w-4 h-4") => `
+    <svg class="${cls}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <line x1="8" y1="6" x2="21" y2="6"/>
+      <line x1="8" y1="12" x2="21" y2="12"/>
+      <line x1="8" y1="18" x2="21" y2="18"/>
+      <line x1="3" y1="6" x2="3.01" y2="6"/>
+      <line x1="3" y1="12" x2="3.01" y2="12"/>
+      <line x1="3" y1="18" x2="3.01" y2="18"/>
+    </svg>
+  `,
+
+  folder: (cls = "w-4 h-4") => `
+    <svg class="${cls}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z"/>
+    </svg>
+  `,
+
+  folderOpen: (cls = "w-4 h-4") => `
+    <svg class="${cls}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M5 19a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4l2 2h6a2 2 0 0 1 2 2v2H7a2 2 0 0 0-2 2v6z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" d="m5 19 3-8h14l-3 8H5z"/>
+    </svg>
+  `,
+
+  play: (cls = "w-4 h-4") => `
+    <svg class="${cls}" fill="currentColor" viewBox="0 0 24 24">
+      <polygon points="5 3 19 12 5 21 5 3"/>
+    </svg>
+  `,
+
+  chevronRight: (cls = "w-4 h-4") => `
+    <svg class="${cls}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  `,
+
+  chevronDown: (cls = "w-4 h-4") => `
+    <svg class="${cls}" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
   `
 };

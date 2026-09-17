@@ -134,3 +134,5 @@ function getAllSubsets(array) {
   }
   return result;
 }
+
+export const apriori = runApriori;

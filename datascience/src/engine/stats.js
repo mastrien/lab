@@ -141,3 +141,6 @@ export function detectOutliersIQR(arr, factor = 1.5) {
     percentage: Number(((outliers.length / nums.length) * 100).toFixed(1))
   };
 }
+
+export const detectOutliersTukey = detectOutliersIQR;
+

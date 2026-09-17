@@ -1,70 +1,73 @@
-// Barra Lateral de Navegação Modular com ícones vetoriais limpos
+// Barra Lateral de Navegação Hierárquica baseada nos 10 Eixos e no Hub de Laboratórios
 
-import { DS_BRANCHES } from "../data/branches.js";
-import { renderPlaceholderModal } from "./PlaceholderModal.js";
+import { CURRICULUM_AXES } from "../data/curriculum.js";
+import { LAB_REGISTRY } from "../labs/registry.js";
 import { Icons } from "./Icons.js";
 
-export function renderSidebar(activeModuleId, onNavigate, onCloseMobile) {
+export function renderSidebar(activeRoute, onNavigate, onCloseMobile) {
   const sidebar = document.createElement("aside");
   sidebar.className = "w-64 shrink-0 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-[calc(100vh-4rem)] sticky top-16 transition-colors";
 
-  const activeBranches = DS_BRANCHES.filter(b => b.status === "active");
-  const upcomingBranches = DS_BRANCHES.filter(b => b.status === "upcoming");
-
   sidebar.innerHTML = `
     <!-- Navegação Scrollável -->
-    <div class="flex-1 overflow-y-auto px-3 py-4 space-y-6 custom-scrollbar">
+    <div class="flex-1 overflow-y-auto px-3 py-4 space-y-6 custom-scrollbar text-xs">
       
-      <!-- Seção Principal: Início -->
-      <div>
-        <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">Início</p>
-        <button data-module="overview" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-md text-xs font-semibold transition-colors ${activeModuleId === 'overview' ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
+      <!-- Seção Principal: Início & Hub de Laboratórios -->
+      <div class="space-y-1">
+        <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">Principal</p>
+        
+        <button data-route="overview" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-md font-semibold transition-colors ${activeRoute === 'overview' ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
           <span class="text-slate-500 dark:text-slate-400">${Icons.layers("w-4 h-4")}</span>
           <span>Visão Geral</span>
         </button>
+
+        <button data-route="labs" class="sidebar-nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md font-semibold transition-colors ${activeRoute.startsWith('labs') ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
+          <div class="flex items-center gap-2.5 truncate">
+            <span class="text-slate-500 dark:text-slate-400">${Icons.cpu("w-4 h-4")}</span>
+            <span class="truncate">Hub de Laboratórios</span>
+          </div>
+          <span class="text-[9px] font-mono font-bold px-1.5 py-0.2 rounded bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200">
+            ${LAB_REGISTRY.length}
+          </span>
+        </button>
       </div>
 
-      <!-- Seção: Módulos do Laboratório -->
-      <div>
+      <!-- Seção: Os 10 Grandes Eixos de Conteúdo -->
+      <div class="space-y-1">
         <div class="flex items-center justify-between px-3 mb-1.5">
-          <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Módulos Práticos</p>
+          <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">10 Eixos Canônicos</p>
+          <span class="text-[9px] font-mono text-slate-400 font-semibold">10</span>
         </div>
-        <div class="space-y-0.5">
-          ${activeBranches.map(branch => {
-            const iconSvg = Icons[branch.iconKey] ? Icons[branch.iconKey]("w-4 h-4") : Icons.fileText("w-4 h-4");
-            const isActive = activeModuleId === branch.id;
-            return `
-              <button data-module="${branch.id}" class="sidebar-nav-btn w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-semibold transition-colors ${isActive ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
-                <div class="flex items-center gap-2.5 truncate">
-                  <span class="${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-400 dark:text-slate-500'}">${iconSvg}</span>
-                  <span class="truncate">${branch.name}</span>
-                </div>
-              </button>
-            `;
-          }).join("")}
-        </div>
-      </div>
 
-      <!-- Seção: Ramificações Futuras -->
-      <div>
-        <div class="flex items-center justify-between px-3 mb-1.5">
-          <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500">Outras Ramificações</p>
-          <span class="text-[9px] font-semibold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">Planejadas</span>
-        </div>
         <div class="space-y-0.5">
-          ${upcomingBranches.map(branch => {
-            const iconSvg = Icons[branch.iconKey] ? Icons[branch.iconKey]("w-3.5 h-3.5") : Icons.fileText("w-3.5 h-3.5");
+          ${CURRICULUM_AXES.map(axis => {
+            const iconSvg = Icons[axis.iconKey] ? Icons[axis.iconKey]("w-3.5 h-3.5") : Icons.fileText("w-3.5 h-3.5");
+            const isActive = activeRoute === `axis/${axis.id}` || activeRoute === axis.id;
             return `
-              <button data-placeholder-id="${branch.id}" class="sidebar-placeholder-btn w-full flex items-center justify-between px-3 py-1.5 rounded-md text-xs font-medium text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/50 hover:text-slate-700 dark:hover:text-slate-200 transition-colors">
+              <button data-route="axis/${axis.id}" class="sidebar-nav-btn w-full flex items-center justify-between px-3 py-1.5 rounded-md font-medium transition-colors ${isActive ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
                 <div class="flex items-center gap-2 truncate">
-                  <span class="text-slate-400 dark:text-slate-500">${iconSvg}</span>
-                  <span class="truncate">${branch.name}</span>
+                  <span class="${isActive ? 'text-slate-900 dark:text-white' : 'text-slate-400'}">${iconSvg}</span>
+                  <span class="truncate text-[11px]">${axis.number}. ${axis.title}</span>
                 </div>
-                <span class="text-[10px] text-slate-400">Info</span>
               </button>
             `;
           }).join("")}
         </div>
+      </div>
+
+      <!-- Seção: Ferramentas & Apoio -->
+      <div class="space-y-1">
+        <p class="px-3 text-[10px] font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-1.5">Ferramentas & Apoio</p>
+        
+        <button data-route="mylab" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-md font-semibold transition-colors ${activeRoute === 'mylab' ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
+          <span class="text-slate-500 dark:text-slate-400">${Icons.table("w-4 h-4")}</span>
+          <span>Meu Laboratório (CSV)</span>
+        </button>
+
+        <button data-route="quizzes" class="sidebar-nav-btn w-full flex items-center gap-2.5 px-3 py-2 rounded-md font-semibold transition-colors ${activeRoute === 'quizzes' ? 'bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-white' : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60'}">
+          <span class="text-slate-500 dark:text-slate-400">${Icons.bookOpen("w-4 h-4")}</span>
+          <span>Exercícios Conceituais</span>
+        </button>
       </div>
 
     </div>
@@ -81,20 +84,8 @@ export function renderSidebar(activeModuleId, onNavigate, onCloseMobile) {
   // Attach navigation events
   sidebar.querySelectorAll(".sidebar-nav-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      const targetModule = btn.getAttribute("data-module");
-      if (onNavigate) onNavigate(targetModule);
-      if (onCloseMobile) onCloseMobile();
-    });
-  });
-
-  // Attach placeholder modal trigger events
-  sidebar.querySelectorAll(".sidebar-placeholder-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      const placeholderId = btn.getAttribute("data-placeholder-id");
-      const branch = upcomingBranches.find(b => b.id === placeholderId);
-      if (branch) {
-        renderPlaceholderModal(branch);
-      }
+      const targetRoute = btn.getAttribute("data-route");
+      if (onNavigate) onNavigate(targetRoute);
       if (onCloseMobile) onCloseMobile();
     });
   });
