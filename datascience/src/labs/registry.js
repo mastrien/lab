@@ -1,6 +1,7 @@
 // Registro Central de Laboratórios Modulares Interativos
 
 import { renderLinearAlgebra2DLab } from "./LinearAlgebra2DLab.js";
+import { renderGradientDescentLab } from "./GradientDescentLab.js";
 import { renderCentralLimitTheoremLab } from "./CentralLimitTheoremLab.js";
 import { renderEdaStatsLab } from "./EdaStatsLab.js";
 import { renderCorrelationHeatmapLab } from "./CorrelationHeatmapLab.js";
@@ -24,6 +25,17 @@ export const LAB_REGISTRY = [
     category: "Álgebra Linear & Geometria",
     shortDesc: "Simulador interativo de transformações lineares 2D, cálculo de determinantes, produto escalar e projeção ortogonal.",
     render: renderLinearAlgebra2DLab
+  },
+  {
+    id: "gradient-descent-lab",
+    name: "Otimização Numérica & Descida de Gradiente 2D",
+    axisId: "axis-1",
+    axisName: "Eixo 1: Fundamentos",
+    chapterId: "axis-1-cap-2-calculus-opt",
+    chapterTitle: "Cálculo Multivariável e Otimização Numérica",
+    category: "Cálculo Diferencial & Otimização",
+    shortDesc: "Simulador de trajetórias de otimização (GD, Momentum, Adam) em superfícies de custo 2D com curvas de nível.",
+    render: renderGradientDescentLab
   },
   {
     id: "clt-lab",

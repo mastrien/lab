@@ -41,6 +41,14 @@ describe('Currículo Canônico (curriculum.js)', () => {
     assert.equal(found.chapter.hasLab, true);
     assert.equal(found.chapter.labId, 'linear-algebra-lab');
   });
+
+  test('deve conter o Capítulo 1.2 Canônico de Cálculo e Otimização com laboratório associado', () => {
+    const found = getChapterById('axis-1-cap-2-calculus-opt');
+    assert.ok(found);
+    assert.equal(found.chapter.status, 'complete');
+    assert.equal(found.chapter.hasLab, true);
+    assert.equal(found.chapter.labId, 'gradient-descent-lab');
+  });
 });
 
 describe('Registro Central de Laboratórios (registry.js)', () => {
@@ -67,5 +75,12 @@ describe('Registro Central de Laboratórios (registry.js)', () => {
     assert.ok(laLab);
     assert.equal(laLab.id, 'linear-algebra-lab');
     assert.equal(laLab.axisId, 'axis-1');
+  });
+
+  test('deve recuperar o laboratório gradient-descent-lab', () => {
+    const gdLab = getLabById('gradient-descent-lab');
+    assert.ok(gdLab);
+    assert.equal(gdLab.id, 'gradient-descent-lab');
+    assert.equal(gdLab.axisId, 'axis-1');
   });
 });

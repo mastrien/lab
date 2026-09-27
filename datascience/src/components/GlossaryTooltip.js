@@ -178,6 +178,69 @@ export const GLOSSARY_TERMS = {
     title: "Projeção Ortogonal",
     definition: "A decomposição de um vetor $\\mathbf{u}$ na componente paralela à direção de $\\mathbf{v}$, de tal forma que o vetor residual $\\mathbf{u} - \\operatorname{proj}_{\\mathbf{v}}(\\mathbf{u})$ seja estritamente ortogonal a $\\mathbf{v}$.",
     intuition: "É a sombra perpendicular de $\\mathbf{u}$ projetada sobre a reta gerada por $\\mathbf{v}$, constituindo o fundamento geométrico da Regressão Linear por Mínimos Quadrados (OLS)."
+  },
+  gradiente: {
+    term: "Gradiente",
+    notation: "\\nabla f(\\mathbf{x}) = \\left( \\frac{\\partial f}{\\partial x_1}, \\dots, \\frac{\\partial f}{\\partial x_n} \\right)^\\top",
+    title: "Vetor Gradiente",
+    definition: "Vetor composto por todas as derivadas parciais de primeira ordem de uma função escalar multivariada. Aponta rigorosamente na direção de maior taxa de crescimento instantâneo da função, sendo perpendicular às curvas de nível.",
+    intuition: "Se você estiver em uma montanha coberta por neblina, o gradiente indica a subida mais íngreme possível a partir do ponto onde você pisa; o vetor oposto $-\\nabla f$ aponta para a descida mais rápida."
+  },
+  "derivada-parcial": {
+    term: "Derivada Parcial",
+    notation: "\\frac{\\partial f}{\\partial x_i} = \\lim_{h \\to 0} \\frac{f(x_1, \\dots, x_i + h, \\dots) - f(x_1, \\dots)}{h}",
+    title: "Derivada Parcial",
+    definition: "Taxa de variação instantânea de uma função multivariada com respeito a uma única variável de entrada isolada, mantendo todas as demais variáveis fixas como constantes.",
+    intuition: "É a inclinação de uma fatia unidimensional da superfície montanhosa paralela a um único eixo de coordenadas."
+  },
+  jacobiana: {
+    term: "Matriz Jacobiana",
+    notation: "\\mathbf{J}_f \\in \\mathbb{R}^{m \\times n}, \\quad J_{ij} = \\frac{\\partial f_i}{\\partial x_j}",
+    title: "Matriz Jacobiana de Derivadas",
+    definition: "Matriz que reúne todas as derivadas parciais de primeira ordem de uma função vetorial $\\mathbf{f}: \\mathbb{R}^n \\to \\mathbb{R}^m$. Representa a melhor aproximação linear local da função vetorial em torno de um ponto.",
+    intuition: "Constitui o alicerce matemático da diferenciação automática e do algoritmo de Retropropagação (Backpropagation) em redes neurais profundas via regra da cadeia matricial."
+  },
+  hessiana: {
+    term: "Matriz Hessiana",
+    notation: "\\mathbf{H}_f \\in \\mathbb{R}^{n \\times n}, \\quad H_{ij} = \\frac{\\partial^2 f}{\\partial x_i \\partial x_j}",
+    title: "Matriz Hessiana de Segunda Ordem",
+    definition: "Matriz quadrada simétrica de derivadas parciais de segunda ordem de uma função escalar. Descreve a curvatura local da superfície e permite classificar extremos locais e examinar a convexidade estrita.",
+    intuition: "Enquanto o gradiente fornece a inclinação do terreno, a Hessiana informa se o terreno se curva para cima (vale/mínimo), para baixo (pico/máximo) ou em direções opostas (ponto de sela)."
+  },
+  "descida-gradiente": {
+    term: "Descida de Gradiente",
+    notation: "\\mathbf{w}_{t+1} = \\mathbf{w}_t - \\alpha \\nabla L(\\mathbf{w}_t)",
+    title: "Algoritmo de Descida de Gradiente",
+    definition: "Método iterativo de otimização de primeira ordem que busca encontrar um mínimo local de uma função de perda diferenciável dando passos proporcionais ao negativo do gradiente no ponto atual.",
+    intuition: "Descer uma montanha escura dando passos curtos sempre na direção da descida mais íngreme até alcançar o fundo do vale."
+  },
+  "taxa-aprendizado": {
+    term: "Taxa de Aprendizado (Learning Rate)",
+    notation: "\\alpha > 0",
+    title: "Taxa de Aprendizado (Tamanho do Passo)",
+    definition: "Hiperparâmetro escalar positivo que calibra a magnitude do deslocamento em direção ao gradiente negativo a cada iteração do algoritmo de otimização.",
+    intuition: "Se $\\alpha$ for excessivamente pequeno, o algoritmo levará milhares de passos lentos para convergir; se for grande demais, ultrapassará o mínimo e poderá divergir ao infinito."
+  },
+  "ponto-sela": {
+    term: "Ponto de Sela (Saddle Point)",
+    notation: "\\nabla f(\\mathbf{x}) = \\mathbf{0}, \\quad \\lambda_1 > 0, \\, \\lambda_2 < 0",
+    title: "Ponto de Sela",
+    definition: "Ponto crítico onde o gradiente se anula, mas a matriz Hessiana possui autovalores com sinais positivos e negativos simultâneos, não sendo nem mínimo nem máximo local.",
+    intuition: "Lembra a geometria da sela de cavalo: subir na direção do rabo e da cabeça, mas descer na direção dos estribos laterais. Em alta dimensão, pontos de sela são os principais obstáculos para otimização."
+  },
+  momentum: {
+    term: "Otimizador com Momentum",
+    notation: "\\mathbf{v}_{t+1} = \\beta \\mathbf{v}_t + \\alpha \\nabla L(\\mathbf{w}_t), \\quad \\mathbf{w}_{t+1} = \\mathbf{w}_t - \\mathbf{v}_{t+1}",
+    title: "Descida de Gradiente com Momento (Inércia)",
+    definition: "Extensão da descida de gradiente que acumula uma média móvel exponencial de vetores de gradientes passados, conferindo massa inercial à trajetória do otimizador.",
+    intuition: "Uma bola pesada rolando morro abaixo: ela ganha velocidade nas descidas contínuas e não fica oscilando desnecessariamente em ravinas estreitas."
+  },
+  adam: {
+    term: "Otimizador Adam",
+    notation: "\\hat{m}_t / (\\sqrt{\\hat{v}_t} + \\epsilon)",
+    title: "Adaptive Moment Estimation (Adam)",
+    definition: "Algoritmo de otimização adaptativa que combina as vantagens do Momentum (primeiro momento da média) com o RMSprop (segundo momento da variância não-centrada), corrigindo o viés de inicialização nula.",
+    intuition: "Ajusta um tamanho de passo individual e personalizado para cada parâmetro: coordenadas com gradientes esparsos recebem passos maiores, e coordenadas ruidosas recebem passos amortecidos."
   }
 };
 

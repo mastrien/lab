@@ -94,6 +94,10 @@ async function testRender() {
     const chapterLA = renderChapterView('axis-1-cap-1-linear-algebra');
     console.log('renderChapterView Linear Algebra SUCCESS, returned element');
 
+    console.log('Testing renderChapterView (axis-1-cap-2-calculus-opt)...');
+    const chapterCO = renderChapterView('axis-1-cap-2-calculus-opt');
+    console.log('renderChapterView Calculus Opt SUCCESS, returned element');
+
     const { renderLabsCatalogView } = await import('../src/modules/labs/LabsCatalogView.js');
     console.log('Testing renderLabsCatalogView...');
     const labs = renderLabsCatalogView(null);

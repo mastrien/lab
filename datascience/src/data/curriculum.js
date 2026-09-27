@@ -24,8 +24,9 @@ export const CURRICULUM_AXES = [
         number: 2,
         title: "Cálculo Multivariável e Otimização Numérica",
         shortDesc: "Gradientes, Jacobiana, Hessiana, funções de perda e algoritmos de descida de gradiente (SGD e Adam).",
-        status: "planned",
-        hasLab: false
+        status: "complete",
+        hasLab: true,
+        labId: "gradient-descent-lab"
       },
       {
         id: "axis-1-cap-3-clt",

@@ -7,6 +7,7 @@ import { renderMath } from "../../utils/mathRenderer.js";
 import { termHint, initGlossaryTooltips } from "../../components/GlossaryTooltip.js";
 import { Icons } from "../../components/Icons.js";
 import { renderLinearAlgebraChapter } from "./chapters/axis1_cap1_linear_algebra.js";
+import { renderCalculusOptChapter } from "./chapters/axis1_cap2_calculus_opt.js";
 
 export function renderChapterView(chapterId) {
   const container = document.createElement("div");
@@ -33,6 +34,8 @@ export function renderChapterView(chapterId) {
   // Renderização específica para capítulos canônicos com conteúdo didático completo
   if (chapter.id === "axis-1-cap-1-linear-algebra") {
     renderLinearAlgebraChapter(container, axis, chapter);
+  } else if (chapter.id === "axis-1-cap-2-calculus-opt") {
+    renderCalculusOptChapter(container, axis, chapter);
   } else if (chapter.id === "axis-1-cap-3-clt") {
     renderCltBenchmarkChapter(container, axis, chapter);
   } else {
