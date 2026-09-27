@@ -49,6 +49,14 @@ describe('Currículo Canônico (curriculum.js)', () => {
     assert.equal(found.chapter.hasLab, true);
     assert.equal(found.chapter.labId, 'gradient-descent-lab');
   });
+
+  test('deve conter o Capítulo 7.1 Canônico de Redes Neurais com laboratório associado', () => {
+    const found = getChapterById('axis-7-cap-1-neural-networks');
+    assert.ok(found);
+    assert.equal(found.chapter.status, 'complete');
+    assert.equal(found.chapter.hasLab, true);
+    assert.equal(found.chapter.labId, 'neural-network-lab');
+  });
 });
 
 describe('Registro Central de Laboratórios (registry.js)', () => {
@@ -82,5 +90,12 @@ describe('Registro Central de Laboratórios (registry.js)', () => {
     assert.ok(gdLab);
     assert.equal(gdLab.id, 'gradient-descent-lab');
     assert.equal(gdLab.axisId, 'axis-1');
+  });
+
+  test('deve recuperar o laboratório neural-network-lab', () => {
+    const nnLab = getLabById('neural-network-lab');
+    assert.ok(nnLab);
+    assert.equal(nnLab.id, 'neural-network-lab');
+    assert.equal(nnLab.axisId, 'axis-7');
   });
 });

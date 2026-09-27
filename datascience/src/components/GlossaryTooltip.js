@@ -241,6 +241,69 @@ export const GLOSSARY_TERMS = {
     title: "Adaptive Moment Estimation (Adam)",
     definition: "Algoritmo de otimização adaptativa que combina as vantagens do Momentum (primeiro momento da média) com o RMSprop (segundo momento da variância não-centrada), corrigindo o viés de inicialização nula.",
     intuition: "Ajusta um tamanho de passo individual e personalizado para cada parâmetro: coordenadas com gradientes esparsos recebem passos maiores, e coordenadas ruidosas recebem passos amortecidos."
+  },
+  "neuronio-artificial": {
+    term: "Neurônio Artificial",
+    notation: "a = \\sigma(\\mathbf{w}^\\top \\mathbf{x} + b)",
+    title: "Neurônio Artificial (Unidade de Processamento)",
+    definition: "Unidade computacional elementar inspirada no neurônio biológico. Calcula uma combinação linear ponderada de suas entradas somada a um viés ($z = \\mathbf{w}^\\top \\mathbf{x} + b$) e aplica uma função de ativação não-linear $\\sigma(z)$ para produzir o disparo de saída.",
+    intuition: "Como um comitê individual: cada entrada recebe um peso de importância; se a soma ponderada superar o limiar do viés, o neurônio dispara um sinal adiante."
+  },
+  perceptron: {
+    term: "Perceptron",
+    notation: "f(\\mathbf{x}) = \\operatorname{sinal}(\\mathbf{w}^\\top \\mathbf{x} + b)",
+    title: "Perceptron de Rosenblatt (1958)",
+    definition: "O modelo fundador do aprendizado supervisionado para classificação linear binária. Atualiza seus pesos iterativamente com base nos erros de predição, convergindo garantidamente se os dados forem linearmente separáveis.",
+    intuition: "Traça uma reta ou hiperplano para separar duas classes. Não consegue resolver problemas não-lineares simples como o operador lógico XOR."
+  },
+  mlp: {
+    term: "Perceptron Multicamadas (MLP)",
+    notation: "\\mathbf{a}^{[l]} = \\sigma(\\mathbf{W}^{[l]} \\mathbf{a}^{[l-1]} + \\mathbf{b}^{[l]})",
+    title: "Multilayer Perceptron (Rede Feedforward)",
+    definition: "Rede neural artificial densa composta por uma camada de entrada, uma ou mais camadas ocultas com ativações não-lineares e uma camada de saída. Capaz de aprender representações hierárquicas complexas.",
+    intuition: "Ao empilhar camadas não-lineares, a rede deforma e dobra o espaço dos dados até que classes antes misturadas possam ser separadas facilmente."
+  },
+  "funcao-ativacao": {
+    term: "Função de Ativação",
+    notation: "\\sigma(z): \\mathbb{R} \\to \\mathbb{R}",
+    title: "Função de Ativação Não-Linear",
+    definition: "Função matemática aplicada elemento a elemento às saídas pré-ativadas de cada neurônio. Introduz não-linearidade no modelo, prevenindo o colapso matemático de redes profundas em meras transformações afins.",
+    intuition: "Sem funções de ativação não-lineares, uma rede neural de cem camadas seria algebricamente equivalente a uma única regressão linear simples."
+  },
+  sigmoide: {
+    term: "Função Sigmóide",
+    notation: "\\sigma(z) = \\frac{1}{1 + e^{-z}}",
+    title: "Função Logística (Sigmóide)",
+    definition: "Função de ativação suave que mapeia qualquer número real no intervalo aberto $(0, 1)$, comumente empregada para modelar probabilidades na camada de saída de classificadores binários.",
+    intuition: "Converte valores extremos positivos em probabilidade próxima de $1$ e valores negativos em próximo de $0$, mas sofre de saturação de gradiente nas caudas."
+  },
+  relu: {
+    term: "Função ReLU",
+    notation: "\\operatorname{ReLU}(z) = \\max(0, z)",
+    title: "Rectified Linear Unit (ReLU)",
+    definition: "A função de ativação mais utilizada em Deep Learning moderno. Retorna zero para entradas negativas e opera linearmente com derivada unitária para entradas positivas, mitigando o problema do desaparecimento de gradiente.",
+    intuition: "Simples, computacionalmente ultrarrápida e não satura no regime positivo, permitindo o treinamento estável de redes com dezenas de camadas."
+  },
+  backpropagation: {
+    term: "Retropropagação (Backpropagation)",
+    notation: "\\boldsymbol{\\delta}^{[l]} = (\\mathbf{W}^{[l+1]\\top} \\boldsymbol{\\delta}^{[l+1]}) \\odot \\sigma'(\\mathbf{z}^{[l]})",
+    title: "Algoritmo de Retropropagação do Erro",
+    definition: "Aplicação recursiva eficiente da regra da cadeia do cálculo diferencial para calcular os gradientes da função de perda com respeito a todos os pesos e vieses da rede, fluindo da saída para a entrada.",
+    intuition: "Mede o quanto cada neurônio individual em cada camada intermediária foi culpado pelo erro final da rede, ajustando os pesos na proporção exata dessa responsabilidade."
+  },
+  "vanishing-gradient": {
+    term: "Desaparecimento do Gradiente",
+    notation: "\\lim_{L \\to \\infty} \\prod_{l=1}^L \\sigma'(z^{[l]}) \\approx 0",
+    title: "Problema do Gradiente Desvanecente (Vanishing Gradient)",
+    definition: "Fenômeno patológico em redes profundas onde as derivadas parciais decrescem exponencialmente conforme retropropagam pelas camadas iniciais, impedindo o aprendizado dos pesos da base.",
+    intuition: "Em funções saturantes como Sigmóide ou Tanh, derivadas menores que $0.25$ multiplicadas em cadeia ao longo de 10 camadas tornam o sinal de gradiente quase nulo ($0.25^{10} \\approx 10^{-6}$)."
+  },
+  "aproximacao-universal": {
+    term: "Teorema da Aproximação Universal",
+    notation: "\\|f(x) - F(x)\\| < \\varepsilon",
+    title: "Teorema de Cybenko-Hornik (1989/1991)",
+    definition: "Teorema fundamental que estabelece que uma rede neural feedforward com apenas uma camada oculta e número suficiente de neurônios não-lineares pode aproximar qualquer função contínua em compactos com precisão arbitrária.",
+    intuition: "Garante matematicamente que redes neurais possuem flexibilidade expressiva infinita para aprender qualquer relação funcional concebível entre dados."
   }
 };
 

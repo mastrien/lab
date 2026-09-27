@@ -98,6 +98,10 @@ async function testRender() {
     const chapterCO = renderChapterView('axis-1-cap-2-calculus-opt');
     console.log('renderChapterView Calculus Opt SUCCESS, returned element');
 
+    console.log('Testing renderChapterView (axis-7-cap-1-neural-networks)...');
+    const chapterNN = renderChapterView('axis-7-cap-1-neural-networks');
+    console.log('renderChapterView Neural Networks SUCCESS, returned element');
+
     const { renderLabsCatalogView } = await import('../src/modules/labs/LabsCatalogView.js');
     console.log('Testing renderLabsCatalogView...');
     const labs = renderLabsCatalogView(null);

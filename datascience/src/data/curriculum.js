@@ -316,8 +316,9 @@ export const CURRICULUM_AXES = [
         number: 1,
         title: "Redes Neurais Artificiais e Backpropagation",
         shortDesc: "Neurônio artificial, Perceptron Multicamadas (MLP), funções de ativação e retropropagação do erro.",
-        status: "planned",
-        hasLab: false
+        status: "complete",
+        hasLab: true,
+        labId: "neural-network-lab"
       },
       {
         id: "axis-7-cap-2-computer-vision",

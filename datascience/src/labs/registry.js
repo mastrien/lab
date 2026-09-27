@@ -2,6 +2,7 @@
 
 import { renderLinearAlgebra2DLab } from "./LinearAlgebra2DLab.js";
 import { renderGradientDescentLab } from "./GradientDescentLab.js";
+import { renderNeuralNetworkLab } from "./NeuralNetworkLab.js";
 import { renderCentralLimitTheoremLab } from "./CentralLimitTheoremLab.js";
 import { renderEdaStatsLab } from "./EdaStatsLab.js";
 import { renderCorrelationHeatmapLab } from "./CorrelationHeatmapLab.js";
@@ -15,6 +16,17 @@ import { renderKMeansClusteringLab } from "./KMeansClusteringLab.js";
 import { renderConfusionMatrixRocLab } from "./ConfusionMatrixRocLab.js";
 
 export const LAB_REGISTRY = [
+  {
+    id: "neural-network-lab",
+    name: "Playground de Redes Neurais (MLP 2D)",
+    axisId: "axis-7",
+    axisName: "Eixo 7: Deep Learning",
+    chapterId: "axis-7-cap-1-neural-networks",
+    chapterTitle: "Redes Neurais Artificiais e Backpropagation",
+    category: "Deep Learning & Redes Neurais",
+    shortDesc: "Classificador neural multicamadas interativo com retropropagação em tempo real, fronteiras não-lineares e resolução do problema XOR.",
+    render: renderNeuralNetworkLab
+  },
   {
     id: "linear-algebra-lab",
     name: "Espaço Vetorial, Matrizes & Projeções 2D",

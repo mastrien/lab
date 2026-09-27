@@ -8,6 +8,7 @@ import { termHint, initGlossaryTooltips } from "../../components/GlossaryTooltip
 import { Icons } from "../../components/Icons.js";
 import { renderLinearAlgebraChapter } from "./chapters/axis1_cap1_linear_algebra.js";
 import { renderCalculusOptChapter } from "./chapters/axis1_cap2_calculus_opt.js";
+import { renderNeuralNetworksChapter } from "./chapters/axis7_cap1_neural_networks.js";
 
 export function renderChapterView(chapterId) {
   const container = document.createElement("div");
@@ -38,6 +39,8 @@ export function renderChapterView(chapterId) {
     renderCalculusOptChapter(container, axis, chapter);
   } else if (chapter.id === "axis-1-cap-3-clt") {
     renderCltBenchmarkChapter(container, axis, chapter);
+  } else if (chapter.id === "axis-7-cap-1-neural-networks") {
+    renderNeuralNetworksChapter(container, axis, chapter);
   } else {
     // Para capítulos estruturados do currículo ainda em produção
     renderStandardChapter(container, axis, chapter);
