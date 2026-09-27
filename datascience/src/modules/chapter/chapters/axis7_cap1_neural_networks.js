@@ -54,24 +54,67 @@ export function renderNeuralNetworksChapter(container, axis, chapter) {
           </div>
           
           <p>
-            As Redes Neurais Artificiais representam uma das jornadas intelectuais mais fascinantes e dramáticas de toda a história da ciência da computação. Longe de constituírem uma invenção recente impulsionada pelo Vale do Silício, sua formulação teórica atravessou mais de oito décadas de avanços pioneiros, controvérsias epistemológicas devastadoras e invernos conceituais prolongados.
+            As Redes Neurais Artificiais representam uma das jornadas intelectuais mais fascinantes e dramáticas da ciência da computação. Longe de constituírem uma invenção recente impulsionada pelo Vale do Silício, sua formulação teórica atravessou mais de oito décadas de avanços pioneiros, controvérsias epistemológicas devastadoras e invernos conceituais prolongados. Como observa o professor <strong>Simon Haykin</strong> em seu tratado clássico <em>Redes Neurais: Princípios e Prática</em>, cada novo modelo na história do conexionismo emergiu precisamente para superar uma limitação fundamental e paralisante do modelo que o antecedeu.
           </p>
 
           <p>
-            O ponto de partida ocorreu em 1943, quando o neurofisiologista <strong>Warren McCulloch</strong> e o lógico matemático <strong>Walter Pitts</strong> publicaram o artigo fundador <a href="https://archive.org/details/bulletinofmathem05chic" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>A Logical Calculus of the Ideas Immanent in Nervous Activity</em></a> (Bulletin of Mathematical Biophysics, Vol. 5, pp. 115–133). McCulloch e Pitts demonstraram que um modelo matemático simplificado de neurônio biológico — que combinava sinais binários de entrada através de uma função degrau de limiar rígido — era capaz de implementar operadores lógicos booleanos fundamentais ($E$, $OU$, $NÃO$), estabelecendo que redes de neurônios possuíam o poder computacional equivalente ao de uma Máquina de Turing universal.
+            O ponto de partida ocorreu em 1943, quando o neurofisiologista <strong>Warren McCulloch</strong> e o lógico matemático <strong>Walter Pitts</strong> publicaram o artigo fundador <a href="https://archive.org/details/bulletinofmathem05chic" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>A Logical Calculus of the Ideas Immanent in Nervous Activity</em></a> (Bulletin of Mathematical Biophysics, Vol. 5, pp. 115–133). McCulloch e Pitts demonstraram que um modelo matemático simplificado de neurônio biológico — que combinava sinais binários de entrada através de uma função degrau com limiar rígido $\theta$ — era capaz de implementar operadores lógicos booleanos fundamentais ($E$, $OU$, $NÃO$), provando que redes de neurônios possuíam o poder computacional equivalente ao de uma Máquina de Turing universal.
           </p>
 
           <p>
-            Em 1958, o psicólogo americano <strong>Frank Rosenblatt</strong> deu o salto crucial da lógica fixa para o aprendizado empírico com a criação do <strong>Perceptron</strong> no Laboratório Aeronáutico de Cornell, documentado em <a href="https://archive.org/details/perceptronprobab00rose" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain</em></a> (Psychological Review, Vol. 65, No. 6). Rosenblatt introduziu pesos numéricos ajustáveis (sinapses) e formulou a <em>Regra de Aprendizado do Perceptron</em>: se o neurônio errasse uma classificação, os pesos eram incrementados ou decrementados na direção da entrada. Rosenblatt provou o célebre <em>Teorema da Convergência do Perceptron</em>, garantindo que o algoritmo encontraria uma fronteira perfeita se as classes fossem linearmente separáveis.
+            Contudo, o neurônio de McCulloch-Pitts possuía uma limitação estrutural intransponível: <strong>ele não aprendia</strong>. Todos os limiares e conexões tinham de ser desenhados e calculados manualmente por um projetista humano. A rede sabia executar uma função lógica pré-determinada, mas não dispunha de nenhum mecanismo empírico para descobrir por conta própria como resolver uma tarefa. Vale notar a curiosidade epistemológica: o próprio termo "Inteligência Artificial" só seria cunhado treze anos depois, em 1956, por John McCarthy na conferência de Dartmouth — McCulloch e Pitts inauguraram o conexionismo computacional antes mesmo de a área ter um nome formal.
           </p>
 
           <p>
-            Contudo, o entusiasmo desmedido da época sofreu um golpe devastador em 1969. Os pioneiros da inteligência artificial do MIT <strong>Marvin Minsky</strong> e <strong>Seymour Papert</strong> publicaram o clássico livro <a href="https://openlibrary.org/works/OL262272W/Perceptrons" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Perceptrons: An Introduction to Computational Geometry</em></a>. Minsky e Papert provaram matematicamente que perceptrons de camada única eram incapazes de resolver funções não-linearmente separáveis triviais — notavelmente o operador lógico do <strong>OU-Exclusivo (XOR)</strong>. Além disso, argumentaram ceticamente que adicionar camadas intermediárias (camadas ocultas) seria inútil, pois a ciência não possuía nenhum método viável para descobrir como ajustar os pesos internos dessas camadas intermediárias. A repercussão do livro foi profunda, cortando verbas públicas de pesquisa e precipitando o primeiro grande "Inverno da Inteligência Artificial" (<em>AI Winter</em>).
+            A chave para o aprendizado foi proposta em 1949 pelo psicólogo canadense <strong>Donald Hebb</strong> em sua obra seminal <a href="https://archive.org/details/organizationofbe00hebbrich" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>The Organization of Behavior: A Neuropsychological Theory</em></a>. Hebb postulou o princípio da plasticidade sináptica: quando duas células nervosas disparam repetidamente de maneira simultânea, a conexão biológica entre elas é reforçada, premissa popularizada pelo aforismo <em>"neurons that fire together, wire together"</em>. O grande salto conceitual de Hebb foi demonstrar que <strong>o aprendizado mora na força das conexões</strong>, fornecendo a base biológica indispensável para a noção matemática de pesos sinápticos ajustáveis.
           </p>
 
           <p>
-            A barreira intransponível apontada por Minsky foi finalmente demolida em 1986 por <strong>David Rumelhart</strong>, <strong>Geoffrey Hinton</strong> e <strong>Ronald Williams</strong> no artigo histórico <a href="https://www.nature.com/articles/323533a0" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Learning representations by back-propagating errors</em></a> (Nature, Vol. 323, pp. 533–536). Os autores popularizaram e demonstraram o poder do algoritmo de <strong>Retropropagação (Backpropagation)</strong>: aplicando a regra da cadeia multivariada do cálculo diferencial através de funções de ativação suaves e diferenciáveis (como a sigmóide), o erro da camada de saída podia ser propagado camada por camada de volta até a entrada, distribuindo a responsabilidade do erro e permitindo que camadas ocultas aprendessem representações internas inéditas. Poucos anos depois, em 1989, <strong>George Cybenko</strong> formulou o <a href="https://eudml.org/doc/184131" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Teorema da Aproximação Universal</em></a>, provando que redes neurais com camadas ocultas não-lineares possuem a capacidade matemática de aproximar qualquer função contínua existente.
+            Em 1958, o psicólogo americano <strong>Frank Rosenblatt</strong> integrou a unidade de McCulloch-Pitts à plasticidade de Hebb, dando origem ao <strong>Perceptron</strong> no Laboratório Aeronáutico de Cornell, documentado em <a href="https://archive.org/details/perceptronprobab00rose" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain</em></a>. Rosenblatt dotou o neurônio de pesos reais adaptativos e formulou uma regra de aprendizado empírico com taxa $\eta$. Além da teoria, Rosenblatt materializou a ideia na prática construindo o <strong>Mark I Perceptron</strong>: uma máquina física analógica equipada com uma "retina" de 400 fotocélulas de sulfeto de cádmio ($20 \times 20$ pixels) acopladas a potenciômetros rotativos ajustados por motores elétricos passo-a-passo. Em 1962, Rosenblatt e Albert Novikoff formalizaram o célebre <em>Teorema da Convergência do Perceptron</em>: se duas classes de dados forem linearmente separáveis por um hiperplano, a regra de atualização garante a convergência para uma fronteira sem erros em um número finito de iterações.
           </p>
+
+          <p>
+            Quase simultaneamente, em 1960, <strong>Bernard Widrow</strong> e <strong>Ted Hoff</strong> na Universidade de Stanford apresentaram o <strong>ADALINE (ADAptive LINear Element)</strong> no artigo seminal <a href="http://www-isl.stanford.edu/~widrow/papers/c1960adaptiveswitching.pdf" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Adaptive Switching Circuits</em></a>. O ADALINE introduziu um divisor de águas na mecânica de otimização: enquanto o Perceptron de Rosenblatt corrigia os pesos somente quando a saída binária discretizada errava a classificação ($y \ne \hat{y}$), o ADALINE media a distância contínua entre a soma pré-sináptica antes da ativação e o alvo desejado, ajustando os pesos proporcionalmente à magnitude do erro real contínuo. Essa regra, batizada de <strong>Regra Delta</strong> ou <strong>LMS (Least Mean Squares)</strong>, constituiu a primeira manifestação prática da descida do gradiente em unidades neurais, estabelecendo os alicerces diretos para o treinamento moderno por diferenciação.
+          </p>
+
+          <p>
+            Todavia, a euforia generalizada da década de 1960 sofreu uma paralisia abrupta em 1969. Os pioneiros da inteligência artificial do MIT <strong>Marvin Minsky</strong> e <strong>Seymour Papert</strong> publicaram o célebre tratado analítico <a href="https://openlibrary.org/works/OL262272W/Perceptrons" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Perceptrons: An Introduction to Computational Geometry</em></a>. Minsky e Papert demonstraram matematicamente que o Perceptron de camada única era incapaz de solucionar problemas não-linearmente separáveis elementares, a exemplo do operador booleano do <strong>OU-Exclusivo (XOR)</strong>. Embora reconhecessem que redes com camadas intermediárias (camadas ocultas) contornariam a barreira, argumentaram com profundo ceticismo que não existia qualquer método viável para estender o aprendizado e descobrir como calibrar os pesos internos dessas camadas intermediárias. O impacto da obra foi fulminante: agências governamentais cortaram os financiamentos e o campo mergulhou no primeiro grande <strong>Inverno da Inteligência Artificial</strong> (<em>AI Winter</em>).
+          </p>
+
+          <p>
+            O impasse apontado por Minsky só foi superado em sua plenitude em 1986 por <strong>David Rumelhart</strong>, <strong>Geoffrey Hinton</strong> e <strong>Ronald Williams</strong> no artigo histórico da Nature <a href="https://www.nature.com/articles/323533a0" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Learning representations by back-propagating errors</em></a> (antecipado conceitualmente na tese doutoral de Paul Werbos em 1974). A grande revolução residiu em substituir funções degrau não-deriváveis por funções de ativação contínuas e suaves (como a sigmóide logística) e aplicar a <strong>regra da cadeia do cálculo diferencial multivariado</strong> para retropropagar o sinal de erro da camada de saída até as primeiras sinapses. Esse mecanismo de <strong>Retropropagação (Backpropagation)</strong> permitiu que camadas ocultas aprendessem representações latentes automaticamente. Em 1989 e 1991, <strong>George Cybenko</strong> e <strong>Kurt Hornik</strong> demonstraram o <a href="https://eudml.org/doc/184131" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-white font-semibold underline decoration-slate-400 hover:decoration-slate-900"><em>Teorema da Aproximação Universal</em></a>, provando que redes neurais com camadas ocultas não-lineares têm a garantia matemática de aproximar qualquer função contínua multidimensional arbitrária.
+          </p>
+
+          <!-- Síntese Cronológica da Evolução Teórica -->
+          <div class="p-3.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 text-xs space-y-2">
+            <span class="font-bold text-slate-900 dark:text-white text-xs block">Linha do Tempo Dialética do Conexionismo:</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5 pt-1">
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-mono text-indigo-600 dark:text-indigo-400 font-bold block text-[11px]">1943 &bull; McCulloch &amp; Pitts</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-0.5">Neurônio lógico com limiar rígido. <em>Limitação:</em> pesos fixos manuais, incapaz de aprender.</p>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-mono text-teal-600 dark:text-teal-400 font-bold block text-[11px]">1949 &bull; Donald Hebb</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-0.5">Plasticidade sináptica. O aprendizado reside no reforço e enfraquecimento das conexões.</p>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-mono text-sky-600 dark:text-sky-400 font-bold block text-[11px]">1958 &bull; Frank Rosenblatt</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-0.5">Perceptron com pesos ajustáveis, máquina física Mark I e Teorema da Convergência.</p>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-mono text-amber-600 dark:text-amber-400 font-bold block text-[11px]">1960 &bull; Widrow &amp; Hoff</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-0.5">ADALINE e Regra Delta (LMS). Ajuste proporcional ao erro contínuo pré-ativação via gradiente.</p>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-mono text-rose-600 dark:text-rose-400 font-bold block text-[11px]">1969 &bull; Minsky &amp; Papert</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-0.5">Incapacidade no XOR para camada única e ausência de método para treinar camadas ocultas.</p>
+              </div>
+              <div class="p-2 rounded bg-white dark:bg-slate-900 border border-slate-200/70 dark:border-slate-800">
+                <span class="font-mono text-emerald-600 dark:text-emerald-400 font-bold block text-[11px]">1986 &bull; Rumelhart et al.</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-0.5">Backpropagation e ativações suaves, distribuindo o crédito do erro via regra da cadeia.</p>
+              </div>
+            </div>
+          </div>
         </section>
 
         <!-- Seção 2: Fundamentação Teórica e Formulação Matemática -->
@@ -98,6 +141,96 @@ export function renderNeuralNetworksChapter(container, axis, chapter) {
           <p>
             Essa dobra espacial é exatamente o que as <strong>camadas ocultas</strong> e as ${termHint("funcao-ativacao", "funções de ativação não-lineares")} realizam nos dados. Cada camada intermediária de um ${termHint("mlp", "Perceptron Multicamadas (MLP)")} atua distorcendo, esticando e dobrando o espaço vetorial de entrada até que conjuntos intrincados e não-lineares de dados se tornem linearmente separáveis pela camada final de classificação.
           </p>
+
+          <!-- Correspondência Biológica vs. Abstração Matemática -->
+          <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3 text-xs">
+            <span class="font-bold text-slate-900 dark:text-white text-xs block">Correspondência Neurobiológica vs. Formulação Algébrica:</span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2.5">
+              <div class="p-2.5 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/60">
+                <span class="font-bold text-indigo-600 dark:text-indigo-400 block text-[11px]">1. Dendritos &rarr; Entradas ($\\mathbf{x}$)</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-1">Canais receptores que captam estímulos elétricos brutos provindos de sensores externos ou neurônios vizinhos ($x_1, x_2, \\dots, x_m$).</p>
+              </div>
+              <div class="p-2.5 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/60">
+                <span class="font-bold text-teal-600 dark:text-teal-400 block text-[11px]">2. Sinapses &rarr; Pesos ($w_i$)</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-1">Fendas químicas que modulam a condutância do sinal: pesos positivos excitam, pesos negativos inibem a transmissão.</p>
+              </div>
+              <div class="p-2.5 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/60">
+                <span class="font-bold text-amber-600 dark:text-amber-400 block text-[11px]">3. Corpo Celular &rarr; Soma ($z$)</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-1">O <em>soma</em> integra todos os potenciais pós-sinápticos recebidos somados à polarização interna: $z = \\sum w_i x_i + b$.</p>
+              </div>
+              <div class="p-2.5 rounded bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-700/60">
+                <span class="font-bold text-emerald-600 dark:text-emerald-400 block text-[11px]">4. Axônio &rarr; Disparo ($\\sigma(z)$)</span>
+                <p class="text-slate-600 dark:text-slate-400 text-[10px] mt-1">Gera o potencial de ação (tudo-ou-nada no degrau; disparo suave na sigmóide), propagando a predição $\\hat{y}$ adiante.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- A Parábola Intuitiva da Decisão de Emma -->
+          <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40 space-y-3 text-xs">
+            <span class="font-bold text-slate-900 dark:text-white text-xs block">Intuição Fundamental: O Dilema de Decisão de Emma</span>
+            <p class="text-slate-600 dark:text-slate-300">
+              Imagine uma estudante, Emma, decidindo se vai a um festival de música ao ar livre esta noite. Sua decisão binária final ($1$ = vai, $0$ = fica em casa) depende de três variáveis de entrada:
+            </p>
+            <ul class="list-disc list-inside space-y-1 text-slate-600 dark:text-slate-300">
+              <li><strong>$x_1$:</strong> Os amigos mais próximos dela vão ao show? ($1 = \\text{sim}, 0 = \\text{não}$)</li>
+              <li><strong>$x_2$:</strong> A previsão meteorológica indica chuva torrencial? ($1 = \\text{sim}, 0 = \\text{não}$)</li>
+              <li><strong>$x_3$:</strong> O local do show fica próximo ou conta com transporte público direto? ($1 = \\text{sim}, 0 = \\text{não}$)</li>
+            </ul>
+            <p class="text-slate-600 dark:text-slate-300">
+              Esses fatores têm pesos idênticos na consciência de Emma? Certamente não. Para Emma, a companhia dos amigos é determinante ($w_1 = +0.8$), a chuva é um fator fortemente desestimulador ($w_2 = -0.6$), enquanto a proximidade é conveniente, porém secundária ($w_3 = +0.3$). O produto ponderado $\\sum_{i=1}^3 w_i x_i$ reflete com precisão o balanço de forças de suas prioridades pessoais.
+            </p>
+            <div class="p-3 rounded bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 space-y-1.5">
+              <span class="font-bold text-indigo-600 dark:text-indigo-400 block text-[11px]">E o que é o Viés (Bias $b$)? A Predisposição Natural</span>
+              <p class="text-slate-600 dark:text-slate-300 text-[11px]">
+                O viés $b$ representa a <em>inclinação basal prévia</em> de Emma, mesmo quando todos os estímulos externos são nulos ($x_1 = x_2 = x_3 = 0$). Se Emma for uma entusiasta que adora qualquer evento social, ela terá um viés alto e positivo ($b = +0.5$): ela tende a ir por padrão ("topo qualquer parada"). Se Emma for naturalmente caseira e relutante, terá um viés expressivamente negativo ($b = -0.9$): ela exigirá motivos excepcionais combinados para superar sua inércia de conforto e sair de casa.
+              </p>
+              <p class="text-slate-600 dark:text-slate-400 text-[10px]">
+                Algebricamente, o bias é exatamente o limiar de disparo $\\theta$ de McCulloch-Pitts deslocado: dizer que o neurônio dispara quando $\\sum w_i x_i \\ge \\theta$ é estritamente idêntico a dizer $\\sum w_i x_i - \\theta \\ge 0$, revelando que $b = -\\theta$.
+              </p>
+            </div>
+          </div>
+
+          <!-- A Mecânica de Aprendizado e os Três Casos Universais -->
+          <div class="space-y-3">
+            <h4 class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+              A Regra de Aprendizado do Perceptron: Os Três Casos Universais
+            </h4>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              O Perceptron inicia seu treinamento com pesos aleatórios ingênuos. Ao confrontar a resposta esperada $y \\in \\{0, 1\\}$ com a sua predição calculada $\\hat{y} \\in \\{0, 1\\}$, a regra formulada por Rosenblatt ajusta cada conexão com taxa de aprendizado $\\eta$:
+            </p>
+            <div class="py-1 text-center font-semibold font-mono text-xs">
+              $$\\Delta w_i = \\eta (y - \\hat{y}) x_i, \\qquad \\Delta b = \\eta (y - \\hat{y})$$
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300">
+              Embora aparente simplicidade, essa equação contempla exatamente <strong>três cenários universais exaustivos</strong>:
+            </p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+              <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1">
+                <span class="font-bold text-emerald-600 dark:text-emerald-400 text-xs block">1. Acerto ($y = \\hat{y}$)</span>
+                <div class="font-mono text-[11px] text-slate-500">Erro: $y - \\hat{y} = 0$</div>
+                <p class="text-slate-600 dark:text-slate-400 text-[11px]">
+                  Como o erro é nulo, $\\Delta w_i = 0$ e $\\Delta b = 0$. Nenhum peso é modificado, preservando o equilíbrio já conquistado pelo neurônio.
+                </p>
+              </div>
+              <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1">
+                <span class="font-bold text-rose-600 dark:text-rose-400 text-xs block">2. Falso Positivo ($y=0, \\hat{y}=1$)</span>
+                <div class="font-mono text-[11px] text-rose-500">Erro: $0 - 1 = -1$</div>
+                <p class="text-slate-600 dark:text-slate-400 text-[11px]">
+                  O neurônio disparou indevidamente. Os pesos das entradas que estavam ligadas ($x_i=1$) diminuem em $-\\eta$, puxando a soma ponderada para baixo em iterações futuras.
+                </p>
+              </div>
+              <div class="p-3 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-1">
+                <span class="font-bold text-indigo-600 dark:text-indigo-400 text-xs block">3. Falso Negativo ($y=1, \\hat{y}=0$)</span>
+                <div class="font-mono text-[11px] text-indigo-500">Erro: $1 - 0 = +1$</div>
+                <p class="text-slate-600 dark:text-slate-400 text-[11px]">
+                  O neurônio silenciou indevidamente. Os pesos das entradas que estavam ativas ($x_i=1$) aumentam em $+\\eta$, impulsionando a soma para que atinja o limiar de disparo.
+                </p>
+              </div>
+            </div>
+            <div class="p-2.5 rounded bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 text-[11px] text-amber-800 dark:text-amber-300">
+              <strong>O Papel Causal do Multiplicador $x_i$:</strong> Se uma entrada estava inativa ($x_i = 0$), o termo $\\eta (y - \\hat{y}) \\cdot 0 = 0$ anula a correção de seu peso. Isso garante que <strong>apenas as variáveis que efetivamente contribuíram para a decisão errônea sejam corrigidas</strong>, poupando variáveis inertes de penalidades injustificadas.
+            </div>
+          </div>
 
           <!-- Decodificação de Notação e Termos em Blockquote Identificado -->
           <blockquote class="p-4 rounded-r-lg border-l-4 border-indigo-500 bg-slate-50 dark:bg-slate-800/40 text-xs space-y-3 not-italic">
@@ -132,10 +265,10 @@ export function renderNeuralNetworksChapter(container, axis, chapter) {
             </ul>
           </blockquote>
 
-          <!-- Subseção 2.1: Neurônio Artificial e Colapso Linear -->
+          <!-- Subseção 2.1: Neurônio Artificial, Colapso Linear e o Enigma do XOR -->
           <div class="space-y-4">
             <h3 class="text-base font-bold text-slate-900 dark:text-white">
-              2.1 A Anatomia do Neurônio Artificial e o Teorema do Colapso Linear
+              2.1 A Anatomia do Neurônio Artificial, o Teorema do Colapso Linear e a Geometria do XOR
             </h3>
 
             <p>
@@ -178,6 +311,31 @@ export function renderNeuralNetworksChapter(container, axis, chapter) {
                 O Problema do XOR (Minsky &amp; Papert, 1969): inseparabilidade linear do Perceptron simples (acurácia máxima de $75\\%$) e resolução com $100\\%$ de separação convexa via camada oculta não-linear.
               </figcaption>
             </figure>
+
+            <!-- Análise Geométrica e Decomposição Lógica do XOR -->
+            <div class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 space-y-3 text-xs">
+              <span class="font-bold text-slate-900 dark:text-white text-xs block">A Decomposição Lógica do XOR em Duas Fronteiras Lineares:</span>
+              <p class="text-slate-600 dark:text-slate-300">
+                No espaço bidimensional $\\mathbb{R}^2$, a fronteira de decisão de um neurônio isolado é definida pela reta $w_1 x_1 + w_2 x_2 + b = 0$. Enquanto os operadores booleanos $E$ (AND) e $OU$ (OR) são linearmente separáveis por uma única reta (o AND isola $(1,1)$ dos demais; o OR isola $(0,0)$ dos demais), o operador $XOR$ possui saídas positivas em $(0,1)$ e $(1,0)$ e saídas nulas em $(0,0)$ e $(1,1)$. Como os pares de mesma classe ocupam diagonais opostas, nenhuma reta única consegue segregá-los.
+              </p>
+              <p class="text-slate-600 dark:text-slate-300">
+                A solução arquitetural consiste em decompor o XOR na conjunção lógica de duas portas primitivas linearmente separáveis:
+              </p>
+              <div class="py-1 text-center font-semibold font-mono text-xs text-indigo-600 dark:text-indigo-400">
+                $$\\text{XOR}(x_1, x_2) = \\text{OR}(x_1, x_2) \\land \\text{NAND}(x_1, x_2)$$
+              </div>
+              <p class="text-slate-600 dark:text-slate-300">
+                Essa decomposição revela a mecânica geométrica exata executada por um Perceptron Multicamadas com 2 neurônios ocultos e 1 neurônio de saída:
+              </p>
+              <ul class="list-disc list-inside space-y-1 text-slate-600 dark:text-slate-300">
+                <li><strong>Neurônio Oculto 1 ($h_1$ - Porta OR):</strong> Traça uma primeira reta que isola e descarta a origem $(0,0)$, disparando $1$ para os outros três pontos.</li>
+                <li><strong>Neurônio Oculto 2 ($h_2$ - Porta NAND):</strong> Traça uma segunda reta que isola e descarta o vértice oposto $(1,1)$, disparando $1$ para os outros três pontos.</li>
+                <li><strong>Neurônio de Saída ($y$ - Porta AND):</strong> Recebe $h_1$ e $h_2$ e calcula sua conjunção lógica ($h_1 \\land h_2$), disparando exclusivamente quando <em>ambos</em> os neurônios ocultos estão ativos simultaneamente — o que ocorre com precisão cirúrgica apenas na faixa diagonal onde residem $(0,1)$ e $(1,0)$!</li>
+              </ul>
+              <div class="p-2 rounded bg-indigo-50 dark:bg-indigo-950/30 border border-indigo-200 dark:border-indigo-800 text-[11px] text-indigo-800 dark:text-indigo-300">
+                <strong>O Papel Revolucionário do Backpropagation:</strong> Enquanto neste problema bidimensional pudemos definir manualmente as retas $h_1$ e $h_2$, em aplicações reais com centenas de dimensões e bilhões de parâmetros (como visão computacional e modelos de linguagem), é humanamente impossível desenhar as fronteiras intermediárias. O algoritmo de Retropropagação é a engrenagem que descobre e esculpe essas representações latentes automaticamente por descida do gradiente.
+              </div>
+            </div>
           </div>
 
           <!-- Subseção 2.2: Funções de Ativação -->
@@ -479,6 +637,14 @@ export function renderNeuralNetworksChapter(container, axis, chapter) {
 
           <ul class="space-y-3 text-xs divide-y divide-slate-100 dark:divide-slate-800/60">
             <li class="pt-3">
+              <span class="font-bold text-slate-900 dark:text-white">HAYKIN, Simon.</span>
+              <span class="text-slate-600 dark:text-slate-300"> <em>Redes Neurais: Princípios e Prática</em>. 2. ed. Porto Alegre: Bookman, 2001.</span>
+              <div class="mt-1">
+                <span class="text-slate-500 dark:text-slate-400 text-[11px]">Tratado canônico de referência para fundamentos neurocomputacionais e dinâmica conexionista.</span>
+              </div>
+            </li>
+
+            <li class="pt-3">
               <span class="font-bold text-slate-900 dark:text-white">McCULLOCH, Warren S.; PITTS, Walter.</span>
               <span class="text-slate-600 dark:text-slate-300"> A Logical Calculus of the Ideas Immanent in Nervous Activity. <em>Bulletin of Mathematical Biophysics</em>, v. 5, p. 115–133, 1943.</span>
               <div class="mt-1">
@@ -489,11 +655,35 @@ export function renderNeuralNetworksChapter(container, axis, chapter) {
             </li>
 
             <li class="pt-3">
+              <span class="font-bold text-slate-900 dark:text-white">HEBB, Donald O.</span>
+              <span class="text-slate-600 dark:text-slate-300"> <em>The Organization of Behavior: A Neuropsychological Theory</em>. New York: John Wiley &amp; Sons, 1949.</span>
+              <div class="mt-1">
+                <a href="https://archive.org/details/organizationofbe00hebbrich" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold underline hover:text-indigo-800">
+                  Obra seminal digitalizada no Internet Archive
+                </a>
+              </div>
+            </li>
+
+            <li class="pt-3">
               <span class="font-bold text-slate-900 dark:text-white">ROSENBLATT, Frank.</span>
               <span class="text-slate-600 dark:text-slate-300"> The Perceptron: A Probabilistic Model for Information Storage and Organization in the Brain. <em>Psychological Review</em>, v. 65, n. 6, p. 386–408, 1958.</span>
               <div class="mt-1">
                 <a href="https://archive.org/details/perceptronprobab00rose" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold underline hover:text-indigo-800">
                   Publicação original preservada no Internet Archive / Cornell Aeronautical Laboratory
+                </a>
+              </div>
+            </li>
+
+            <li class="pt-3">
+              <span class="font-bold text-slate-900 dark:text-white">WIDROW, Bernard; HOFF, Marcian E.</span>
+              <span class="text-slate-600 dark:text-slate-300"> Adaptive switching circuits. In: <em>1960 IRE WESCON Convention Record</em>, v. 4, p. 96–104, 1960.</span>
+              <div class="mt-1 flex flex-wrap gap-3">
+                <a href="http://www-isl.stanford.edu/~widrow/papers/c1960adaptiveswitching.pdf" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold underline hover:text-indigo-800">
+                  Arquivo Oficial no Stanford Information Systems Laboratory
+                </a>
+                <span class="text-slate-400">&bull;</span>
+                <a href="https://apps.dtic.mil/sti/citations/AD0241531" target="_blank" rel="noopener noreferrer" class="text-indigo-600 dark:text-indigo-400 font-semibold underline hover:text-indigo-800">
+                  Registro Técnico DTIC (AD0241531)
                 </a>
               </div>
             </li>
