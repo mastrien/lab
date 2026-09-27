@@ -161,8 +161,8 @@ export function renderLinearAlgebraChapter(container, axis, chapter) {
 
             <!-- Demonstração Animada em Vídeo (Manim): Combinação Linear -->
             <figure class="flex flex-col items-center justify-center my-6">
-              <div class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-black">
-                <video controls autoplay loop muted playsinline class="w-full h-auto block">
+              <div class="w-full max-w-xl aspect-video overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-slate-950">
+                <video controls autoplay loop muted playsinline class="w-full h-full object-cover block">
                   <source src="assets/videos/combinacaolinear.mp4" type="video/mp4">
                   Seu navegador não suporta a tag de vídeo.
                 </video>
@@ -246,8 +246,8 @@ export function renderLinearAlgebraChapter(container, axis, chapter) {
 
             <!-- Demonstração Animada em Vídeo (Manim): Transformação Linear Matricial -->
             <figure class="flex flex-col items-center justify-center my-6">
-              <div class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-black">
-                <video controls autoplay loop muted playsinline class="w-full h-auto block">
+              <div class="w-full max-w-xl aspect-video overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-slate-950">
+                <video controls autoplay loop muted playsinline class="w-full h-full object-cover block">
                   <source src="assets/videos/transformacaolinearmatricial.mp4" type="video/mp4">
                   Seu navegador não suporta a tag de vídeo.
                 </video>

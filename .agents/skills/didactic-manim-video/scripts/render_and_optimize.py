@@ -143,8 +143,8 @@ def generate_html_component(video_rel_path: str, caption: str) -> str:
     caption_text = caption or "Demonstração visual do conceito."
     return f"""<!-- Componente Didático de Vídeo (DataLab / Manim) -->
 <figure class="flex flex-col items-center justify-center my-6">
-  <div class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-black">
-    <video controls autoplay loop muted playsinline class="w-full h-auto block">
+  <div class="w-full max-w-xl aspect-video overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-slate-950">
+    <video controls autoplay loop muted playsinline class="w-full h-full object-cover block">
       <source src="{video_rel_path}" type="video/mp4">
       Seu navegador não suporta a tag de vídeo.
     </video>

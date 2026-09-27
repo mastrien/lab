@@ -27,10 +27,18 @@ Esta skill estabelece o fluxo de trabalho canônico para conceber, programar, re
 
 3. **Padrão Estético de Apresentação:**
    - Centralizado na página com margens verticais (`my-6`).
-   - Bordas levemente arredondadas (`rounded-xl` ou `rounded-lg`).
+   - Container `max-w-xl aspect-video` com bordas levemente arredondadas (`rounded-xl`).
    - Borda sutil neutra (`border border-slate-200 dark:border-slate-800`).
    - Reprodução automática, em loop contínuo e sem som (`autoplay loop muted playsinline`).
    - Legenda explicativa concisa e didática imediatamente abaixo (`<figcaption>`).
+
+4. **Enquadramento Pleno e Tipografia para Web:**
+   - **Zero Bordas Pretas:** O Manim opera em 16:9 (largura ~14.22, altura ~8.0). Sempre dimensione a malha/eixos (`NumberPlane` ou `Axes`) para ocupar de 12.5 a 13.8 unidades de largura e de 6.0 a 6.8 unidades de altura, eliminando áreas mortas e bordas pretas espessas.
+   - **Tipografia Ampliada:** Para legibilidade impecável em monitores e telas mobile, use:
+     * Título principal: `font_size=32` a `36` (peso `BOLD`).
+     * Subtítulos / Fórmulas: `font_size=22` a `26`.
+     * Rótulos de vetores e dados: `font_size=22` a `26` (peso `BOLD`).
+     * Traço dos vetores: `stroke_width=6` a `8`.
 
 ---
 
@@ -95,8 +103,8 @@ Sempre incorpore os vídeos no corpo dos capítulos ou módulos utilizando o seg
 ```html
 <!-- Componente Didático de Vídeo (DataLab / Manim) -->
 <figure class="flex flex-col items-center justify-center my-6">
-  <div class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-black">
-    <video controls autoplay loop muted playsinline class="w-full h-auto block">
+  <div class="w-full max-w-xl aspect-video overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-slate-950">
+    <video controls autoplay loop muted playsinline class="w-full h-full object-cover block">
       <source src="assets/videos/nome_do_video.mp4" type="video/mp4">
       Seu navegador não suporta a tag de vídeo.
     </video>
@@ -113,9 +121,11 @@ Sempre incorpore os vídeos no corpo dos capítulos ou módulos utilizando o seg
 
 - [ ] **Duração Curta:** O vídeo dura entre 5 e 15 segundos sem pausas longas ou desnecessárias?
 - [ ] **Foco Conceitual:** Demonstra de forma nítida exatamente um conceito ou intuição?
+- [ ] **Enquadramento 16:9 Pleno:** O conteúdo preenche o campo de visão (~13.5 x ~6.8 unidades), sem bordas pretas espessas ou letterboxing vazio?
+- [ ] **Tipografia Legível:** As fontes possuem tamanhos confortáveis (`font_size >= 24` para rótulos/fórmulas e `font_size >= 32` para títulos)?
 - [ ] **Otimização FFmpeg:** O vídeo foi compactado com H.264 (`-c:v libx264 -crf 26 -pix_fmt yuv420p -an -movflags +faststart`)?
 - [ ] **Tamanho Controlado:** O arquivo final possui tamanho inferior a 1 MB?
 - [ ] **Layout Centrado:** O componente de vídeo possui `flex flex-col items-center justify-center my-6`?
-- [ ] **Bordas Arredondadas:** O container possui `rounded-xl` e borda sutil neutra (`border-slate-200 dark:border-slate-800`)?
+- [ ] **Aspect Ratio Perfeito:** O container possui `max-w-xl aspect-video rounded-xl` sem barras extras?
 - [ ] **Legenda Didática:** Consta uma legenda descritiva curta (<figcaption>) explicando o fenômeno observado?
 - [ ] **Atributos de Reprodução:** A tag `<video>` inclui `controls autoplay loop muted playsinline`?

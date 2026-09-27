@@ -4,3 +4,5 @@ package-lock.json
 *.docx
 .manim_build/
 media/
+__pycache__/
+*.pyc
