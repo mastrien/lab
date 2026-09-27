@@ -56,9 +56,10 @@ flowchart TD
 
 Crie um arquivo Python com a classe que herda de `Scene`.
 
-*   **Texto & Tipografia:**
-    *   Prefira `Text("Nome", font_size=...)` para títulos, rótulos e anotações. Funciona nativamente sem exigir LaTeX no sistema operacional.
-    *   Use `MathTex` apenas se a máquina possuir LaTeX funcional (`latex` / `dvipng`).
+*   **Texto & Tipografia Matemática:**
+    *   **Padrão Obrigatório:** Utilize `MarkupText("<i>c</i><sub>1</sub> <b>u</b> + <i>c</i><sub>2</sub> <b>v</b>")` para fórmulas e termos matemáticos. Suporta subscritos (`<sub>`), sobrescritos (`<sup>`), itálicos (`<i>`) e negritos (`<b>`) de forma 100% nativa via Pango, sem depender de LaTeX externo.
+    *   Utilize `Text("Texto puro", font_size=...)` para títulos simples e rótulos genéricos.
+    *   Evite `MathTex` a menos que o ambiente possua compilador LaTeX (`pdflatex`/`dvisvgm`) confirmado.
 *   **Consultas de Referência:**
     *   Consulte [Guia Rápido do Manim](./references/manim_cheat_sheet.md) para mobjects, cores e animações.
     *   Veja exemplos funcionais em [Exemplo: Transformação Linear 2D](./examples/linear_transformation_scene.py) e [Exemplo: Teorema Central do Limite](./examples/central_limit_scene.py).

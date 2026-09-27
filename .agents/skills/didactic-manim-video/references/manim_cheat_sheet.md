@@ -36,14 +36,17 @@ class ConceitoDidatico(Scene):
 
 ---
 
-## 2. Tipos de Texto e Fórmulas: `Text` vs `MathTex`
+## 2. Tipos de Texto e Fórmulas: `MarkupText` (Recomendado) vs `Text` vs `MathTex`
 
 | Classe | Dependência Externa | Quando Usar |
 | :--- | :--- | :--- |
-| **`Text("Texto", font="sans-serif")`** | Apenas Pango/Cairo (nativo) | Títulos, rótulos, legendas explicativas e números simples. Funciona em qualquer sistema sem precisar de LaTeX instalado. |
-| **`MathTex(r"\int_0^\infty e^{-x^2} dx")`** | Requer distribuição LaTeX (`latex`, `dvipng`) | Equações algébricas complexas, integrais, matrizes e símbolos gregos. |
+| **`MarkupText("<i>c</i><sub>1</sub> <b>u</b>")`** | Pango/Cairo (100% nativo) | **Recomendado para notação matemática e fórmulas.** Suporta subscritos (`<sub>`), sobrescritos (`<sup>`), itálicos (`<i>`), negritos (`<b>`) e cores sem precisar de LaTeX. |
+| **`Text("Texto puro", font="sans-serif")`** | Pango/Cairo (100% nativo) | Rótulos simples sem subscritos ou formatações matemáticas mistas. |
+| **`MathTex(r"\int_0^\infty e^{-x^2} dx")`** | Requer distribuição LaTeX (`latex`, `dvipng`) | Apenas quando o ambiente possuir LaTeX completo instalado no sistema operacional. |
 
-> **Dica de Robustez:** Sempre que possível em ambientes sem garantia de instalação completa do TeX Live / MiKTeX, utilize `Text("y = Wx + b")` ou símbolos Unicode (`Text("λ = 0.05", font_size=24)`), garantindo que a renderização nunca falhe por dependência ausente.
+> **Padrão Canônico do DataLab:** Sempre use `MarkupText` para expressões matemáticas com índices ou notação vetorial, por exemplo:
+> `MarkupText("Combinação Linear: <i>c</i><sub>1</sub> <b>u</b> + <i>c</i><sub>2</sub> <b>v</b> = <b>w</b>", font_size=32)`
+> Isso garante subscritos visualmente distintos, itálico em escalares e negrito em vetores sem risco de quebra por ausência de LaTeX.
 
 ---
 
