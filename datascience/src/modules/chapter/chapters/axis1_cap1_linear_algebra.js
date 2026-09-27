@@ -158,6 +158,19 @@ export function renderLinearAlgebraChapter(container, axis, chapter) {
             <p>
               Quando um conjunto de vetores é linearmente independente e, ao mesmo tempo, gera todo o espaço $V$ através de suas combinações lineares, esse conjunto recebe o nome de ${termHint("base-vetorial")}. O número de vetores de qualquer base de $V$ define a <strong>dimensão</strong> do espaço vetorial.
             </p>
+
+            <!-- Demonstração Animada em Vídeo (Manim): Combinação Linear -->
+            <figure class="flex flex-col items-center justify-center my-6">
+              <div class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-black">
+                <video controls autoplay loop muted playsinline class="w-full h-auto block">
+                  <source src="assets/videos/combinacaolinear.mp4" type="video/mp4">
+                  Seu navegador não suporta a tag de vídeo.
+                </video>
+              </div>
+              <figcaption class="mt-2 text-center text-xs text-slate-500 dark:text-slate-400 font-medium max-w-md">
+                Demonstração visual de combinação linear: escalonamento de vetores e soma geométrica ponta-com-cauda no plano $\\mathbb{R}^2$.
+              </figcaption>
+            </figure>
           </div>
 
           <div class="space-y-4 pt-2">
@@ -230,6 +243,19 @@ export function renderLinearAlgebraChapter(container, axis, chapter) {
             <p>
               O que o ${termHint("determinante")} $\\operatorname{det}(\\mathbf{A}) = ad - bc$ mede geometricamente? Ele quantifica a <strong>taxa de variação de área</strong> provocada pela transformação. O quadrado unitário formado por $\\hat{i}$ e $\\hat{j}$, cuja área original vale $1$, é transformado em um paralelogramo gerado pelos vetores $(a, c)$ e $(b, d)$. A área desse paralelogramo vale exatamente $|\\operatorname{det}(\\mathbf{A})|$.
             </p>
+
+            <!-- Demonstração Animada em Vídeo (Manim): Transformação Linear Matricial -->
+            <figure class="flex flex-col items-center justify-center my-6">
+              <div class="w-full max-w-lg overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm bg-black">
+                <video controls autoplay loop muted playsinline class="w-full h-auto block">
+                  <source src="assets/videos/transformacaolinearmatricial.mp4" type="video/mp4">
+                  Seu navegador não suporta a tag de vídeo.
+                </video>
+              </div>
+              <figcaption class="mt-2 text-center text-xs text-slate-500 dark:text-slate-400 font-medium max-w-md">
+                Distorção da malha por transformação matricial $T(\\mathbf{x}) = \\mathbf{A}\\mathbf{x}$, deformação da base canônica e dilatação de área proporcional a $|\\operatorname{det}(\\mathbf{A})|$.
+              </figcaption>
+            </figure>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2 text-xs">
               <div class="p-3 rounded border border-emerald-200 dark:border-emerald-900/40 bg-emerald-50/50 dark:bg-emerald-950/20">

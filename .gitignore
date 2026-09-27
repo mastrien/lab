@@ -2,3 +2,5 @@ node_modules/
 package-lock.json
 *.pdf
 *.docx
+.manim_build/
+media/
