@@ -16,10 +16,11 @@ Esta skill estabelece o fluxo de trabalho canônico para conceber, programar, re
 
 ## 1. Princípios de Concepção e UX Didática
 
-1. **Foco Único e Cenas Curtas (Micro-Animações):**
-   - Cada clipe deve ilustrar **exatamente um fenômeno ou intuição** (ex: o cisalhamento de uma malha, a projeção de uma sombra ortogonal, o afunilamento de uma distribuição).
-   - A duração ideal é entre **5 e 15 segundos**. Evite sequências longas ou complexas que sobrecarreguem o leitor.
-   - Elimine tempos mortos: transições devem durar de 0.8s a 1.5s, com pausas reflexivas (`self.wait`) de no máximo 1.0s a 1.5s no ápice da demonstração.
+1. **Foco Único, Ritmo Didático e Pausas Reflexivas:**
+   - Cada clipe deve ilustrar com serenidade e clareza didática o fenômeno matemático ou conceitual em foco.
+   - A duração ideal situa-se entre **10 e 25 segundos**. Evite acelerações bruscas que sobrecarreguem a cognição do leitor.
+   - **Pausas entre Estados (`self.wait`):** Nunca encadeie transformações visuais ou trocas de subtítulo instantaneamente. Insira pausas reflexivas de **0.8s a 1.5s** entre cada transição de estado (ex: apresentação dos dados &rarr; pausa &rarr; tentativa inicial &rarr; pausa &rarr; solução multifásica) e uma pausa generosa de **2.5s a 3.5s** no encerramento para contemplação e fixação antes do loop.
+   - **Continuidade e Extensão Geométrica Plena:** Certifique-se de que retas, hiperplanos e fronteiras de decisão se estendam com generosidade além dos pontos e amostras do domínio, ultrapassando com folga as coordenadas dos dados para não parecerem segmentos prematuramente truncados.
 
 2. **Otimização Contínua de Peso (FFmpeg Obrigatório):**
    - Nunca utilize o arquivo `.mp4` bruto gerado pelo Manim diretamente na web (geralmente pesa entre 3MB e 15MB).
