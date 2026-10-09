@@ -138,11 +138,6 @@ function restoreTool(id) {
     render();
 }
 
-function getIconHtml(tool) {
-    // We don't have icons for datasets, just fallback
-    const fb = tool.nome ? tool.nome.charAt(0).toUpperCase() : 'D';
-    return `<div class="w-12 h-12 flex-shrink-0 rounded-xl flex items-center justify-center text-white text-xl font-bold bg-indigo-600">${fb}</div>`;
-}
 
 function render() {
     toolsGrid.innerHTML = '';
@@ -183,21 +178,18 @@ function render() {
         const isFav = favorites.includes(tool.id);
         
         const card = document.createElement('div');
-        card.className = "group flex flex-col md:flex-row items-start md:items-center gap-4 p-4 rounded-xl glass-panel hover:bg-white/10 dark:hover:bg-white/5 transition-all duration-300 border border-slate-200 dark:border-slate-700/50 hover:shadow-lg hover:shadow-indigo-500/10";
+        card.className = "group flex flex-col md:flex-row items-start md:items-center gap-4 p-4 rounded-xl glass-panel hover:bg-slate-50 dark:hover:bg-slate-800/60 transition-all duration-300 border border-slate-200 dark:border-slate-700/50 hover:shadow-lg";
         
         const tags = [...(tool.temas||[]), ...(tool.tecnicas||[]), ...(tool.problemas||[])];
         const limitedTags = tags.slice(0, 4); // Limit to 4 tags to not clutter
         
-        const tagsHtml = limitedTags.map(c => `<span class="text-[10px] font-bold uppercase tracking-wider text-indigo-400 px-2 py-0.5 bg-indigo-500/10 rounded mr-1 mb-1 inline-block">${c}</span>`).join('');
-        const classeHtml = `<span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 px-2 py-0.5 bg-emerald-500/10 rounded mr-1 mb-1 inline-block">${tool.classe || 'N/A'}</span>`;
+        const tagsHtml = limitedTags.map(c => `<span class="text-[10px] font-bold uppercase tracking-wider text-slate-600 dark:text-slate-300 px-2 py-0.5 bg-slate-200 dark:bg-slate-700 rounded mr-1 mb-1 inline-block border border-slate-300 dark:border-slate-600">${c}</span>`).join('');
+        const classeHtml = `<span class="text-[10px] font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200 px-2 py-0.5 bg-slate-300 dark:bg-slate-600 rounded mr-1 mb-1 inline-block">${tool.classe || 'N/A'}</span>`;
 
         card.innerHTML = `
-            <div class="flex-shrink-0">
-                ${getIconHtml(tool)}
-            </div>
             <div class="flex-grow min-w-0 w-full">
                 <div class="flex items-center justify-between mb-1">
-                    <h3 class="text-base font-bold group-hover:text-indigo-400 transition-colors truncate pr-2">${tool.nome}</h3>
+                    <h3 class="text-base font-bold group-hover:text-slate-700 dark:group-hover:text-slate-300 transition-colors truncate pr-2">${tool.nome}</h3>
                     <div class="flex items-center gap-2 flex-shrink-0">
                         <span class="text-[10px] text-slate-500 font-semibold hidden md:inline">${tool.tamanho || ''}</span>
                         <button onclick="toggleFavorite(${tool.id})" class="text-lg hover:scale-110 transition-transform">
@@ -217,11 +209,11 @@ function render() {
             </div>
             
             <div class="flex-shrink-0 flex md:flex-col items-center justify-between md:justify-center gap-3 w-full md:w-32 mt-3 md:mt-0 pt-3 md:pt-0 border-t md:border-t-0 border-slate-200 dark:border-slate-700/50 pl-0 md:pl-4 md:border-l">
-                <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full py-1.5 px-3 rounded-lg bg-indigo-500/10 text-sm font-semibold text-indigo-500 dark:text-indigo-400 hover:bg-indigo-500/20 hover:text-indigo-600 dark:hover:text-indigo-300 transition-colors">
+                <a href="${tool.url}" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center w-full py-1.5 px-3 rounded-lg bg-slate-100 dark:bg-slate-800 text-sm font-semibold text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
                     Acessar
                     <svg class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
                 </a>
-                <button onclick="archiveTool(${tool.id})" class="text-slate-400 hover:text-red-400 text-xs font-medium flex items-center transition-colors">
+                <button onclick="archiveTool(${tool.id})" class="text-slate-500 hover:text-slate-700 dark:hover:text-slate-300 text-xs font-medium flex items-center transition-colors">
                     <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" /></svg>
                     Ocultar
                 </button>
@@ -236,13 +228,12 @@ function render() {
         card.className = "flex items-center justify-between p-3 rounded-xl bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700/50";
         card.innerHTML = `
             <div class="flex items-center space-x-3">
-                ${getIconHtml(tool)}
                 <div>
                     <h4 class="text-sm font-bold text-slate-700 dark:text-slate-300 line-clamp-1">${tool.nome}</h4>
                     <span class="text-xs text-slate-500">${tool.classe || ''}</span>
                 </div>
             </div>
-            <button onclick="restoreTool(${tool.id})" class="px-3 py-1 bg-indigo-500/10 text-indigo-500 dark:text-indigo-400 rounded-lg text-xs font-bold hover:bg-indigo-500/20 transition-colors">Restaurar</button>
+            <button onclick="restoreTool(${tool.id})" class="px-3 py-1 bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 border border-slate-300 dark:border-slate-600 rounded-lg text-xs font-bold hover:bg-slate-300 dark:hover:bg-slate-600 transition-colors">Restaurar</button>
         `;
         archivedList.appendChild(card);
     });
