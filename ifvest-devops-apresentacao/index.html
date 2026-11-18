@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DevOps e Gestão na Plataforma IFVest</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    code, pre, .mono { font-family: 'JetBrains Mono', monospace; }
+    .slide { display: none; animation: fadeIn 0.22s ease-out; }
+    .slide.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .glass-card {
+      background: rgba(15, 23, 42, 0.65);
+      border: 1px solid rgba(148, 163, 184, 0.16);
+      backdrop-filter: blur(12px);
+    }
+    @media print {
+      body { background: #0f172a !important; color: #f8fafc !important; }
+      .slide { display: flex !important; page-break-after: always; min-height: 95vh; }
+      #top-bar, #bottom-bar, #notes-panel, #overview-modal { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-emerald-500 selection:text-slate-950 overflow-x-hidden">
+
+  <!-- Top Progress & Controls -->
+  <header id="top-bar" class="fixed top-0 left-0 right-0 z-30 bg-slate-950/85 backdrop-blur border-b border-slate-800/80">
+    <div class="h-1 bg-slate-800 w-full">
+      <div id="progress-bar" class="h-full bg-gradient-to-r from-emerald-400 to-cyan-400 transition-all duration-300" style="width: 10%"></div>
+    </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-12 flex items-center justify-between text-xs text-slate-400">
+      <div class="flex items-center gap-3">
+        <span class="inline-flex items-center gap-1.5 font-semibold text-emerald-400">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          IFVest · DevOps &amp; Gestão
+        </span>
+        <span class="hidden sm:inline text-slate-600">|</span>
+        <span id="slide-title-indicator" class="hidden sm:inline text-slate-300 truncate max-w-md">Capa</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="toggleNotes()" title="Falas de apoio (N)" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition flex items-center gap-1.5">
+          <span>Notas</span>
+          <kbd class="text-[10px] px-1 py-0.5 rounded bg-slate-900 text-slate-400">N</kbd>
+        </button>
+        <button onclick="toggleOverview()" title="Visão geral dos slides (G)" class="px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition flex items-center gap-1.5">
+          <span>Grade</span>
+          <kbd class="text-[10px] px-1 py-0.5 rounded bg-slate-900 text-slate-400">G</kbd>
+        </button>
+        <button onclick="toggleFullscreen()" title="Tela cheia (F)" class="hidden sm:inline-flex px-2.5 py-1 rounded-md bg-slate-800/80 hover:bg-slate-700 text-slate-200 transition items-center gap-1.5">
+          <span>Tela cheia</span>
+          <kbd class="text-[10px] px-1 py-0.5 rounded bg-slate-900 text-slate-400">F</kbd>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Slide Stage -->
+  <main class="flex-1 pt-16 pb-20 px-4 sm:px-8 flex items-center justify-center">
+    <div class="w-full max-w-6xl">
+
+      <!-- SLIDE 1: CAPA -->
+      <section class="slide active flex-col justify-center min-h-[75vh] py-6" data-title="Capa &amp; Contexto" data-notes="Apresentar o propósito social e educacional do IFVest: plataforma gratuita voltada à preparação para o ENEM e vestibulares, com materiais didáticos, resolução de questões e redação no modelo ENEM. Destacar que o foco desta apresentação é mostrar como a engenharia de software, DevOps e gestão de equipe sustentam essa entrega contínua.">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 text-xs font-semibold uppercase tracking-wider w-fit mb-6">
+          Plataforma Educacional Gratuita · ENEM &amp; Vestibulares
+        </div>
+        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight leading-tight mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-emerald-300">
+          DevOps e Gestão na<br />Plataforma IFVest
+        </h1>
+        <p class="text-lg sm:text-xl text-slate-300 max-w-3xl leading-relaxed mb-10">
+          Organização de infraestrutura, integração contínua, qualidade automatizada, evolução segura de banco de dados e governança colaborativa para humanos e agentes de IA.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-4xl">
+          <div class="glass-card rounded-xl p-4">
+            <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-1">Propósito</div>
+            <div class="text-sm text-slate-300">Auxiliar gratuitamente estudantes na preparação para o ENEM e outros vestibulares.</div>
+          </div>
+          <div class="glass-card rounded-xl p-4">
+            <div class="text-xs uppercase tracking-wider text-cyan-400 font-semibold mb-1">Funcionalidades</div>
+            <div class="text-sm text-slate-300">Materiais didáticos de revisão, resolução de questões e exercícios de redação (modelo ENEM).</div>
+          </div>
+          <div class="glass-card rounded-xl p-4">
+            <div class="text-xs uppercase tracking-wider text-indigo-400 font-semibold mb-1">Desafio de Engenharia</div>
+            <div class="text-sm text-slate-300">Manter qualidade, previsibilidade e segurança em um projeto desenvolvido por vários alunos com apoio de IA.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 2: DIMENSÃO DO PROJETO -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Dimensão do Projeto &amp; Stack" data-notes="Estes números foram extraídos diretamente do repositório. O IFVest é organizado em um monorepo com 178 commits e 5 contribuidores. Observe a proporção de testes: 62 arquivos de teste para 71 arquivos Python no backend, e 124 arquivos de teste unitário + 9 suítes E2E no frontend. Isso mostra que testes não são acessórios, mas parte central da arquitetura.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">01 · Radiografia do Monorepo</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-8">Dimensão do Projeto e Stack Tecnológica</h2>
+
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+          <div class="glass-card rounded-xl p-5">
+            <div class="text-3xl sm:text-4xl font-extrabold text-emerald-400 mono">178</div>
+            <div class="text-xs text-slate-400 mt-1">Commits no histórico</div>
+          </div>
+          <div class="glass-card rounded-xl p-5">
+            <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 mono">5</div>
+            <div class="text-xs text-slate-400 mt-1">Contribuidores no Git</div>
+          </div>
+          <div class="glass-card rounded-xl p-5">
+            <div class="text-3xl sm:text-4xl font-extrabold text-indigo-400 mono">195</div>
+            <div class="text-xs text-slate-400 mt-1">Suítes/arquivos de teste (BE+FE+E2E)</div>
+          </div>
+          <div class="glass-card rounded-xl p-5">
+            <div class="text-3xl sm:text-4xl font-extrabold text-amber-400 mono">13</div>
+            <div class="text-xs text-slate-400 mt-1">Migrations Alembic versionadas</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+          <div class="glass-card rounded-2xl p-6 border-t-2 border-t-cyan-400">
+            <h3 class="text-lg font-bold text-cyan-300 mb-3">Frontend (Web)</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li>• <strong>React 19</strong> + <strong>TypeScript 5.7</strong> + <strong>Vite 6</strong></li>
+              <li>• <strong>185</strong> arquivos <code class="text-cyan-300">.ts/.tsx</code> em <code class="text-slate-400">src/</code></li>
+              <li>• <strong>124</strong> arquivos de teste (Vitest + Testing Library)</li>
+              <li>• <strong>9</strong> especificações E2E com Playwright</li>
+              <li>• Arquitetura modular baseada em <em>features</em></li>
+            </ul>
+          </div>
+          <div class="glass-card rounded-2xl p-6 border-t-2 border-t-emerald-400">
+            <h3 class="text-lg font-bold text-emerald-300 mb-3">Backend (API)</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li>• <strong>Python 3.12</strong> + <strong>FastAPI</strong> + SQLAlchemy Async</li>
+              <li>• <strong>71</strong> módulos em <code class="text-slate-400">src/</code> (9 models, 9 APIs)</li>
+              <li>• <strong>62</strong> arquivos de teste (<code class="text-emerald-300">test_*.py</code>)</li>
+              <li>• Autenticação integrada ao Firebase Auth</li>
+              <li>• Validação de contratos com Pydantic</li>
+            </ul>
+          </div>
+          <div class="glass-card rounded-2xl p-6 border-t-2 border-t-indigo-400">
+            <h3 class="text-lg font-bold text-indigo-300 mb-3">Dados &amp; Proxy</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li>• <strong>PostgreSQL 16 Alpine</strong> em contêiner</li>
+              <li>• <strong>13</strong> revisões no Alembic (<code class="text-slate-400">alembic/versions/</code>)</li>
+              <li>• <strong>Caddy 2</strong> como proxy reverso e TLS em produção</li>
+              <li>• Volumes persistentes independentes do ciclo do contêiner</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 3: DOCKER COMPOSE -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Docker Compose: Dev, CI e Produção" data-notes="Explicar que o Docker Compose aparece em três camadas no projeto: desenvolvimento local (docker-compose.yml), simulação de CI (docker-compose.ci.yml) e produção (deploy/docker-compose.prod.yml). Destacar a honestidade técnica: isso aproxima os ambientes, mas não elimina diferenças de configuração — por exemplo, em produção desativamos AUTO_CREATE_TABLES, MOCK_AUTH e SEED_MOCK_DATA.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">02 · Padronização de Ambientes</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Contêineres com Docker Compose (Dev, CI e Prod)</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-6">
+          <div class="glass-card rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-bold text-slate-100">Desenvolvimento</span>
+              <code class="text-xs px-2 py-0.5 rounded bg-slate-800 text-cyan-300">docker-compose.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• Sobe <code class="text-emerald-300">db</code>, <code class="text-emerald-300">api</code> (:8000) e <code class="text-emerald-300">web</code> (:3000) com um comando.</li>
+              <li>• Bind mount de <code class="text-slate-400">src/</code> e <code class="text-slate-400">static/</code> na API para agilidade local.</li>
+              <li>• <code class="text-slate-400">healthcheck</code> + <code class="text-slate-400">depends_on: service_healthy</code>.</li>
+              <li>• Dados do PostgreSQL preservados no volume <code class="text-amber-300">pgdata</code>.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-bold text-slate-100">Simulação de CI</span>
+              <code class="text-xs px-2 py-0.5 rounded bg-slate-800 text-indigo-300">docker-compose.ci.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• Serviço <code class="text-indigo-300">pg-ci</code> em <code class="text-slate-400">tmpfs</code> (porta 55432) para velocidade.</li>
+              <li>• Perfis Linux (<code class="text-slate-400">--profile linux</code>): <code class="text-slate-300">backend-ci</code> (Python 3.12) e <code class="text-slate-300">frontend-ci</code> (Node 20).</li>
+              <li>• Permite reproduzir localmente as mesmas checagens do GitHub Actions.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border border-emerald-500/30">
+            <div class="flex items-center justify-between mb-3">
+              <span class="font-bold text-emerald-300">Produção (VPS)</span>
+              <code class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300">docker-compose.prod.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• Nome fixo <code class="text-emerald-300">name: ifvest-deploy</code> para proteger o nome dos volumes.</li>
+              <li>• <code class="text-slate-400">ENVIRONMENT=production</code>, <code class="text-slate-400">MOCK_AUTH=false</code> e <code class="text-slate-400">AUTO_CREATE_TABLES=false</code>.</li>
+              <li>• Volumes: <code class="text-amber-300">pgdata</code>, <code class="text-amber-300">api_static</code> e <code class="text-amber-300">caddy_data</code>.</li>
+              <li>• Frontend compilado com <code class="text-slate-400">VITE_API_URL=""</code> (mesma origem, sem CORS).</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 border-l-4 border-l-amber-400 text-sm text-slate-300">
+          <strong class="text-amber-300">Ponto de atenção:</strong> Embora o uso de contêineres aproxime desenvolvimento e produção, ele <strong>não elimina diferenças de configuração</strong> entre os ambientes (autenticação mock, criação automática de tabelas, variáveis de CORS, certificados TLS e volumes).
+        </div>
+      </section>
+
+      <!-- SLIDE 4: PRODUÇÃO, CADDY E SEGURANÇA -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Produção: Caddy, HTTPS e Rede Interna" data-notes="Mostrar o fluxo de tráfego em produção definido em deploy/Caddyfile e deploy/docker-compose.prod.yml. Apenas o Caddy expõe portas 80 e 443. API, Web e PostgreSQL ficam na rede interna Docker. Destacar também que /docs e /openapi.json ficam fora do matcher @backend de propósito para não expor o Swagger em produção, e que há backup diário com retenção de 14 dias.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">03 · Arquitetura de Produção</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Caddy, HTTPS Automático e Isolamento de Rede</h2>
+
+        <div class="glass-card rounded-2xl p-6 mb-6">
+          <div class="grid grid-cols-1 md:grid-cols-5 gap-4 items-center text-center">
+            <div class="p-4 rounded-xl bg-slate-900/90 border border-slate-700">
+              <div class="text-xs text-slate-400 uppercase mb-1">Tráfego Externo</div>
+              <div class="font-bold text-white">Internet / Alunos</div>
+              <div class="text-xs text-emerald-400 mono mt-1">HTTPS :443 / :80</div>
+            </div>
+
+            <div class="text-slate-500 text-2xl hidden md:block">→</div>
+
+            <div class="p-4 rounded-xl bg-emerald-950/50 border border-emerald-500/40">
+              <div class="text-xs text-emerald-300 uppercase mb-1">Única Porta Pública</div>
+              <div class="font-bold text-white">Caddy 2 (Proxy)</div>
+              <div class="text-xs text-slate-300 mt-1">TLS Let's Encrypt automático + zstd/gzip</div>
+            </div>
+
+            <div class="text-slate-500 text-2xl hidden md:block">→</div>
+
+            <div class="md:col-span-1 flex flex-col gap-2 text-left">
+              <div class="p-3 rounded-xl bg-cyan-950/40 border border-cyan-500/30">
+                <div class="text-xs font-bold text-cyan-300">web:80 (React SPA)</div>
+                <div class="text-[11px] text-slate-400">Demais rotas da interface</div>
+              </div>
+              <div class="p-3 rounded-xl bg-indigo-950/40 border border-indigo-500/30">
+                <div class="text-xs font-bold text-indigo-300">api:8000 (FastAPI)</div>
+                <div class="text-[11px] text-slate-400 mono">/api/* /static/* /imgs/* /health</div>
+              </div>
+              <div class="p-3 rounded-xl bg-amber-950/40 border border-amber-500/30">
+                <div class="text-xs font-bold text-amber-300">db:5432 (PostgreSQL)</div>
+                <div class="text-[11px] text-slate-400">Acesso restrito à API</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+          <div class="glass-card rounded-xl p-4">
+            <div class="font-semibold text-emerald-300 mb-1">Cabeçalhos &amp; Proteção</div>
+            <p class="text-slate-300">HSTS (<code class="text-xs">max-age=31536000</code>), <code class="text-xs">nosniff</code>, <code class="text-xs">X-Frame-Options: DENY</code>, remoção do header <code class="text-xs">Server</code> e <code class="text-xs">/docs</code> oculto da borda.</p>
+          </div>
+          <div class="glass-card rounded-xl p-4">
+            <div class="font-semibold text-cyan-300 mb-1">Persistência &amp; Logs</div>
+            <p class="text-slate-300">Certificados em <code class="text-xs">caddy_data</code>, imagens em <code class="text-xs">api_static</code>, banco em <code class="text-xs">pgdata</code> e logs rotacionados (<code class="text-xs">10MiB</code>, 5 arquivos).</p>
+          </div>
+          <div class="glass-card rounded-xl p-4">
+            <div class="font-semibold text-amber-300 mb-1">Backup Automatizável</div>
+            <p class="text-slate-300">Script <code class="text-xs">deploy/backup-db.sh</code> gera dump diário <code class="text-xs">pg_dump | gzip</code> com limpeza automática após <strong>14 dias</strong>.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 5: PRE-PUSH HOOK -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Qualidade Local: Hook pre-push" data-notes="Com o uso de agentes de IA, o volume de código gerado aumenta rápido. O hook .githooks/pre-push atua como primeira barreira na máquina do desenvolvedor antes mesmo de o código chegar ao GitHub. Ele detecta se houve mudanças no backend ou no frontend e aplica exatamente os mesmos critérios do CI.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">04 · Primeira Barreira de Qualidade</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Hook Local <code class="text-emerald-400">pre-push</code></h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-white mb-3">Comportamento Inteligente</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li>1. Analisa o diff enviado pelo <code class="text-emerald-300">git push</code> e identifica alterações por pasta (<code class="text-slate-400">ifvest-backend/</code> e/ou <code class="text-slate-400">ifvest-frontend/</code>).</li>
+              <li>2. Alerta caso a branch local esteja atrás da <code class="text-amber-300">origin/main</code> (pois o CI testa a junção com a <code class="text-slate-200">main</code>).</li>
+              <li>3. Se houver Docker disponível, sobe um <strong>PostgreSQL 16 efêmero</strong> (<code class="text-slate-400">tmpfs</code>) para validar migrations localmente.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-white mb-3">Portões Executados Antes do Envio</h3>
+            <div class="space-y-3 text-sm">
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div class="font-semibold text-emerald-300 mb-1">Backend (Python)</div>
+                <div class="text-slate-300 mono text-xs">ruff check . · ruff format --check . · pytest --cov-branch --cov-fail-under=90</div>
+              </div>
+              <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+                <div class="font-semibold text-cyan-300 mb-1">Frontend (React / TS)</div>
+                <div class="text-slate-300 mono text-xs">npm run lint · npm run test:ci (≥90%) · npm run build (tsc + vite)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 text-sm text-slate-300">
+          <strong class="text-cyan-300">Instalação automatizada:</strong> O script <code class="text-xs">npm run prepare</code> configura os hooks do repositório (<code class="text-xs">.githooks/</code>), alinhando a validação local aos mesmos critérios que reprovam um PR no CI.
+        </div>
+      </section>
+
+      <!-- SLIDE 6: GITHUB ACTIONS (CI & MUTAÇÃO) -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="CI no GitHub Actions &amp; Mutação" data-notes="Detalhar os 4 workflows de verificação em .github/workflows/: ci-backend.yml, ci-frontend.yml, e2e.yml e mutation.yml. Destacar que os testes de mutação (mutmut e Stryker) rodam semanalmente para combater testes superficiais: um mutante sobrevivente significa que uma mudança de comportamento não foi capturada por nenhum teste.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">05 · Integração Contínua</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Workflows no GitHub Actions</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="glass-card rounded-2xl p-5 border-l-4 border-l-emerald-400">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-lg text-emerald-300">CI — Backend</h3>
+              <code class="text-xs text-slate-400">ci-backend.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-1.5">
+              <li>• <strong>quality</strong>: Ruff (lint + format + McCabe ≤ 9), Pytest com cobertura de branches <strong>≥ 90%</strong> e check de inicialização da API.</li>
+              <li>• <strong>postgres</strong>: Sobe <code class="text-xs">postgres:16-alpine</code> para testar migrations e compatibilidade SQL real.</li>
+              <li>• <strong>docker</strong>: Valida o build da imagem Docker do backend.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border-l-4 border-l-cyan-400">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-lg text-cyan-300">CI — Frontend</h3>
+              <code class="text-xs text-slate-400">ci-frontend.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-1.5">
+              <li>• <strong>quality</strong>: ESLint (<code class="text-xs">--max-warnings 0</code> + <code class="text-xs">sonarjs</code>), Vitest com cobertura <strong>≥ 90%</strong> e build (<code class="text-xs">tsc --noEmit && vite build</code>).</li>
+              <li>• <strong>docker</strong>: Valida o build da imagem Nginx/produção do frontend.</li>
+              <li>• Publica artefatos de cobertura para auditoria.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border-l-4 border-l-indigo-400">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-lg text-indigo-300">E2E — Playwright</h3>
+              <code class="text-xs text-slate-400">e2e.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-1.5">
+              <li>• Acionado quando backend ou frontend mudam.</li>
+              <li>• Sobe <strong>PostgreSQL 16</strong> real + backend + frontend Vite e executa <strong>9 suítes</strong> no Chromium.</li>
+              <li>• Retém relatórios do Playwright por 14 dias em caso de falha.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5 border-l-4 border-l-amber-400">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-bold text-lg text-amber-300">Testes de Mutação</h3>
+              <code class="text-xs text-slate-400">mutation.yml</code>
+            </div>
+            <ul class="text-sm text-slate-300 space-y-1.5">
+              <li>• Execução semanal (segundas, 06:00 UTC) e sob demanda.</li>
+              <li>• <strong>Backend (mutmut)</strong>: avalia 12 módulos críticos (permissões, segurança, redação, importação).</li>
+              <li>• <strong>Frontend (Stryker)</strong>: thresholds <code class="text-xs">break: 60 / low: 70 / high: 85</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 7: ALEMBIC & DEPLOY MANUAL -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Migrations Alembic &amp; Deploy Manual" data-notes="Explicar por que o projeto proíbe depender apenas do Base.metadata.create_all() em testes: ele mascara migrations esquecidas. No CI, test_migrations.py garante linearidade, aplicação do zero, aderência aos modelos e reversibilidade. No deploy manual (cd.yml), a migration roda antes de iniciar a nova versão da API; se falhar, a versão antiga continua servindo.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">06 · Evolução de Banco &amp; Publicação</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Migrations com Alembic e Deploy em Produção</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-indigo-300 mb-3">Validação Automática de Schema (<code class="text-xs">test_migrations.py</code>)</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li>• <strong>Cadeia única:</strong> exige exatamente 1 <em>head</em> a partir da base <code class="text-xs">1ecaa35837ac</code> (13 revisões atuais).</li>
+              <li>• <strong>Round-trip completo:</strong> executa <code class="text-xs">upgrade head</code> → compara schema com modelos SQLAlchemy (<code class="text-xs">compare_metadata</code>) → <code class="text-xs">downgrade base</code> → <code class="text-xs">upgrade head</code>.</li>
+              <li>• <strong>Trava de segurança:</strong> aborta se o nome do banco não contiver <code class="text-xs">test</code> ou <code class="text-xs">migrations</code>.</li>
+              <li class="text-amber-300/90 text-xs pt-1">Limitação: valida estrutura em banco de teste, mas não substitui cuidados com dados reais de produção.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-emerald-300 mb-3">Fluxo de Publicação Manual (<code class="text-xs">cd.yml</code>)</h3>
+            <ol class="space-y-2 text-sm text-slate-300 list-decimal list-inside">
+              <li>Disparo manual via <code class="text-xs">workflow_dispatch</code> (alvo: <code class="text-xs">all</code>, <code class="text-xs">web</code> ou <code class="text-xs">api</code>).</li>
+              <li>Sincronização de código para a VPS via <code class="text-xs">rsync</code> sobre SSH.</li>
+              <li>Build das imagens e subida do <code class="text-xs">db</code> aguardando status <code class="text-xs">healthy</code>.</li>
+              <li><strong>Execução de <code class="text-emerald-300 text-xs">alembic upgrade head</code> antes da API</strong>: se falhar, o deploy interrompe e a versão anterior permanece ativa.</li>
+              <li>Subida dos serviços (<code class="text-xs">--remove-orphans</code>) e verificação HTTP <code class="text-xs">200</code> em <code class="text-xs">/</code>, <code class="text-xs">/health</code> e <code class="text-xs">/api/v1/features</code>.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 8: AGENTS.MD & IA -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Governança para Humanos e IA (AGENTS.md)" data-notes="Destacar o papel dos arquivos AGENTS.md (raiz, backend e frontend) na padronização do trabalho assistido por IA. Explicar a regra explícita de Tolerância Zero ao Coverage Game, que combate testes gerados apenas para bater meta de cobertura sem validar valores reais. Reforçar com transparência que nem todas as ferramentas leem AGENTS.md automaticamente e nem toda diretriz é checada por linter.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">07 · Engenharia Assistida por IA</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Convenções em Camadas: Arquivos <code class="text-emerald-400">AGENTS.md</code></h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
+          <div class="glass-card rounded-2xl p-5">
+            <div class="text-xs uppercase text-cyan-400 font-semibold mb-2">Estrutura em 3 Níveis</div>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• <code class="text-xs">AGENTS.md</code> (raiz): regras arquiteturais, migrations, schemas e política de testes.</li>
+              <li>• <code class="text-xs">ifvest-backend/AGENTS.md</code>: convenções Python/FastAPI.</li>
+              <li>• <code class="text-xs">ifvest-frontend/AGENTS.md</code>: convenções React/TypeScript.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5">
+            <div class="text-xs uppercase text-emerald-400 font-semibold mb-2">Estilo &amp; Arquitetura</div>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• Funções curtas (<strong>4 a 20 linhas</strong>) e arquivos &lt; <strong>500 linhas</strong>.</li>
+              <li>• Máximo 2 níveis de indentação (<em>early returns</em>) e sem duplicação (DRY).</li>
+              <li>• Tipagem estrita (sem <code class="text-xs">any</code> ou <code class="text-xs">Dict</code> genérico).</li>
+              <li>• Injeção de dependências e preservação de comentários de intenção.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-5">
+            <div class="text-xs uppercase text-rose-400 font-semibold mb-2">Anti "Coverage Game"</div>
+            <ul class="text-sm text-slate-300 space-y-2">
+              <li>• Proibição de asserções vazias (<code class="text-xs">toBeTruthy</code>, <code class="text-xs">is not None</code>).</li>
+              <li>• Exigência de validar valores exatos e fluxos de erro (<code class="text-xs">401/403/404/422</code>).</li>
+              <li>• Fakes/mocks nomeados em vez de stubs frágeis.</li>
+              <li>• Bugs corrigidos exigem teste de regressão.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-xl p-4 border-l-4 border-l-amber-400 text-sm text-slate-300">
+          <strong class="text-amber-300">Limite prático:</strong> A leitura dos arquivos <code class="text-xs">AGENTS.md</code> depende do suporte da ferramenta de IA utilizada, e nem todas as diretrizes (como qualidade semântica de asserções ou clareza de nomes) são verificáveis automaticamente — exigindo revisão humana nos PRs.
+        </div>
+      </section>
+
+      <!-- SLIDE 9: FLUXO DE CONTRIBUIÇÃO -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Gestão de Equipe &amp; Pull Requests" data-notes="Como o IFVest é mantido por vários alunos, o CONTRIBUTING.md e a trilha em docs/guia/ nivelam o conhecimento desde Git do zero e ambiente até o primeiro PR. Destacar as 5 regras de ouro, o template de PR e a responsabilidade do autor em compreender cada linha gerada por IA.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">08 · Gestão Colaborativa</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Fluxo de Contribuição e Revisão por Pares</h2>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-emerald-300 mb-3">As 5 Regras de Ouro (<code class="text-xs">CONTRIBUTING.md</code>)</h3>
+            <ol class="space-y-2.5 text-sm text-slate-300 list-decimal list-inside">
+              <li><strong>Nunca enviar direto para a <code class="text-xs">main</code></strong> (regra cultural apoiada pelo time no plano gratuito).</li>
+              <li><strong>Uma branch por tarefa</strong>: PRs menores revisam mais rápido e evitam conflitos.</li>
+              <li><strong>Todo código novo vem com teste</strong> (meta de 90% de cobertura).</li>
+              <li><strong>Explicar cada linha do PR</strong> — inclusive o código gerado por IA.</li>
+              <li><strong>Pedir ajuda cedo</strong> com contexto estruturado (objetivo, comando, erro e tentativas).</li>
+            </ol>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6">
+            <h3 class="text-lg font-bold text-cyan-300 mb-3">Ciclo da Tarefa &amp; Onboarding</h3>
+            <ul class="space-y-2.5 text-sm text-slate-300">
+              <li>• <strong>Trilha de guia (<code class="text-xs">docs/guia/</code>)</strong>: passo a passo de ambiente, Git do zero, escrita de testes e primeiro PR.</li>
+              <li>• <strong>Fluxo padrão:</strong> <code class="text-xs">main</code> atualizada → branch <code class="text-xs">tipo/tarefa</code> → código + testes → <code class="text-xs">pre-push</code> → PR → CI verde + revisão → <em>Squash and merge</em>.</li>
+              <li>• <strong>Template de PR (<code class="text-xs">.github/pull_request_template.md</code>):</strong> mapeia riscos de migration, permissões, contrato da API e exige confirmação de revisão linha a linha da IA.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- SLIDE 10: SÍNTESE & LIMITES -->
+      <section class="slide flex-col justify-center min-h-[75vh] py-6" data-title="Síntese e Lições Aprendidas" data-notes="Encerrar conectando toda a jornada: o conjunto de práticas (Docker, Caddy, hooks, CI/CD, Alembic, AGENTS.md e revisão por pares) cria múltiplas camadas de proteção para um projeto estudantil gratuito. Ao mesmo tempo, manter rigor científico ao reconhecer os limites de cada ferramenta.">
+        <div class="text-xs uppercase tracking-wider text-emerald-400 font-semibold mb-2">09 · Conclusão</div>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-6">Síntese: O que as Práticas Entregam e Seus Limites</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+          <div class="glass-card rounded-2xl p-6 border-t-2 border-t-emerald-400">
+            <h3 class="text-lg font-bold text-emerald-300 mb-3">Camadas de Proteção Conquistadas</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li>✓ Infraestrutura reproduzível com persistência e rede isolada via Caddy + HTTPS.</li>
+              <li>✓ Detecção precoce de falhas: hook <code class="text-xs">pre-push</code> + CI (lint, 90% cobertura, E2E e mutação semanal).</li>
+              <li>✓ Evolução controlada de schema (Alembic validado em Postgres real antes do deploy).</li>
+              <li>✓ Documentação viva (<code class="text-xs">AGENTS.md</code> + <code class="text-xs">CONTRIBUTING.md</code>) alinhando alunos e IA.</li>
+            </ul>
+          </div>
+
+          <div class="glass-card rounded-2xl p-6 border-t-2 border-t-amber-400">
+            <h3 class="text-lg font-bold text-amber-300 mb-3">Limites Reconhecidos pela Equipe</h3>
+            <ul class="space-y-2 text-sm text-slate-300">
+              <li>• Contêineres aproximam dev e produção, mas não eliminam diferenças de configuração.</li>
+              <li>• Verificações no CI reduzem regressões, mas não garantem ausência total de falhas.</li>
+              <li>• Testes de migrations em banco descartável não substituem testes com dados reais de produção.</li>
+              <li>• Diretrizes em <code class="text-xs">AGENTS.md</code> dependem de adesão da ferramenta de IA e revisão humana.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="text-center text-slate-400 text-sm">
+          Obrigado! · <span class="text-emerald-400 font-semibold">Plataforma IFVest</span> — Educação gratuita com engenharia responsável.
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Speaker Notes Drawer -->
+  <aside id="notes-panel" class="hidden fixed bottom-16 left-4 right-4 sm:left-auto sm:right-6 sm:w-[32rem] z-30 glass-card rounded-2xl p-4 shadow-2xl border border-emerald-500/30">
+    <div class="flex items-center justify-between mb-2">
+      <span class="text-xs font-bold uppercase tracking-wider text-emerald-400">Falas de Apoio (Roteiro)</span>
+      <button onclick="toggleNotes()" class="text-xs text-slate-400 hover:text-white">Fechar</button>
+    </div>
+    <p id="notes-content" class="text-sm text-slate-200 leading-relaxed"></p>
+  </aside>
+
+  <!-- Slide Overview Modal -->
+  <div id="overview-modal" class="hidden fixed inset-0 z-40 bg-slate-950/90 backdrop-blur-md p-6 overflow-y-auto">
+    <div class="max-w-5xl mx-auto">
+      <div class="flex items-center justify-between mb-6">
+        <h2 class="text-xl font-bold text-white">Mapa da Apresentação</h2>
+        <button onclick="toggleOverview()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm text-slate-200">Fechar (Esc)</button>
+      </div>
+      <div id="overview-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation Bar -->
+  <footer id="bottom-bar" class="fixed bottom-0 left-0 right-0 z-30 bg-slate-950/85 backdrop-blur border-t border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 h-14 flex items-center justify-between">
+      <button onclick="prevSlide()" class="px-4 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-sm font-medium text-slate-200 transition">
+        ← Anterior
+      </button>
+      <div class="text-xs sm:text-sm text-slate-400 mono">
+        Slide <span id="slide-counter" class="text-white font-semibold">1</span> / <span id="slide-total">10</span>
+      </div>
+      <button onclick="nextSlide()" class="px-4 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-sm font-semibold text-slate-950 transition">
+        Próximo →
+      </button>
+    </div>
+  </footer>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let current = 0;
+
+    function updateSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((s, i) => s.classList.toggle('active', i === current));
+      const active = slides[current];
+      document.getElementById('slide-counter').textContent = current + 1;
+      document.getElementById('slide-total').textContent = slides.length;
+      document.getElementById('slide-title-indicator').textContent = active.dataset.title || '';
+      document.getElementById('notes-content').textContent = active.dataset.notes || '';
+      document.getElementById('progress-bar').style.width = `${((current + 1) / slides.length) * 100}%`;
+      window.location.hash = `slide-${current + 1}`;
+    }
+
+    function nextSlide() { updateSlide(current + 1); }
+    function prevSlide() { updateSlide(current - 1); }
+
+    function toggleNotes() {
+      document.getElementById('notes-panel').classList.toggle('hidden');
+    }
+
+    function toggleOverview() {
+      const modal = document.getElementById('overview-modal');
+      const grid = document.getElementById('overview-grid');
+      if (modal.classList.contains('hidden')) {
+        grid.innerHTML = slides.map((s, i) => `
+          <button onclick="updateSlide(${i}); toggleOverview();" class="text-left p-4 rounded-xl glass-card hover:border-emerald-400/60 transition ${i === current ? 'border-emerald-400' : ''}">
+            <div class="text-xs text-emerald-400 mono mb-1">Slide ${i + 1}</div>
+            <div class="font-semibold text-slate-100">${s.dataset.title}</div>
+          </button>
+        `).join('');
+      }
+      modal.classList.toggle('hidden');
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.();
+      } else {
+        document.exitFullscreen?.();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        e.preventDefault();
+        prevSlide();
+      } else if (e.key.toLowerCase() === 'n') {
+        toggleNotes();
+      } else if (e.key.toLowerCase() === 'g') {
+        toggleOverview();
+      } else if (e.key.toLowerCase() === 'f') {
+        toggleFullscreen();
+      } else if (e.key === 'Escape') {
+        document.getElementById('overview-modal').classList.add('hidden');
+      }
+    });
+
+    const hashMatch = window.location.hash.match(/^#slide-(\d+)$/);
+    updateSlide(hashMatch ? parseInt(hashMatch[1], 10) - 1 : 0);
+  </script>
+</body>
+</html>
